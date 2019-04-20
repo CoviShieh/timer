@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>柱形图</title>
+<script src="uilib/jquery/dist/jquery-1.11.min.js"></script>
+<script src="uilib/echarts-2.2.7/build/dist/echarts-all.js"></script>
+
+</head>
+<body class="main">
+	
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="zhu" style="width:600px;height:400px"></div>
+    <!-- ECharts单文件引入 -->
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts图表
+        var myChart = echarts.init(document.getElementById('zhu'));
+
+        var option = {
+            tooltip : {
+                show : true
+            },
+            legend : {
+                data : [ '事件' ]
+            },
+            toolbox : {
+				show : true,
+				feature : {
+					mark : {
+						show : true
+					},
+					dataView : {
+						show : true,
+						readOnly : false
+					},
+					magicType : {
+						show : true,
+						type : [ 'pie', 'funnel' ],
+						option : {
+							funnel : {
+								x : '25%',
+								width : '50%',
+								funnelAlign : 'left',
+								max : 1548
+							}
+						}
+					},
+					restore : {
+						show : true
+					},
+					saveAsImage : {
+						show : true
+					}
+				}
+			},
+            xAxis : [ {
+                type : 'category',
+                data : [ "睡觉", "工作", "阅读" ]
+            } ],
+            yAxis : [ {
+                type : 'value'
+            } ],
+            series : [ {
+               // "name" : "时间",
+                "type" : "bar",
+                "data" : [ 8, 8, 4 ]
+            } ]
+        };
+
+        // 为echarts对象加载数据 
+        //myChart.setOption(option);
+        $(function() {
+        	myChart.setOption(option);
+
+		});
+    </script>
+</body>

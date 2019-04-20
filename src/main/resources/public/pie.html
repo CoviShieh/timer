@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>pie</title>
+<script src="uilib/jquery/dist/jquery-1.11.min.js"></script>
+<script src="uilib/echarts-2.2.7/build/dist/echarts-all.js"></script>
+</head>
+<body class="main">
+	<div id="echartsPie" style="width: 600px; height: 400px;"></div>
+	<script type="text/javascript">
+		var echartsPie;
+		var json = [ {
+			value : 40,
+			name : '睡觉'
+		}, {
+			value : 40,
+			name : '工作'
+		}, {
+			value : 20,
+			name : '阅读'
+		} ];
+		var option = {
+			title : {
+				text : '时间用时分布',
+				x : 'center'
+			},
+			tooltip : {
+				trigger : 'item',
+				formatter : "{a} <br/>{b} : {c} %"
+			},
+			legend : {
+				orient : 'vertical',
+				x : 'left',
+				data : [ '睡觉', '工作', '阅读' ]
+			},
+			toolbox : {
+				show : true,
+				feature : {
+					mark : {
+						show : true
+					},
+					dataView : {
+						show : true,
+						readOnly : false
+					},
+					magicType : {
+						show : true,
+						type : [ 'pie', 'funnel' ],
+						option : {
+							funnel : {
+								x : '25%',
+								width : '50%',
+								funnelAlign : 'left',
+								max : 1548
+							}
+						}
+					},
+					restore : {
+						show : true
+					},
+					saveAsImage : {
+						show : true
+					}
+				}
+			},
+			calculable : true,
+			series : [ {
+				//name : '事件',
+				type : 'pie',
+				radius : '60%',//饼图的半径大小
+				center : [ '50%', '60%' ],//饼图的位置
+				data : json
+			} ]
+		};
+
+		echartsPie = echarts.init(document.getElementById('echartsPie'));
+		$(function() {
+			echartsPie.setOption(option);
+
+		});
+	</script>
+</body>
+</html>
