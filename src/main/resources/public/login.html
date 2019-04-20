@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+
+    <!--Jquery校验-->
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-validate/1.14.0/localization/messages_zh.min.js"></script>
+
+    <!--Materialize -->
+    <link href="https://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/materialize/0.97.8/css/materialize.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/materialize/0.97.8/js/materialize.min.js"></script>
+
+    <!--弹出框-->
+    <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+
+    <!--页面样式-->
+    <style>
+        body {
+            background-image: url(../imgs/register&loginBG.gif);
+            background-repeat: repeat;
+        }
+        .error {
+            color: red;
+
+        }
+    </style>
+
+</head>
+
+<body>
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <!--logo图-->
+        <div class="center-align"><img src="imgs/logo_timer.png" alt="" >
+        </div>
+        <!--表单-->
+        <div class="row ">
+            <form class="col s8 offset-s4" id="loginForm" action="/session" method="post">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix blue-text">phone</i>
+                        <!-- <label for="mobileNo">手机号码</label> -->
+                        <input id="mobileNo" name="mobileNo" type="tel" placeholder="电话号码" class="validate" required length="11">
+                        <label class="active" for="mobileNo">电话号码</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix blue-text">lock</i>
+                        <input id="password" name="password" type="password" placeholder="密码" class="validate" required length="18">
+                        <label for="password">密码</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s4">
+                        <i class="material-icons prefix blue-text">mode_edit</i>
+                        <input id="inputCaptcha" name="inputCaptcha" type="tel" length="4" minlength="4" maxlength="4"
+                               required>
+                        <label for="inputCaptcha">验证码</label>
+                    </div>
+
+                    <div class="input-field col s2">
+                        <img src="/user/gifCode" id="captcha">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s6">
+                      <!--  <div class="input-field col 11 right">
+                            <a href="" class="blue-text">忘记密码</a>
+                        </div> --> 
+                        <input type="checkbox" class="filled-in blue" checked="checked" name="rememberMe"
+                               id="filled-in-box" value="rememberMe"/>
+                        <label for="filled-in-box">记住我</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s3">
+                        <a href="/register.html" class="blue-text">返回注册页面</a>
+                    </div>
+                    <div class="input-field col s6">
+                        <button class="btn waves-effect waves-light blue" type="submit" id="submitForm"
+                                name="action">立即登陆
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <br><br>
+    </div>
+</div>
+
+	<!--页面和通用的JS-->
+    <script src="js/common/commonScript.js"></script>
+    <script src="js/login/login.js"></script>
+
+    <script>
+        $(function () {
+            login.init();
+        });
+        $(document).ready(function() {
+            Materialize.updateTextFields();
+          });
+    </script>
+    
+</body>
+</html>

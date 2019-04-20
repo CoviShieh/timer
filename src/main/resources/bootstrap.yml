@@ -1,0 +1,43 @@
+spring:
+  http:
+    multipart:
+      maxFileSize: 1000Mb
+      maxRequestSize: 1000Mb
+  application:
+    name: timer
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/timer?autoReconnect=true
+    username: root
+    password: orcl
+    driverClassName: com.mysql.jdbc.Driver
+    initialSize: 5
+    maxActive: 100
+    maxIdle: 10
+    maxWait: 10000
+    minIdle: 5
+    testOnBorrow: false
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 3600000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+
+  
+eureka:
+  client:
+    serviceUrl:
+       defaultZone: http://localhost:1001/eureka/
+  instance:
+    status-page-url: http://localhost:${server.port}/swagger-ui.html  # ${server.port}为该服务的端口号
+ 
+
+server:
+  port: 9527
+  tomcat:
+    max-http-post-size: -1

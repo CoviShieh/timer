@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>time</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+		
+		<link href="uilib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+		<link href="uilib/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+		<link href="uilib/bootstrapTable/bootstrap-table.min.css" rel="stylesheet">
+		<link href="uilib/datapicker/datepicker3.css" rel="stylesheet">
+		<link href="css/timer/animate.css" rel="stylesheet">
+		<link href="css/timer/style.css" rel="stylesheet">
+
+	</head>
+	<body class="main">
+		
+		<div class="container" >
+			<div class="row">
+				<div class="col-lg-6" style="background-color:#FFF">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>时间记录</h5>
+						</div>
+						<div class="ibox-content">
+
+							<div class="row">
+								<div class="col-md-6 col-md-offset-3">
+
+									<div class="form-group">
+										<div class="input-group">
+											<input class="form-control date-picker" id="selectTime" data-date-end-date="0m" type="text" placeholder="选择年月日" />
+											<!-- 这个控件要初始化 -->
+											<span class="input-group-addon">
+												<i class="fa fa-calendar bigger-110"></i>
+											</span>
+										</div>
+									</div>
+
+									<div class="toolBar">
+										<p>
+											<button type="button" class="btn btn-block btn-outline btn-primary" id='new_event_record' data-type="btn_addData">添加新的事件记录</button>
+										</p>
+									</div>
+								</div>
+							</div>
+							<!-- 事件时间模板代码  
+							<div class="row form-body form-horizontal m-t">
+								<div class="col-md-12 droppable sortable ui-droppable ui-sortable" style="display: none;">
+								</div>
+
+								<div class="col-md-5 droppable sortable ui-droppable ui-sortable" style="">
+									<div class="form-group draggable ui-draggable dropped" style="position: static;">
+										<label class="col-xs-4 control-label">事件:</label>
+										<div class="col-xs-8">
+											<select class="form-control" name="">
+												<option>工作</option>
+												<option>阅读</option>
+												<option>运动</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-5 droppable sortable ui-droppable ui-sortable" style="">
+									<div class="form-group draggable ui-draggable dropped" style="position: static;">
+										<label class="col-xs-4 control-label">用时:</label>
+										<div class="col-xs-8">
+											<select class="form-control" name="">
+												<option>1</option>
+												<option>2</option>
+												<option>3</option>
+												<option>4</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div>
+									<button class="btn btn-default btn-circle" type="button">
+										<i class="fa fa-minus" title='删除'></i>
+									</button>
+								</div>
+							</div>
+							-->
+							<!-- 模板代码添加处 -->
+							<div class="data-item-wrapper" style="padding-bottom: 25px"></div>
+
+							<!-- 按钮div -->
+							<div class="form-group draggable">
+								<div class="<col-lg></col-lg>-12 col-xs-offset-4">
+									<button class="btn btn-primary" type="submit">保存</button>
+									<button class="btn btn-white" type="submit">取消</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Mainly scripts -->
+		<script src="uilib/requireJs/require2.1.11.js"></script>
+		<script src="uilib/jquery/jquery-1.11.2.min.js"></script>
+		<script src="uilib/datapicker/bootstrap-datepicker.js"></script>
+		<script src="uilib/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="js/common/jqUtils.js"></script>
+		<script src="uilib/ejs/ejs.min.js"></script>
+		<script src="js/timer/timer.js"></script>
+		
+		<script >
+			$(function() {
+				$("#selectTime").datepicker({
+					format: "yyyy-mm-dd", //显示日期格式
+					autoclose: true,
+					todayBtn: "linked",
+					minView: "month", //只选择到天自动关闭
+					language: 'zh-CN',
+					viewDate : new Date()
+				});
+			})
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <title ng-i18next="common.pomotodo">Pomotodo</title>
+    <link rel="shortcut icon" href="/favicon.png?v=2" type="image/png">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-itunes-app" content="app-id=866339080">
+    <meta name="renderer" content="webkit">
+    <meta name="application-name" content="Pomotodo">
+    <meta name="msapplication-TileColor" content="#E64222">
+    <meta name="msapplication-square70x70logo" content="/msapplication-square70x70.png">
+    <meta name="msapplication-square150x150logo" content="/msapplication-square150x150.png">
+    <meta name="msapplication-square310x310logo" content="/msapplication-square310x310.png">
+    <style>
+      html.loading {
+        height: 100%;
+        background: transparent url("/images/pomotodo-spinner.gif?v=3") no-repeat center center;
+        background-size: 64px;
+      }
+      
+      html.loading body {
+        height: 100%;
+      }
+      
+      html.loading body > * {
+        display: none;
+      }
+      
+      .ng-hide { display: none !important; }
+    </style>
+  </head>
+  <body ng-class="{'pro': account.isPro, 'dark': darkMode, 'print-mode': printMode}" data-ng-controller="AppCtrl" class="lang-{{lang}}"><svg width="0" height="0" style="position:absolute"><symbol viewBox="0 0 32 32" id="icon-arrow-right"><path d="M12.116 1.176c1.13 1.103 12.17 12.694 12.17 12.694a2.958 2.958 0 0 1 0 4.26s-11.04 11.591-12.17 12.691c-1.13 1.103-3.16 1.179-4.368 0-1.206-1.176-1.3-2.817 0-4.257L17.879 16 7.75 5.436c-1.3-1.444-1.206-3.084 0-4.26s3.238-1.103 4.366 0z"/></symbol><symbol viewBox="0 0 32 32" id="icon-broom"><path d="M13.12 13.024c-1.536.608-2.72 1.504-2.944 2.144-.32.896.064 1.76.8 1.824a6.65 6.65 0 0 1 1.536.512c.48.256 1.248.448 1.76.48.512.064 1.216.32 1.504.64.672.704 2.528 1.408 3.296 1.312.672-.096 1.184-1.12 1.024-2.08-.064-.416-.672-1.6-1.408-2.592l-1.248-1.792 1.248-3.52C20.704 4.16 21.184.8 20 .448c-.224-.032-.416-.096-.448-.064l-.384.256c-1.088.704-2.528 4.096-3.808 8.896l-.736 2.816-1.504.672zm7.008 18.24l1.6-.032-.8-4.896-.768-4.864-.832.128c-.512.064-1.728-.224-2.88-.704-1.088-.448-2.368-.864-2.784-.896-.48 0-1.088-.288-1.408-.608-.512-.512-2.656-1.44-3.072-1.344-.096.032-1.216 1.76-2.496 3.84l-2.336 3.808.928.992c2.528 2.784 8.832 4.736 14.848 4.576z"/></symbol><symbol viewBox="0 0 38 32" id="icon-check"><path d="M37.728 2.272q-8 7.104-19.2 24L14.848 32Q10.24 26.24 0 16l3.424-3.424 9.152 8q4.8-4.8 8.928-8.704t6.592-5.984 4.192-3.552T34.752.448L35.424 0q.128 0 .352.064t.832.608 1.12 1.6z"/></symbol><symbol viewBox="0 0 29 32" id="icon-clock"><path d="M14.72 1.248q6.08 0 10.4 4.32t4.32 10.4-4.32 10.4-10.4 4.32-10.4-4.32T0 15.968t4.32-10.4 10.4-4.32zm0 26.24q4.8 0 8.16-3.392t3.36-8.128q0-4.8-3.36-8.16t-8.16-3.36q-4.736 0-8.128 3.36T3.2 15.968q0 4.736 3.392 8.128t8.128 3.392zm1.152-19.84v7.808l4.8 4.8-1.6 1.6-5.44-5.44V7.648h2.24z"/></symbol><symbol viewBox="0 0 27 32" id="icon-cog"><path d="M24.32 15.968q0 2.304 2.56 3.904-.384 1.28-1.088 2.624-2.24-.576-4.352 1.408-1.728 1.856-1.088 4.352-1.28.64-2.688 1.152-1.472-2.624-4.224-2.624t-4.224 2.624q-1.408-.512-2.688-1.152.64-2.56-1.088-4.352-1.728-1.728-4.352-1.088Q.64 21.984 0 20.192q2.624-1.664 2.624-4.224Q2.624 13.664 0 12q.64-1.792 1.088-2.624 2.368.576 4.352-1.408 1.728-1.792 1.088-4.352 1.344-.704 2.688-1.088 1.472 2.56 4.224 2.56t4.224-2.56q1.344.384 2.688 1.088-.64 2.496 1.088 4.352 2.112 1.984 4.352 1.408.704 1.344 1.088 2.624-2.56 1.6-2.56 3.968zm-10.88 5.824q2.432 0 4.128-1.696t1.696-4.128-1.696-4.16-4.128-1.728-4.128 1.728-1.696 4.16 1.696 4.128 4.128 1.696z"/></symbol><symbol viewBox="0 0 32 32" id="icon-date"><path d="M0 29.333A2.666 2.666 0 0 0 2.667 32h26.667a2.666 2.666 0 0 0 2.667-2.667V6a2.666 2.666 0 0 0-2.667-2.667h-2.667V1.666a1.668 1.668 0 0 0-3.334 0v1.667h-2.667V1.666a1.668 1.668 0 0 0-3.334 0v1.667h-2.667V1.666a1.668 1.668 0 0 0-3.334 0v1.667H8.664V1.666a1.668 1.668 0 0 0-3.334 0v1.667H2.663A2.666 2.666 0 0 0-.004 6v23.333zM4.8 6.667h.533V9a1.668 1.668 0 0 0 3.334 0V6.667h2.667V9a1.668 1.668 0 0 0 3.334 0V6.667h2.667V9a1.668 1.668 0 0 0 3.334 0V6.667h2.667V9a1.668 1.668 0 0 0 3.334 0V6.667h.533c.813 0 1.467.653 1.467 1.467v7.067c0 .813-.653 1.467-1.467 1.467h-22.4a1.463 1.463 0 0 1-1.467-1.467V8.134c0-.813.653-1.467 1.467-1.467z"/></symbol><symbol viewBox="0 0 26 32" id="icon-delete"><title>delete_v2</title><path d="M17.333 4.947V2H8.667v2.947H0v2.948h26V4.947h-8.667zM2.89 9.368v17.685C2.889 28.678 4.185 30 5.778 30h14.444c1.593 0 2.89-1.322 2.89-2.947V9.368H2.888zm8.667 14.737h-2.89v-8.842h2.89v8.842zm5.777 0h-2.889v-8.842h2.89v8.842z" fill-rule="evenodd"/></symbol><symbol viewBox="0 0 22 32" id="icon-draft"><title>draft</title><path d="M.76 23.742l6.481-1.297-5.185-5.185-1.297 6.482zM16.315 3L21.5 8.185 8.538 21.15l-5.186-5.185L16.316 3zM0 25.667h22v3.667H0v-3.667z" fill-rule="evenodd"/></symbol><symbol viewBox="0 0 24 32" id="icon-enter"><title>enter</title><path d="M19.2 4v14.4H8v-4.8l-8 7.2L8 28v-4.8h16V4z" fill-rule="evenodd"/></symbol><symbol viewBox="0 0 30 36" id="icon-export"><title>export</title><path d="M25.24 19.32H11.665v-2.67H25.21l-3.718-3.672 1.406-1.423 5.805 5.734.72.711-.72.711-5.805 5.734-1.406-1.423 3.748-3.702zM28 12.667V2H1v32h27V23.333L25.3 26v5.333H3.7V4.667h21.6V10l2.7 2.667z" fill-rule="evenodd"/></symbol><symbol viewBox="0 0 13 32" id="icon-handler"><path d="M0 0h5.12v5.12H0V0zM7.68 0h5.12v5.12H7.68V0zM0 8.96h5.12v5.12H0V8.96zM7.68 8.96h5.12v5.12H7.68V8.96zM0 17.92h5.12v5.12H0v-5.12zM7.68 17.92h5.12v5.12H7.68v-5.12zM0 26.88h5.12V32H0v-5.12zM7.68 26.88h5.12V32H7.68v-5.12z"/></symbol><symbol viewBox="0 0 32 32" id="icon-history"><path d="M16 32C7.2 32 0 24.8 0 16c0-.96.64-1.6 1.6-1.6s1.6.64 1.6 1.6c0 7.04 5.76 12.8 12.8 12.8S28.8 23.04 28.8 16 23.04 3.2 16 3.2c-4.32 0-8.32 2.08-10.56 5.76-.64.64-1.6.8-2.24.32-.8-.48-.96-1.44-.48-2.24C5.6 2.72 10.72 0 16 0c8.8 0 16 7.2 16 16s-7.2 16-16 16z"/><path d="M16 17.6c-.96 0-1.6-.64-1.6-1.6V8c0-.96.64-1.6 1.6-1.6s1.6.64 1.6 1.6v8c0 .96-.64 1.6-1.6 1.6z"/><path d="M20.8 22.4c-.48 0-.8-.16-1.12-.48l-4.8-4.8c-.64-.64-.64-1.6 0-2.24s1.6-.64 2.24 0l4.8 4.8c.64.64.64 1.6 0 2.24-.32.32-.64.48-1.12.48zM9.6 9.6H3.2c-.96 0-1.6-.64-1.6-1.6V1.6C1.6.64 2.24 0 3.2 0s1.6.64 1.6 1.6v4.8h4.8c.96 0 1.6.64 1.6 1.6s-.64 1.6-1.6 1.6z"/></symbol><symbol viewBox="0 0 30 36" id="icon-line-arrow-up"><title>up_arrow</title><path d="M15 3c.7 0 1.363.288 1.988.862l12.187 12.15c.55.526.825 1.188.825 1.988 0 .775-.25 1.4-.75 1.875-.575.625-1.262.938-2.063.938-.75 0-1.4-.275-1.95-.825l-7.424-7.35v17.55c0 .825-.275 1.487-.825 1.987-.5.55-1.163.825-1.988.825-.8 0-1.475-.275-2.025-.825-.525-.525-.787-1.187-.787-1.987v-17.55L4.8 20.024c-.55.55-1.2.825-1.95.825-.775 0-1.45-.288-2.025-.863C.275 19.387 0 18.726 0 18c0-.75.275-1.4.825-1.95L13.013 3.862C13.587 3.288 14.25 3 15 3z" fill-rule="evenodd"/></symbol><symbol viewBox="0 0 32 32" id="icon-more"><path d="M4.8 12.48a3.52 3.52 0 1 0 0 7.04 3.52 3.52 0 0 0 0-7.04zm11.2 0a3.52 3.52 0 1 0 0 7.04 3.52 3.52 0 0 0 0-7.04zm11.2 0a3.52 3.52 0 1 0 0 7.04 3.52 3.52 0 0 0 0-7.04z"/></symbol><symbol viewBox="0 0 32 32" id="icon-new"><path d="M16 0q.663 0 1.131.469T17.6 1.6v12.8h12.8q.663 0 1.131.469T32 16t-.469 1.131-1.131.469H17.6v12.8q0 .663-.469 1.131T16 32t-1.131-.469T14.4 30.4V17.6H1.6q-.662 0-1.131-.469T0 16t.469-1.131T1.6 14.4h12.8V1.6q0-.662.469-1.131T16 0z"/></symbol><symbol viewBox="0 0 20 32" id="icon-note"><title>note_v2</title><path d="M2.692 3C1.207 3 0 4.313 0 5.925v20.15C0 27.688 1.208 29 2.692 29h14.616C18.793 29 20 27.688 20 26.075V8.082L15.365 3H2.692zm1.346 9.75h9.231V16H4.04v-3.25zm12.308 9.75H4.038v-3.25h12.308v3.25z" fill-rule="evenodd"/></symbol><symbol viewBox="0 0 43 32" id="icon-offline"><path d="M34.486 10.668A13.376 13.376 0 0 0 21.334.004c-2.666 0-5.154.711-7.109 2.133l2.666 2.666c1.244-.889 2.844-1.244 4.443-1.244 5.332 0 9.775 4.443 9.775 9.775v.889h2.666c3.022 0 5.332 2.311 5.332 5.332a5.123 5.123 0 0 1-2.844 4.621l2.666 2.666c2.311-1.6 3.732-4.266 3.732-7.287 0-4.621-3.732-8.531-8.176-8.887zM5.337 2.314l4.977 4.799C4.626 7.468.005 12.09.005 17.777c0 5.865 4.799 10.664 10.664 10.664h20.795l3.555 3.555 2.311-2.311L7.648.003 5.337 2.314zm8.354 8.354L27.91 24.887H10.67c-3.91 0-7.109-3.199-7.109-7.109s3.199-7.109 7.109-7.109h3.021z"/></symbol><symbol viewBox="0 0 32 32" id="icon-pin"><path d="M.256 30.624S-.128 31.808.064 32s1.344-.192 1.344-.192L13.12 20.064l4.48 4.512c.448.416.992.32 1.216-.256l2.976-7.04c.16-.384.544-.96.832-1.248l.896-.896c.288-.288.832-.672 1.248-.832l6.528-2.752c.832-.352.992-1.184.352-1.824L22.304.352c-.672-.64-1.472-.48-1.824.384l-2.784 6.56c-.16.384-.512.928-.832 1.216L16 9.376c-.288.32-.864.672-1.248.864l-7.04 2.976c-.576.224-.672.768-.256 1.184l4.512 4.512L.256 30.624z"/></symbol><symbol viewBox="0 0 32 32" id="icon-reset"><path d="M15.807.006h-.036-.021-.005c-.035-.008-.045-.003-.071-.003-4.14 0-8.167 1.641-11.143 4.527L1.259 1.207a.557.557 0 0 0-.596-.121.554.554 0 0 0-.343.509v10.789c0 .304.247.549.547.549H11.55a.548.548 0 0 0 .274-1.023L8.592 8.639c1.917-1.851 4.417-2.864 7.16-2.864 5.596.036 10.154 4.618 10.154 10.307-.043 5.591-4.627 10.142-10.313 10.142l.013 5.775h.079c8.761 0 15.939-7.131 15.996-15.995C31.681 7.248 24.568.08 15.808.007z"/></symbol><symbol viewBox="0 0 34 36" id="icon-search"><title>search</title><path d="M32.56 31.44c.293.293.44.647.44 1.06 0 .427-.147.78-.44 1.06-.32.293-.673.44-1.06.44-.413 0-.767-.147-1.06-.44l-8.36-8.36C19.693 27.067 17 28 14 28c-1.76 0-3.443-.343-5.05-1.03-1.607-.687-2.99-1.61-4.15-2.77-1.16-1.16-2.083-2.543-2.77-4.15A12.719 12.719 0 0 1 1 15c0-1.76.343-3.443 1.03-5.05.687-1.607 1.61-2.99 2.77-4.15 1.16-1.16 2.543-2.083 4.15-2.77A12.719 12.719 0 0 1 14 2c1.76 0 3.443.343 5.05 1.03 1.607.687 2.99 1.61 4.15 2.77 1.16 1.16 2.083 2.543 2.77 4.15A12.719 12.719 0 0 1 27 15c0 3-.933 5.693-2.8 8.08l8.36 8.36zM14 25c1.813 0 3.487-.447 5.02-1.34a9.929 9.929 0 0 0 3.64-3.64C23.553 18.487 24 16.813 24 15c0-1.813-.447-3.487-1.34-5.02a9.929 9.929 0 0 0-3.64-3.64C17.487 5.447 15.813 5 14 5c-1.813 0-3.487.447-5.02 1.34a9.929 9.929 0 0 0-3.64 3.64C4.447 11.513 4 13.187 4 15c0 1.813.447 3.487 1.34 5.02a9.929 9.929 0 0 0 3.64 3.64C10.513 24.553 12.187 25 14 25z" fill-rule="evenodd"/></symbol><symbol viewBox="0 0 32 32" id="icon-sound"><path d="M18.427 2.003c-.223 0-.449.064-.668.203L9.665 7.824a.987.987 0 0 1-.566.178H1.995c-1.1 0-1.992.895-1.992 2v11.997c0 1.104.891 2 1.992 2h7.104c.203 0 .4.062.566.178l8.094 5.618c.219.139.446.203.668.203.783 0 1.494-.799 1.494-1.898V3.903c0-1.099-.711-1.898-1.494-1.898zm-2.489 21.664l-4.772-3.313a1.987 1.987 0 0 0-1.133-.355h-5.05a.998.998 0 0 1-.996-1V13c0-.552.445-1 .996-1h5.05c.404 0 .8-.124 1.133-.355l4.772-3.313v15.334zM31.863 15.599c-.172-3.494-3.027-5.98-5.012-7.296-.94-.623-2.187-.244-2.649.815l-.075.172c-.375.861-.091 1.877.672 2.388 1.412.946 3.171 2.494 3.247 4.129.064 1.352-1.105 2.935-3.325 4.538a1.973 1.973 0 0 0-.57 2.55l.084.151c.531.949 1.732 1.247 2.599.624 3.48-2.501 5.171-5.21 5.03-8.072z"/></symbol><symbol viewBox="0 0 18 32" id="icon-switch"><path d="M18.272 19.392q0 .48-.32.8l-8 8q-.352.352-.8.352t-.8-.352l-8-8q-.352-.32-.352-.8t.352-.8.8-.352h16q.448 0 .8.352t.32.8zm0-6.848q0 .448-.32.8t-.8.352h-16q-.48 0-.8-.352t-.352-.8.352-.8l8-8q.32-.352.8-.352t.8.352l8 8q.32.32.32.8z"/></symbol><symbol viewBox="0 0 32 32" id="icon-sync"><path d="M28.179 20.571h-5.322L26.286 24c-2.394 3.035-6.107 5.035-10.286 5.035-7.179 0-13.035-5.858-13.035-13.035 0-.786.072-1.536.214-2.286h-3C.072 14.464 0 15.215 0 16c0 8.821 7.179 16 16 16 5 0 9.429-2.322 12.357-5.928L32 29.715v-9.142h-3.821zM3.821 11.429h5.322L5.714 8C8.108 4.965 11.821 2.965 16 2.965c7.179 0 13.035 5.858 13.035 13.035 0 .786-.072 1.536-.214 2.286h3c.107-.75.179-1.501.179-2.286 0-8.821-7.179-16-16-16-5 0-9.429 2.322-12.357 5.928L0 2.285v9.142h3.821z"/></symbol><symbol viewBox="0 0 28 32" id="icon-sync-failed"><path d="M16 18h-4V8h4v10zm-4 6h4v-4h-4v4zm12.66-4H20l3 3c-2.1 2.66-5.34 4.4-9 4.4-6.28 0-11.4-5.12-11.4-11.4 0-.68.06-1.34.18-2H.16c-.1.66-.16 1.32-.16 2 0 7.72 6.28 14 14 14 4.38 0 8.26-2.04 10.82-5.18L28 28v-8h-3.34zM3.34 12H8L5 9c2.1-2.66 5.34-4.4 9-4.4 6.28 0 11.4 5.12 11.4 11.4 0 .68-.06 1.34-.18 2h2.62c.1-.66.16-1.32.16-2 0-7.72-6.28-14-14-14C9.62 2 5.74 4.04 3.18 7.18L0 4v8h3.34z"/></symbol><symbol viewBox="0 0 32 32" id="icon-sync-succeed"><path d="M28.179 20.571h-5.321L26.287 24c-2.393 3.036-6.107 5.036-10.286 5.036-7.179 0-13.036-5.857-13.036-13.036 0-.786.071-1.536.214-2.286h-3C.072 14.464 0 15.214 0 16c0 8.821 7.179 16 16 16 5 0 9.429-2.321 12.357-5.929L32 29.714v-9.143h-3.821zM3.821 11.429h5.321L5.713 8c2.393-3.036 6.107-5.036 10.286-5.036 7.179 0 13.036 5.857 13.036 13.036 0 .786-.071 1.536-.214 2.286h3c.107-.75.179-1.5.179-2.286 0-8.821-7.179-16-16-16-5 0-9.429 2.321-12.357 5.929L0 2.286v9.143h3.821zm7.036 2.714l-2.5 2.5 6.25 6.25 10-11.25-2.5-2.5-7.5 8.75-3.75-3.75z"/></symbol><symbol viewBox="0 0 32 32" id="icon-syncing"><path d="M16.157.105a15.738 15.738 0 0 1 11.128 26.866l-3.709-3.709a10.491 10.491 0 0 0-7.419-17.911V.105z"/></symbol><symbol viewBox="0 0 27 32" id="icon-tag"><path d="M8 7.968q0-.96-.672-1.632t-1.6-.64-1.632.64-.672 1.632.672 1.6 1.632.672 1.6-.672.672-1.6zM27.04 18.24q0 .96-.64 1.632l-8.768 8.768q-.704.672-1.632.672-.96 0-1.6-.672L1.632 15.872Q.96 15.2.48 14.048T0 11.968V4.544q0-.928.672-1.6t1.6-.704h7.456q.928 0 2.08.48t1.824 1.152L26.4 16.64q.64.672.64 1.6z"/></symbol><symbol viewBox="0 0 32 32" id="icon-todo"><path d="M16 32C7.2 32 0 24.8 0 16S7.2 0 16 0s16 7.2 16 16-7.2 16-16 16zm0-29.333c-7.333 0-13.333 6-13.333 13.333s6 13.333 13.333 13.333 13.333-6 13.333-13.333S23.333 2.667 16 2.667z"/><path d="M14.667 21.333c-.4 0-.667-.133-.933-.4l-4-4c-.533-.533-.533-1.333 0-1.867s1.333-.533 1.867 0l4 4a1.29 1.29 0 0 1 0 1.867c-.267.267-.533.4-.933.4z"/><path d="M14.667 21.333c-.4 0-.667-.133-.933-.4a1.29 1.29 0 0 1 0-1.867l8-8c.533-.533 1.333-.533 1.867 0s.533 1.333 0 1.867l-8 8c-.267.267-.533.4-.933.4z"/></symbol><symbol viewBox="0 0 32 32" id="icon-warning"><path d="M15.888.612c-8.561 0-15.5 6.939-15.5 15.5s6.939 15.5 15.5 15.5 15.5-6.939 15.5-15.5-6.939-15.5-15.5-15.5zm0 24.293a1.788 1.788 0 1 1 0-3.576 1.788 1.788 0 0 1 0 3.576zm1.789-7.75a1.789 1.789 0 0 1-3.576 0V8.809a1.787 1.787 0 1 1 3.576 0v8.346z"/></symbol></svg>
+    <p ng-show="isNeedShowSyncUnavailableMessage()" class="sync-unavailable-message">
+      <object class="icon icon-offline">
+        <svg>
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-offline"></use>
+        </svg>
+      </object><span ng-i18next="web:sync.unavailable" class="message"></span><a href="javascript:;" ng-click="recheckSyncInTrouble()" ng-i18next="web:sync.try_again_now"></a>
+    </p>
+    <p ng-click="updateAppCache()" ng-show="isUpdateready()" class="appcache-update-message"><span ng-i18next="web:app_update_ready"></span>
+      <object class="icon icon-line-arrow-up">
+        <svg>
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-line-arrow-up"></use>
+        </svg>
+      </object>
+    </p>
+    <p ng-show="showIncorrectMessage" class="time-incorrect-message"><span ng-i18next="web:time_calibrate.incorrect_message" class="message"></span><a href="javascript:;" ng-click="checkSystemTime()" ng-i18next="web:time_calibrate.recheck;[busybtn-text]web:time_calibrate.rechecking" busybtn="checkSystemTimePromise"></a><a href="javascript:;" ng-click="showIncorrectMessage = false" ng-i18next="common.ignore"></a><a href="http://help.pomotodo.com/article/set_clock" target="_blank" ng-i18next="web:time_calibrate.fixit"></a></p>
+    <header class=" show-after-loading container app-header">
+      <h1 class="logo"><a href="/app/" ng-i18next="common.pomotodo"></a></h1>
+      <div id="js-upgrade-pro-btn" data-ng-show="!account.isPro" class="nav-item pro ng-hide"><a href="/pro?source=app_nav" target="_blank" ng-i18next="common.upgrade"></a></div>
+      <ul class="header-nav">
+        <li ng-show="syncHint()" class="nav-item sync-hint"><small ng-bind="syncHint()"></small></li>
+        <li data-ng-click="syncNow()" ng-show="syncStatus() != null" class="nav-item ng-hide">
+              <object class="icon icon-offline" tooltip="{{'messages.sync.offline' | i18next}}" ng-show="!isOnline()">
+                <svg>
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-offline"></use>
+                </svg>
+              </object>
+          <div ng-show="isOnline()"><span tooltip="{{'messages.sync.sync_succeed' | i18next}}" ng-show="syncStatus() === 'success'" class="ng-hide sync-status">
+                  <object class="icon icon-sync-succeed sync-success">
+                    <svg>
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-sync-succeed"></use>
+                    </svg>
+                  </object></span><span tooltip="{{'messages.sync.sync' | i18next}}" ng-show="syncStatus() === 'waiting'" class="ng-hide sync-status do-sync">
+                  <object class="icon icon-sync sync">
+                    <svg>
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-sync"></use>
+                    </svg>
+                  </object></span><span tooltip="{{'messages.sync.syncing' | i18next}}" ng-show="syncStatus() === 'syncing'" class="ng-hide sync-status">
+                  <object class="icon icon-sync sync icon-spin">
+                    <svg>
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-sync"></use>
+                    </svg>
+                  </object></span><span tooltip="{{'messages.sync.sync_failed' | i18next}}" ng-show="syncStatus() === 'failure'" class="ng-hide sync-status do-sync">
+                  <object class="icon icon-sync-failed sync-error">
+                    <svg>
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-sync-failed"></use>
+                    </svg>
+                  </object></span></div>
+        </li>
+        <li class="nav-item dropdown"><a href="javascript:;" data-toggle="dropdown" class="account dropdown-toggle"><span id="js-username" ng-hide="account.name"></span><span id="js-username-angular" ng-bind="account.name" ng-show="account.name"></span>
+                <object class="icon icon-arrow-right icon-rotate-90 slide-up ng-hide" id="js-username-arrow" ng-show="account.name">
+                  <svg>
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-arrow-right"></use>
+                  </svg>
+                </object></a>
+          <ul data-ng-controller="SettingsCtrl" class="account-dropdown dropdown-menu">
+            <li class="profile"><a href="javascript:;" data-ng-click="openProfilePanel()" ng-i18next="common.account"></a></li>
+            <li class="preferences"><a href="javascript:;" data-ng-click="openSettingPanel()" ng-i18next="common.preferences"></a></li>
+            <li class="logout"><a href="javascript:;" data-ng-click="logout()" ng-i18next="account.signout"></a></li>
+          </ul>
+        </li>
+      </ul>
+      <script>(function() {
+  (function() {
+    var account, displayName, proBtnClassName, pro_expires_time;
+    try {
+      account = JSON.parse(localStorage.getItem('angular-cache.caches.AccountCache.data.account')).value;
+      displayName = account.name, pro_expires_time = account.pro_expires_time;
+      document.getElementById('js-username').innerHTML = displayName;
+      if (Number(pro_expires_time) * 1000 > new Date().getTime()) {
+        proBtnClassName = document.getElementById('js-upgrade-pro-btn').className;
+        return document.getElementById('js-upgrade-pro-btn').className = proBtnClassName.replace('ng-hide', '');
+      }
+    } catch (undefined) {}
+  })();
+
+}).call(this);
+
+      </script>
+    </header>
+    <div class="print-mode-configurations">
+      <ul>
+        <li>
+          <input id="print-mode-show-pomos" type="checkbox" ng-model="printModeShowPomos">
+          <label for="print-mode-show-pomos" ng-i18next="web:print_mode.show_pomos"></label>
+        </li>
+        <li>
+          <input id="print-mode-show-todos" type="checkbox" ng-model="printModeShowTodos">
+          <label for="print-mode-show-todos" ng-i18next="web:print_mode.show_todos"></label>
+        </li>
+        <li>
+          <input id="print-mode-show-completed-todos" type="checkbox" ng-model="printModeShowCompletedTodos">
+          <label for="print-mode-show-completed-todos" ng-i18next="web:print_mode.show_completed_todos"></label>
+        </li>
+      </ul>
+    </div>
+    <div class="container loading-message fullpage show-during-loading"><img width="64" src="./images/pomotodo-spinner.gif?v=3">
+      <p style="display: none" ng-i18next="web:app_bootstrap_failed" class="load-failed-message"></p>
+      <script type="text/javascript">(function() {
+  setTimeout(function() {
+    var qs;
+    qs = document.querySelector.bind(document);
+    if (!qs('html.loading')) {
+      return;
+    }
+    return qs('.load-failed-message').style.display = 'block';
+  }, 1000 * 60 * 2);
+
+}).call(this);
+
+      </script>
+    </div>
+    <div id="main-container" role="main" class="container main-container show-after-loading">
+      <div class="pomotodo grid">
+        <div class="column width-1-1">
+          <div id="pin" data-ng-controller="PinnedTodoCtrl" ng-show="focusTodo" class="pin-box animate-show ng-hide">
+            <div ng-class="{'with-parent': lastFocus.parentTodo}" class="focus">
+              <div ng-if="lastFocus.parentTodo" class="parent">
+                <todo-desc content="lastFocus.parentTodo.description" class="ellipsis-text"></todo-desc>
+              </div>
+              <div class="main-focus">
+                <div class="description">
+                  <todo-desc ng-class="{'submitting': statusStore.get('todo-' + lastFocus.id, 'submittingTodoPromise')}" content="lastFocus.description" class="ellipsis-text"></todo-desc>
+                </div>
+                    <object class="icon icon-check" ng-click="completeFocusTodo(lastFocus.id)">
+                      <svg>
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-check"></use>
+                      </svg>
+                    </object>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-if="!printMode || (printMode &amp;&amp; printModeShowPomos)" ng-controller="PomoCtrl" class="column width-1-2 column-pomos">
+          <div class="print-mode-column-header">
+            <h2 ng-i18next="[i18next]({count: 2})common.pomo"></h2><span ng-bind="printablePomos.length" class="summary-info"></span>
+          </div>
+          <div id="pomo" class="pomotodo-box pomotodo-box-pomo">
+            <div class="pomo-header box-header">
+              <button id="pomo-start" data-ng-if="pomoTimer.status === 'waiting' || pomoTimer.status === 'canceled'" data-ng-click="pomoTimer.start()" ng-i18next="pomo.start_pomo" class="pomo-start button-block"></button>
+              <div data-ng-if="pomoTimer.status === 'processing'" class="button-block processing">
+                <div data-ng-style="{width: (100 - pomoTimer.secondsleftPercent()) + '%'}" class="processbar"></div>
+                <p ng-bind="pomoTimer.formattedLeftTime()"></p><span tooltip="{{'pomo.abandon_pomo' | i18next}}" ng-click="cancel()" class="cancel cancel-badge">×</span>
+              </div>
+              <div data-ng-if="pomoTimer.status === 'finished'" class="finished">
+                <textarea id="pomo-submit" msd-elastic="
+" type="text" ng-i18next="[placeholder]pomo.submit_message;[busybox-text]common.submitting" ng-keypress="pressEnterSubmitPomo($event)" ng-focus="stopAlarm()" busybox="submittingPomoPromise" simple-input-model="$parent.pomoDescription" class="input-block"></textarea>
+                <div data-ng-click="submitPomo()" ng-i18next="[title]web:enter_submit" class="submit-tip">
+                            <object class="icon icon-enter">
+                              <svg>
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-enter"></use>
+                              </svg>
+                            </object>
+                </div><span tooltip="{{'pomo.abandon_pomo' | i18next}}" ng-click="cancel()" class="cancel cancel-badge">×</span>
+              </div>
+              <div data-ng-if="pomoTimer.status === 'resting' || pomoTimer.status === 'longResting'" class="button-block resting">
+                <div data-ng-style="{width: (100 - pomoTimer.secondsleftPercent()) + '%'}" class="processbar"></div>
+                <p ng-bind="pomoTimer.formattedLeftTime()"></p><span data-ng-click="cancel()" class="cancel cancel-badge">×</span>
+              </div>
+            </div>
+            <div class="pomo-main">
+              <ul data-ng-show="pomodays.length" class="recent-list">
+                <li data-ng-repeat="day in (printMode ? printablePomoDays : pomodays)" class="oneday clearfix">
+                  <div class="head clearfix">
+                    <datetime dt-time="day.date" dt-format="calendar" class="date"></datetime>
+                    <div ng-i18next="[i18next]({count: day.count})pomo.pomo_count" class="number"></div>
+                  </div>
+                  <ul class="pomos">
+                    <li data-ng-repeat="pomo in day.pomos"><span class="time">
+                        <datetime dt-time="pomo.started_at" dt-format="HH:mm" dt-tooltips="true"></datetime> - 
+                        <datetime dt-time="pomo._collapse_ended_at" dt-format="HH:mm" dt-tooltips="true"></datetime></span>
+                      <p class="description"><span ng-bind="pomo.description"></span><span data-ng-show="pomo._collapsed_count &gt; 1" class="times"><i>&times;</i><span ng-bind="pomo._collapsed_count"></span></span></p>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <div data-ng-show="pomodays.length" class="background-shield fills-parent"></div>
+              <div data-ng-hide="pomodays.length" class="zero clearfix">
+                          <object class="icon icon-history">
+                            <svg>
+                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-history"></use>
+                            </svg>
+                          </object>
+                <p ng-i18next="{{isFirstSyncing() ? 'messages.sync.syncing' : 'common.no_record'}}" class="no-record"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-if="!printMode || (printMode &amp;&amp; (printModeShowTodos || printModeShowCompletedTodos))" ng-controller="TodoCtrl" class="column width-1-2 column-todos">
+          <div class="print-mode-column-header">
+            <h2 ng-i18next="[i18next]({count: 2})common.todo"></h2><span ng-bind="completedTodos.length + '/' + (todos.length + completedTodos.length)" class="summary-info"></span>
+          </div>
+          <div id="todo" class="pomotodo-box pomotodo-box-todo pomo-status-{{pomoTimer.status}}">
+            <div class="todo-header box-header">
+              <create-todo-input id="todo-new" desc-prefix="descPrefix" trigger-focus="createTodoInputNeedFocusAt" on-cancel-create="onCancelCreateTodo()" on-created-todo="onCreatedTodo(todo)" on-search="onSearch(content)"></create-todo-input>
+              <div ng-show="currentTag &amp;&amp; !addingWithTag" ng-click="addNewTagTodo()" class="tag-filter">
+                          <object class="icon icon-tag">
+                            <svg>
+                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-tag"></use>
+                            </svg>
+                          </object>
+                <p ng-bind="'#' + currentTag"></p><a href="javascript:;" ng-click="currentTag = null" class="close">&times;</a>
+              </div>
+            </div>
+            <div data-ng-class="{filtered: isFilteringTodo(), 'no-sub-todos': !anyTodoHasSubTodos}" class="todo-main">
+              <div data-ng-show="!todos.length" class="zero clearfix">
+                          <object class="icon icon-todo">
+                            <svg>
+                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-todo"></use>
+                            </svg>
+                          </object>
+                <p ng-i18next="{{isFirstSyncing() ? 'messages.sync.syncing' : 'common.no_record'}}" class="no-record"></p>
+              </div>
+              <div class="todo-lists">
+                <ul data-ng-sortable="todoSortableOptions" ng-if="isExistMatchTodo({pin: true}) &amp;&amp; (!printMode || (printMode &amp;&amp; printModeShowTodos))" class="todo-list pinned-todos">
+                            <li ng-repeat="todo in todos track by todo.id" ng-class="todoListItemClassNames(todos, todo, {&quot;pin&quot;:true})">
+                              <todo-list-item ng-if="isVisibleTodo(todo, {&quot;pin&quot;:true})" todo="todo" current-tag="currentTag" searching-description="searchingDescription" is-working-todo-fn="isWorkingTodo" confirm-delete-fn="confirmDeleteTodo" subtodo-sortable-options="subTodoSortableOptions" on-edit-start="onTodoEditStart(todo)" on-edit-finish="onTodoEditFinish(todo)" on-subtodo-create-start="onSubtodoCreateStart(todo)" on-subtodo-create-finish="onSubtodoCreateFinish(todo)" on-click-tag="onClickTag(tag)" on-edit-advanced-content="onEditTodoAdvancedContent(todo)" on-pin-todo="onPinTodo(todo)"></todo-list-item>
+                            </li>
+                </ul>
+                <ul data-ng-sortable="todoSortableOptions" ng-if="isExistMatchTodo({pin: false}) &amp;&amp; (!printMode || (printMode &amp;&amp; printModeShowTodos))" class="todo-list unpin-todos">
+                            <li ng-repeat="todo in todos track by todo.id" ng-class="todoListItemClassNames(todos, todo, {&quot;pin&quot;:false})">
+                              <todo-list-item ng-if="isVisibleTodo(todo, {&quot;pin&quot;:false})" todo="todo" current-tag="currentTag" searching-description="searchingDescription" is-working-todo-fn="isWorkingTodo" confirm-delete-fn="confirmDeleteTodo" subtodo-sortable-options="subTodoSortableOptions" on-edit-start="onTodoEditStart(todo)" on-edit-finish="onTodoEditFinish(todo)" on-subtodo-create-start="onSubtodoCreateStart(todo)" on-subtodo-create-finish="onSubtodoCreateFinish(todo)" on-click-tag="onClickTag(tag)" on-edit-advanced-content="onEditTodoAdvancedContent(todo)" on-pin-todo="onPinTodo(todo)"></todo-list-item>
+                            </li>
+                </ul>
+                <div ng-class="{'rolled-up': !isShowingCompletedTodos()}" ng-if="!isListEmpty(slicedCompletedTodos) &amp;&amp; (!printMode || (printMode &amp;&amp; printModeShowCompletedTodos))" class="todo-completed-list">
+                  <div class="title-bar">
+                    <div ng-click="toggleShowingCompletedTodos()" tooltip="{{'web:todo.' + (isShowingCompletedTodos() ? 'hide_completed_todos' : 'show_completed_todos') | i18next}}" class="toggle-completed-todos">
+                                <object class="icon icon-arrow-right pull-left" ng-class="{'icon-rotate-90': isShowingCompletedTodos()}">
+                                  <svg>
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-arrow-right"></use>
+                                  </svg>
+                                </object><small ng-i18next="web:todo.completed_todo_list"></small>
+                    </div>
+                              <object class="icon icon-broom pull-right" ng-click="cleanCompleted()" ng-hide="currentTag || searchingDescription" tooltip="{{'web:todo.clean_recent_completed_todo_list' | i18next}}">
+                                <svg>
+                                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-broom"></use>
+                                </svg>
+                              </object>
+                  </div>
+                  <ul ng-show="isShowingCompletedTodos()" class="todo-list completed-todos">
+                              <li ng-repeat="todo in slicedCompletedTodos track by todo.id" ng-class="todoListItemClassNames(slicedCompletedTodos, todo, undefined)">
+                                <todo-list-item ng-if="isVisibleTodo(todo, undefined)" todo="todo" current-tag="currentTag" searching-description="searchingDescription" is-working-todo-fn="isWorkingTodo" confirm-delete-fn="confirmDeleteTodo" subtodo-sortable-options="subTodoSortableOptions" on-edit-start="onTodoEditStart(todo)" on-edit-finish="onTodoEditFinish(todo)" on-subtodo-create-start="onSubtodoCreateStart(todo)" on-subtodo-create-finish="onSubtodoCreateFinish(todo)" on-click-tag="onClickTag(tag)" on-edit-advanced-content="onEditTodoAdvancedContent(todo)" on-pin-todo="onPinTodo(todo)"></todo-list-item>
+                              </li>
+                    <li ng-show="completedTodos.length &gt; 10" class="view-todo-history"><a href="javascript:;" ng-click="openTodoHistory()" ng-i18next="web:todo.view_all_completed_todos"></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-ng-controller="StatHistoryCtrl" class="stat-and-history">
+        <script type="text/ng-template" id="partials/daterangepicker.html">
+          <div class="range-picker dropdown">
+            <div href="javascript:;" data-toggle="dropdown" ng-class="{'disabled': disabled}" class="dropdown-select select dropdown-toggle">
+              <div class="date-range-field">
+                <datetime dt-time="range.from" dt-format="calendar" class="from"></datetime><span class="dash">-</span>
+                <datetime dt-time="range.to" dt-format="calendar" class="to"></datetime>
+              </div>
+            </div>
+            <div class="datepicker-calendar dropdown-menu clearfix"></div>
+          </div>
+        </script>
+        <script type="text/ng-template" id="partials/monthpicker.html">
+          <div ng-class="{'disabled': disabled}" class="year-picker dropdown-select">
+            <select ng-model="pickeryear" ng-disabled="disabled" ng-options="year for year in yearlist"></select>
+          </div>
+          <div ng-show="monthlist" ng-class="{'disabled': disabled}" class="month-picker dropdown-select">
+            <select ng-model="pickermonth" ng-disabled="disabled" ng-options="month.month as localizedMonthNames[month.month - 1] disable when !month.available for month in monthlist">
+              <option value="" disabled="disabled" ng-i18next="web:monthpicker.pickmonth"></option>
+            </select>
+          </div>
+          <div ng-class="{'disabled': disabled}" class="preset-picker segmented-control one-segment">
+            <ul>
+              <li data-ng-class="{'active' : toggle_past_30days}" class="past-30days"><a href="javascript:;" ng-i18next="web:monthpicker.past_30days" ng-click="past_30days()"></a></li>
+            </ul>
+          </div>
+        </script>
+        <div id="js-stat-and-history-control" data-ng-controller="StatNavigatorCtrl" class="four-square clearfix">
+          <ul>
+            <li ng-class="{'active': currentShow == 'stat'}" data-ng-click="toggle('stat')">
+              <div ng-i18next="common.stat" class="title"></div>
+              <div class="graph stat">
+                <div class="text stat-text"><span ng-i18next="web:stat.weekly_cumulation" class="title"></span><span ng-bind="sumArray(pomoCountInRecentTime)" class="number"></span></div><span data-sparkline="bar" data-width="70" data-height="60" data-fill="['rgba(215,78,78,0.5)']" data-padding="0.2" data-relative-outer-width="true" ng-bind="pomoCountInRecentTime.join(',')" class="stat-bar"></span>
+              </div>
+            </li>
+            <li ng-class="{'active': currentShow == 'goal'}" data-ng-click="toggle('goal')">
+              <div ng-i18next="common.goal" class="title"></div>
+              <div class="graph goal">
+                <div class="text goal-text"><span ng-i18next="web:goal.today_goal" class="title"></span><span ng-bind="todayPomoCount + '/' + goalPomoCount" class="number"></span></div><span data-sparkline="pie" data-width="55" data-height="55" data-fill="[todayPomoCount &gt;= goalPomoCount ? 'rgba(64, 172, 99, 0.8)' : 'rgba(245, 115, 115, 0.8)', 'rgba(0, 0, 0, 0.12)']" ng-bind="todayPomoCount + '/' + goalPomoCount" class="goal-pie"></span>
+              </div>
+            </li>
+            <li ng-class="{'active': currentShow == 'pomoHistory'}" data-ng-click="toggle('pomoHistory')">
+              <div ng-i18next="pomo.pomo_history" class="title"></div>
+              <div class="graph">
+                <div class="text line-text"><span ng-i18next="web:pomo_history.all_time_pomos" class="title"></span><span ng-bind="pomoTotalCount != null ? pomoTotalCount : '...'" class="number"></span></div><span data-sparkline="line" data-height="60" data-stroke="'rgba(215,78,78,0.5)'" data-fill="'rgba(215,78,78,0.1)'" ng-bind="pomoGrowthInfo.join(',')" class="pomo-history-line"></span>
+              </div>
+            </li>
+            <li ng-class="{'active': currentShow == 'todoHistory'}" data-ng-click="toggle('todoHistory')" class="todo-history">
+              <div ng-i18next="todo.todo_history" class="title"></div>
+              <div class="graph">
+                <div class="text line-text"><span ng-i18next="web:todo_history.all_time_todos" class="title"></span><span ng-bind="todoTotalCount != null ? todoTotalCount : '...'" class="number"></span></div><span data-sparkline="line" data-height="60" data-stroke="'rgba(215,78,78,0.5)'" data-fill="'rgba(215,78,78,0.1)'" ng-bind="todoGrowthInfo.join(',')" class="todo-history-line"></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div data-ng-controller="StatCtrl" ng-show="currentTab() == 'stat'" class="stat-container pomotodo-box stat animate-showg">
+          <div ng-show="loading" class="loading-view"><img src="/images/pomotodo-spinner.gif?v=3" class="spinner"></div>
+          <div ng-class="{'mask': loading}" class="history-header clearfix">
+            <div class="preset-picker segmented-control">
+              <ul>
+                <li data-ng-class="{'active': !isShowingTodoStat}"><a href="javascript:;" ng-click="isShowingTodoStat = false" ng-i18next="stat.pomo_stat" class="switch-deleted"></a></li>
+                <li data-ng-class="{'active': isShowingTodoStat}"><a href="javascript:;" ng-click="isShowingTodoStat = true" ng-i18next="stat.todo_stat" class="switch-deleted"></a></li>
+              </ul>
+            </div>
+            <div id="history-rangepicker" data-app-date-rage-picker range="dateRange" class="action date-picker"></div>
+            <div id="current-tag" ng-show="currentTag" ng-style="{color: currentTag.color, fill: currentTag.color}" class="action current-tag">
+                        <object class="icon icon-tag">
+                          <svg>
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-tag"></use>
+                          </svg>
+                        </object><span ng-bind="currentTag.label" class="tag-name"></span><span ng-click="removeCurrentTag()" class="cancel cancel-badge">×</span>
+            </div>
+          </div>
+          <div id="stat-main" ng-class="{'mask': loading}">
+            <ul class="key-metrics">
+              <div class="grid">
+                <div class="column width-1-3">
+                  <li class="pomos-total"><strong ng-bind="month.total" class="value"></strong><span ng-i18next="stat.total_number"></span></li>
+                </div>
+                <div class="column width-1-3">
+                  <li class="pomos-average"><strong ng-bind="month.average" class="value"></strong><span ng-i18next="stat.average"></span></li>
+                </div>
+                <div class="column width-1-3">
+                  <li ng-class="{up: month.change &gt; 0, down: month.change &lt;= 0}" class="pomos-growth"><strong ng-bind="month.change | Math:'abs'" class="value"></strong><span ng-i18next="stat.growth"></span></li>
+                </div>
+                <div class="column width-1-1">
+                  <div class="line-chart-container clearfix">
+                    <div id="MonthChart" class="line-chart"></div>
+                  </div>
+                </div>
+              </div>
+            </ul>
+            <div class="week-and-clock">
+              <div class="grid">
+                <div class="column width-1-3">
+                  <div id="ProductiveDayOfWeek" class="chart clearfix">
+                    <div class="chart-info">
+                      <div ng-i18next="stat.productive_day_of_week" class="title"></div>
+                      <h4 ng-show="week.best != null &amp;&amp; week.best != 'N/A'" ng-bind="localizedWeekDayNames[week.best]" class="value"></h4>
+                      <h4 ng-i18next="stat.na" ng-show="week.best == 'N/A'" class="value"></h4>
+                      <div ng-i18next="[i18next]({num: week.compare ? keepDecimalPlaces(week.compare * 100, 2) : 0})stat.more_productive_than_avg" class="compare"></div>
+                    </div>
+                    <div class="chart-container">
+                      <div id="WeekChart" class="week-barchart"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column width-1-3">
+                  <div id="TagsStat" class="chart clearfix">
+                    <div class="chart-info">
+                      <div ng-i18next="stat.tags" class="title"></div>
+                      <h4 ng-i18next="stat.na" ng-hide="tags.length" class="value"></h4>
+                      <p ng-i18next="web:stat.tags_tip" ng-hide="tags.length" class="tip"></p>
+                    </div>
+                    <div class="chart-container">
+                      <div class="tags-list">
+                        <li data-ng-repeat="tag in tags" ng-style="{color: tag.color}"><span ng-class="{'current': currentTag.index === tag.index}"></span><span ng-click="openTag(tag)" ng-bind="tag.label" class="tag"></span></li>
+                      </div>
+                      <div id="TagsChart" class="tags-piechart"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column width-1-3">
+                  <div id="ProductiveHourOfDay" class="chart clearfix">
+                    <div class="chart-info">
+                      <div ng-i18next="stat.productive_hour_of_day" class="title"></div>
+                      <h4 ng-show="day.best != null &amp;&amp; day.best != 'N/A'" ng-i18next="{{'stat.hours.' + day.best}}" class="value"></h4>
+                      <h4 ng-i18next="stat.na" ng-show="day.best == 'N/A'" class="value"></h4>
+                      <div ng-bind="clock_time_range" class="tip"></div>
+                    </div>
+                    <div class="chart-container clock-chart">
+                      <div class="labels"><span class="up">0</span><span class="down">12</span><span class="left">18</span><span class="right">6</span></div>
+                      <canvas id="ClockChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-ng-controller="GoalCtrl" ng-show="currentTab() == 'goal'" class="goal-container pomotodo-box goal animate-showg">
+          <div ng-show="loading" class="loading-view"><img src="/images/pomotodo-spinner.gif?v=3" class="spinner"></div>
+          <div id="goal-main" class="goal-main">
+            <div data-ng-show="!account.isPro" class="pro-feature">
+              <div data-ng-show="account.pro_expired">
+                <p ng-i18next="messages.pro.expired_notice"></p>
+                <p><a href="/pro" target="_blank" ng-i18next="common.renewal" class="btn"></a></p>
+              </div>
+              <div data-ng-show="!account.pro_expired">
+                <p ng-i18next="messages.pro.notice"></p>
+                <p><a href="/pro" target="_blank" ng-i18next="common.upgrade" class="btn"></a></p>
+              </div>
+            </div>
+            <div data-ng-hide="newpomos.length" ng-class="{'mask': !account.isPro || loading}" class="goal-list">
+              <div class="grid clearfix">
+                <div class="column width-1-1 clearfix big_chart">
+                  <div class="goal_history clearfix">
+                    <div class="total_stat">
+                      <h5 ng-i18next="goal.last_30_days"></h5>
+                                <div class="goal_current value_raw">
+                                  <label ng-i18next="goal.current_num"></label><span data-ng-bind="goal.getTotalNum('day')"></span>
+                                </div>
+                                <div class="value_raw clearfix">
+                                  <div class="completion_avg width-1-2 pull-left">
+                                    <label ng-i18next="goal.completion_avg"></label><span data-ng-bind="goal.getTotalNum('day')/goal.getValidUnits('day') | number:2"></span>
+                                  </div>
+                                  <div class="completion_rate width-1-2 pull-left">
+                                    <label ng-i18next="goal.completion_rate"></label><span data-ng-bind="goal.getCompletePercent('day', preferences.goal_day)"></span><span> %</span>
+                                  </div>
+                                </div>
+                                <div class="goal_line">
+                                  <div class="goal_show"><span ng-i18next="goal.day_goal"></span><span data-ng-bind="preferences.goal_day" class="goal_number"></span><span ng-i18next="[i18next]({ count: preferences.goal_day })pomo.as_unit" class="pomo"></span></div>
+                                </div>
+                    </div>
+                    <div class="total_chart">
+                      <div class="last_30_days">
+                        <div data-goal-ctrl-pomo-chart="goal.day" data-total-count="preferences.goal_day" class="big_pomo_chart pomo_chart"></div>
+                      </div>
+                      <div class="today">
+                        <div class="goal_bar clearfix">
+                          <div class="today goal_text width-1-10 pull-left">
+                            <h6x ng-i18next="goal.today"></h6x>
+                          </div>
+                          <div class="number goal_text width-1-10 pull-right">
+                            <div ng-bind="goal.day[0] + '/' + preferences.goal_day" class="completion_rate"></div>
+                          </div>
+                          <div class="progress width-4-5 pull-left">
+                            <div class="goal_progress"><span ng-class="{completed: goal.getCompleteProgress(goal.day[0], preferences.goal_day) &gt;= 100}" ng-style="{width: (goal.getCompleteProgress(goal.day[0], preferences.goal_day) | Math:'round') + '%'}" class="now"></span><em ng-bind="goal.day[0]" class="rate"></em></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column width-1-2 pull-left clearfix">
+                  <div class="goal_history clearfix">
+                    <div class="history_stat clearfix">
+                      <div class="total_stat width-1-2 pull-left">
+                        <h5 ng-i18next="goal.last_12_weeks"></h5>
+                                  <div class="goal_current value_raw">
+                                    <label ng-i18next="goal.current_num"></label><span data-ng-bind="goal.getTotalNum('week')"></span>
+                                  </div>
+                                  <div class="value_raw clearfix">
+                                    <div class="completion_avg width-1-2 pull-left">
+                                      <label ng-i18next="goal.completion_avg"></label><span data-ng-bind="goal.getTotalNum('week')/goal.getValidUnits('week') | number:2"></span>
+                                    </div>
+                                    <div class="completion_rate width-1-2 pull-left">
+                                      <label ng-i18next="goal.completion_rate"></label><span data-ng-bind="goal.getCompletePercent('week', preferences.goal_week)"></span><span> %</span>
+                                    </div>
+                                  </div>
+                                  <div class="goal_line">
+                                    <div class="goal_show"><span ng-i18next="goal.week_goal"></span><span data-ng-bind="preferences.goal_week" class="goal_number"></span><span ng-i18next="[i18next]({ count: preferences.goal_week })pomo.as_unit" class="pomo"></span></div>
+                                  </div>
+                      </div>
+                      <div data-goal-ctrl-pomo-chart="goal.week" data-total-count="preferences.goal_week" class="pomo_chart width-3-5 pull-right"></div>
+                    </div>
+                    <div class="current_stat goal_bar clearfix">
+                      <div class="goal_progress"><span ng-class="{completed: goal.getCompleteProgress(goal.week[0], preferences.goal_week) &gt;= 100}" ng-style="{width: (goal.getCompleteProgress(goal.week[0], preferences.goal_week) | Math:'round') + '%'}" class="now"></span><em ng-bind="goal.week[0]" class="rate"></em></div>
+                      <div class="goal_text">
+                        <h6 ng-i18next="goal.this_week" class="pull-left"></h6>
+                        <div ng-bind="goal.week[0] + '/' + preferences.goal_week" class="completion_rate"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column width-1-2 pull-right clearfix">
+                  <div class="goal_history clearfix">
+                    <div class="history_stat clearfix">
+                      <div class="total_stat width-1-2 pull-left">
+                        <h5 ng-i18next="goal.last_12_months"></h5>
+                                  <div class="goal_current value_raw">
+                                    <label ng-i18next="goal.current_num"></label><span data-ng-bind="goal.getTotalNum('month')"></span>
+                                  </div>
+                                  <div class="value_raw clearfix">
+                                    <div class="completion_avg width-1-2 pull-left">
+                                      <label ng-i18next="goal.completion_avg"></label><span data-ng-bind="goal.getTotalNum('month')/goal.getValidUnits('month') | number:2"></span>
+                                    </div>
+                                    <div class="completion_rate width-1-2 pull-left">
+                                      <label ng-i18next="goal.completion_rate"></label><span data-ng-bind="goal.getCompletePercent('month', preferences.goal_month)"></span><span> %</span>
+                                    </div>
+                                  </div>
+                                  <div class="goal_line">
+                                    <div class="goal_show"><span ng-i18next="goal.month_goal"></span><span data-ng-bind="preferences.goal_month" class="goal_number"></span><span ng-i18next="[i18next]({ count: preferences.goal_month })pomo.as_unit" class="pomo"></span></div>
+                                  </div>
+                      </div>
+                      <div data-goal-ctrl-pomo-chart="goal.month" data-total-count="preferences.goal_month" class="pomo_chart width-3-5 pull-right"></div>
+                    </div>
+                    <div class="current_stat goal_bar clearfix">
+                      <div class="goal_progress"><span ng-class="{completed: goal.getCompleteProgress(goal.month[0], preferences.goal_month) &gt;= 100}" ng-style="{width: (goal.getCompleteProgress(goal.month[0], preferences.goal_month) | Math:'round') + '%'}" class="now"></span><em ng-bind="goal.month[0]" class="rate"></em></div>
+                      <div class="goal_text">
+                        <h6 ng-i18next="goal.this_month" class="pull-left"></h6>
+                        <div ng-bind="goal.month[0] + '/' + preferences.goal_month" class="completion_rate"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-ng-hide="!goal_list.length" class="nothing clearfix">
+              <p ng-i18next="goal.no_goal" class="no-record"></p>
+            </div>
+          </div>
+        </div>
+        <div data-ng-controller="PomoHistoryCtrl" ng-show="currentTab() == 'pomoHistory'" class="history-container pomotodo-box pomo-history animate-showg">
+          <div ng-show="loading" class="loading-view"><img src="/images/pomotodo-spinner.gif?v=3" class="spinner"></div>
+          <div class="history-header clearfix">
+            <div class="preset-picker segmented-control">
+              <ul>
+                <li data-ng-class="{'active': !fetchInterrupted}"><a href="javascript:;" style="margin-left: 5px" data-ng-click="fetchInterrupted = false" ng-i18next="pomo.finished_pomos"></a></li>
+                <li data-ng-class="{'active': fetchInterrupted}"><a href="javascript:;" style="margin-left: 5px" data-ng-click="fetchInterrupted = true" ng-i18next="pomo.interrupted_pomos"></a></li>
+              </ul>
+            </div>
+            <elastic-search on-search="searchingKeywords = term"></elastic-search>
+            <div id="history-rangepicker" data-app-date-rage-picker range="dateRange" class="action date-picker"></div>
+            <history-export ng-show="pomos.length &amp;&amp; !fetchInterrupted" disabled="!isOnline()" prepare-data="prepareExportData(format)" class="action export nav-item"></history-export>
+            <div data-ng-show="!fetchInterrupted" class="action manual">
+              <button data-ng-click="addPomo()" tooltip="{{'pomo.add_pomo_manually' | i18next}}" class="btn light history-new">
+                          <object class="icon icon-new">
+                            <svg>
+                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-new"></use>
+                            </svg>
+                          </object>
+              </button>
+            </div>
+          </div>
+          <div id="history-main" ng-class="{'mask': loading}" class="history-main">
+            <div data-ng-show="fetchInterrupted &amp;&amp; !account.isPro" class="pro-feature">
+              <div data-ng-show="account.pro_expired">
+                <p ng-i18next="messages.pro.expired_notice"></p>
+                <p><a href="/pro" target="_blank" ng-i18next="common.renewal" class="btn"></a></p>
+              </div>
+              <div data-ng-show="!account.pro_expired">
+                <p ng-i18next="messages.pro.notice"></p>
+                <p><a href="/pro" target="_blank" ng-i18next="common.upgrade" class="btn"></a></p>
+              </div>
+            </div>
+            <div data-ng-show="!fetchInterrupted &amp;&amp; newpomos.length" class="add-new-pomo">
+              <div data-ng-class="{&quot;pomo-new&quot;: !pomo.id}" class="clearfix">
+                <div data-ng-show="!account.isPro" class="pro-feature">
+                  <p data-ng-show="account.pro_expired"><span ng-i18next="messages.pro.expired_notice"></span><a href="/pro" target="_blank" class="btn"><span ng-i18next="common.renewal"></span></a></p>
+                  <p data-ng-show="!account.pro_expired"><span ng-i18next="messages.pro.notice"></span><a href="/pro" target="_blank" class="btn"><span ng-i18next="common.upgrade"></span></a></p>
+                </div>
+                <div class="new-pomo-form">
+                  <div data-ng-class="{'mask': !account.isPro}" class="mask-partial">
+                    <div data-ng-repeat="pomo in newpomos" class="item-main editing clearfix">
+                      <form target="javascript:;">
+                        <div class="group clearfix">
+                          <label for="new-pomo-start-time" ng-i18next="pomo.manually_pomo.starts"></label>
+                          <div class="content">
+                            <div data-app-date-input-picker format="'YYYY/MM/DD HH:mm'" mask="'9999/19/99 29:59'" datetime="pomo.started_at" class="input"></div>
+                          </div>
+                        </div>
+                        <div class="group clearfix">
+                          <label for="new-pomo-end-time" ng-i18next="pomo.manually_pomo.ends"></label>
+                          <div class="content">
+                            <div data-app-date-input-picker format="'YYYY/MM/DD HH:mm'" mask="'9999/19/99 29:59'" datetime="pomo.ended_at" class="input"></div>
+                          </div>
+                        </div>
+                        <div class="group clearfix">
+                          <label for="new-pomo-end-time" ng-i18next="pomo.description"></label>
+                          <input type="text" simple-input-model="pomoDescriptionsSandbox['newPomo']" class="description">
+                        </div>
+                        <div class="group actions clearfix"><a href="javascript:;" data-ng-click="saveNewPomo(pomo)" data-busybtn="saveNewPomoPromise" ng-i18next="[busybtn-text]common.submitting;common.submit" class="btn"></a><a href="javascript:;" ng-i18next="common.cancel" ng-click="cancelNewPomo(pomo)" class="light btn"></a></div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-ng-class="{'mask': fetchInterrupted &amp;&amp; !account.isPro}" class="mask-partial">
+              <div ng-show="!!searchingKeywords" class="search-switcher">
+                <select ng-model="searchMode">
+                  <option value="inRange" ng-i18next="web:history.results_in_date_range"></option>
+                  <option value="allTime" ng-i18next="web:history.results_in_all_time"></option>
+                </select>
+                          <object class="icon icon-switch">
+                            <svg>
+                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-switch"></use>
+                            </svg>
+                          </object>
+              </div>
+              <pomo-history-item-list ng-class="{mask: loading, searching: !!searchingKeywords}" ng-hide="searchingKeywords &amp;&amp; searchMode === 'allTime'" pomos="pomos" pagination-info="pagination" addon-pomos="newpomos" flat-mode="!!searchingKeywords" show-day-summary="!fetchInterrupted" show-summary-time="!fetchInterrupted" on-update="onPomoUpdate(pomo, updateInfo)" on-delete="onPomoDelete(pomo)"></pomo-history-item-list>
+              <pomo-history-item-list ng-class="{mask: loading, searching: !!searchingKeywords}" ng-show="searchingKeywords &amp;&amp; searchMode === 'allTime'" pomos="allTimePomos" pagination-info="allTimePagination" addon-pomos="newpomos" flat-mode="!!searchingKeywords" show-day-summary="!fetchInterrupted" show-summary-time="!fetchInterrupted" on-submit="onPomoUpdate(pomo, updateInfo)" on-delete="onPomoDelete(pomo)"></pomo-history-item-list>
+            </div>
+          </div>
+        </div>
+        <div data-ng-controller="TodoHistoryCtrl" ng-show="currentTab() == 'todoHistory'" class="goal-container pomotodo-box todo-history animate-showg">
+          <div ng-show="loading" class="loading-view"><img src="/images/pomotodo-spinner.gif?v=3" class="spinner"></div>
+          <div ng-class="{'mask': loading}" class="history-header clearfix">
+            <div class="preset-picker segmented-control">
+              <ul>
+                <li data-ng-class="{'active': !fetchDeleted}"><a href="javascript:;" data-ng-click="fetchDeleted = false" ng-i18next="todo.completed_todo" class="switch-deleted"></a></li>
+                <li data-ng-class="{'active': fetchDeleted}"><a href="javascript:;" data-ng-click="fetchDeleted = true" ng-i18next="todo.deleted_todos" class="switch-deleted"></a></li>
+              </ul>
+            </div>
+            <elastic-search disabled="fetchDeleted" on-search="searchingKeywords = term"></elastic-search>
+            <div id="history-rangepicker" data-app-date-rage-picker range="dateRange" disabled="fetchDeleted" class="action date-picker"></div>
+            <history-export ng-show="todos.length &amp;&amp; !fetchDeleted" disabled="!isOnline()" prepare-data="prepareExportData(format)" class="action export nav-item"></history-export>
+            <div class="action">
+              <button ng-i18next="[busybtn-text]todo.emptying_trash;todo.empty_trash" data-ng-show="fetchDeleted &amp;&amp; account.isPro" data-busybtn="click" data-busybtn-handler="emptyTrash()" class="btn light history-new"></button>
+            </div>
+          </div>
+          <div id="history-main" ng-class="{'mask': loading}" class="history-main">
+            <div data-ng-show="fetchDeleted &amp;&amp; !account.isPro" class="pro-feature">
+              <div data-ng-show="account.pro_expired">
+                <p ng-i18next="messages.pro.expired_notice"></p>
+                <p><a href="/pro" target="_blank" ng-i18next="common.renewal" class="btn"></a></p>
+              </div>
+              <div data-ng-show="!account.pro_expired">
+                <p ng-i18next="messages.pro.notice"></p>
+                <p><a href="/pro" target="_blank" ng-i18next="common.upgrade" class="btn"></a></p>
+              </div>
+            </div>
+            <div data-ng-class="{'mask': fetchDeleted &amp;&amp; !account.isPro}" class="mask-partial">
+              <div ng-show="!!searchingKeywords" class="search-switcher">
+                <select ng-model="searchMode">
+                  <option value="inRange" ng-i18next="web:history.results_in_date_range"></option>
+                  <option value="allTime" ng-i18next="web:history.results_in_all_time"></option>
+                </select>
+                          <object class="icon icon-switch">
+                            <svg>
+                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-switch"></use>
+                            </svg>
+                          </object>
+              </div>
+              <todo-history-item-list ng-class="{mask: loading, searching: !!searchingKeywords}" ng-hide="searchingKeywords &amp;&amp; searchMode === 'allTime'" todos="todos" pagination-info="pagination" group-by="groupBy" flat-mode="!!searchingKeywords" show-day-summary="!fetchDeleted" display-time-attr="fetchDeleted ? 'deleted_at' : 'completed_at'" deletable="!fetchDeleted" on-update="onTodoUpdate(todo, updateInfo)" on-delete="onTodoDelete(todo)"></todo-history-item-list>
+              <todo-history-item-list ng-class="{mask: loading, searching: !!searchingKeywords}" ng-show="searchingKeywords &amp;&amp; searchMode === 'allTime'" todos="allTimeTodos" pagination-info="allTimePagination" flat-mode="!!searchingKeywords" show-day-summary="!fetchDeleted" display-time-attr="fetchDeleted ? 'deleted_at' : 'updated_at'" deletable="!fetchDeleted" on-update="onTodoUpdate(todo, updateInfo)" on-delete="onTodoDelete(todo)"></todo-history-item-list>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer role="footer" class=" show-after-loading app-footer container clearfix">
+      <div class="copyright">&copy;&nbsp;<a href="/about" ng-i18next="common.pomotodo"></a></div>
+      <div class="langs">
+        <div class="dropdown-select">
+          <select id="langsList">
+            <option value="de">Deutsche</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="it">Italiano</option>
+            <option value="ja">日本語</option>
+            <option value="ru">Русский</option>
+            <option value="uk">Український</option>
+            <option value="zh-CN">简体中文</option>
+            <option value="zh-TW">繁體中文</option>
+          </select>
+        </div>
+      </div><a href="javascript:;" ng-click="toggleDarkMode()" tooltip="{{'web:toggle_dark_mode' | i18next}}" class="dark-mode">
+        <div class="toggle-mode"><span class="left"></span></div></a>
+      <ul class="app-footer-nav">
+        <li class="nav-item"><a href="/pro" target="_blank" ng-i18next="pages.pro"></a></li>
+        <li class="apps nav-item"><a href="/apps" target="_blank" ng-i18next="pages.apps"></a></li>
+        <li class="nav-item"><a ng-href="/feedback?lang={{lang}}&amp;channel=youzhu" target="_blank" ng-i18next="pages.help"></a></li>
+        <li class="nav-item"><a href="/developer" ng-i18next="pages.developer"></a></li>
+        <li class="nav-item"><a href="/press" target="_blank" ng-i18next="pages.press"></a></li>
+        <li class="nav-item"><a href="/terms" target="_blank" ng-i18next="pages.terms"></a></li>
+      </ul>
+      <div ng-controller="BetaLangCtrl" ng-hide="dismissed" class="beta-lang">
+        <p>This language is in beta testing.<a href="https://crowdin.com/project/pomotodo/invite" target="_blank" tooltip="help us translate">you can help us to improve it.</a></p><span data-ng-click="dismiss()" class="dismiss cancel-badge">×</span>
+      </div>
+    </footer>
+    <script id="partials/settings.html" type="text/ng-template">
+      <ul data-app-eval="currentPanel = 'preferences'" class="tab-navs tab-navs--underline">
+        <li data-ng-class="{'active': currentPanel == 'preferences'}"><a href="javascript:;" data-ng-click="currentPanel = 'preferences'" ng-i18next="common.preferences"></a></li>
+        <li data-ng-class="{'active': currentPanel == 'goal'}"><a href="javascript:;" data-ng-click="currentPanel = 'goal'" ng-i18next="common.goal"></a></li>
+        <li data-ng-class="{'active': currentPanel == 'pomo'}" class="pro"><a href="javascript:;" data-ng-click="currentPanel = 'pomo'" ng-i18next="common.pomo">
+            <SUP>Pro</SUP></a></li>
+        <li data-ng-class="{'active': currentPanel == 'subscribe'}" class="pro"><a href="javascript:;" data-ng-click="currentPanel = 'subscribe'" ng-i18next="common.subscribe">
+            <SUP>Pro</SUP></a></li>
+      </ul><a data-ng-click="$dismiss('cancel')" class="close">&times;</a>
+      <div class="body tab-content">
+        <div data-ng-show="isCurrentPanelNeedMask()" class="pro-feature">
+          <p data-ng-show="account.pro_expired" ng-i18next="messages.pro.expired_notice"></p>
+          <p data-ng-show="!account.pro_expired" ng-i18next="messages.pro.notice"></p>
+          <p><a href="/pro" target="_blank" data-ng-show="account.pro_expired" ng-i18next="common.renewal" class="btn"></a><a href="/pro" target="_blank" data-ng-show="!account.pro_expired" ng-i18next="common.upgrade" class="btn"></a></p>
+        </div>
+        <div data-ng-class="{'active': currentPanel == 'preferences'}" class="tab-pane">
+          <ul class="preferences">
+            <li>
+              <div class="group">
+                <input id="settings-play_ticking" type="checkbox" name="play_ticking" data-ng-model="preferences.play_ticking">
+                <label for="settings-play_ticking" ng-i18next="settings.play_ticking_sound"></label><span preference-save-status promise="ctrlScope.savePromises.play_ticking"></span>
+              </div>
+            </li>
+            <li>
+              <div class="group">
+                <input id="settings-play_alarm" type="checkbox" name="play_alarm" data-ng-model="preferences.play_alarm">
+                <label for="settings-play_alarm" ng-i18next="settings.play_alarm_sound"></label><span preference-save-status promise="ctrlScope.savePromises.play_alarm"></span>
+              </div>
+            </li>
+            <li>
+              <div class="group">
+                <input id="settings-use_notification" type="checkbox" name="use_notification" data-ng-model="preferences.use_notification" data-ng-disabled="!(isNotificationAvaliable &amp;&amp; notifyPermissionGranted())">
+                <label for="settings-use_notification"><span ng-i18next="settings.use_notification" class="label-text"></span><span ng-show="!isNotificationAvaliable" ng-i18next="web:settings.preference.notification_not_support" class="inline-message"></span><span ng-show="needAskPermission()" ng-click="requestPermission()" ng-i18next="web:settings.preference.notification_permission" class="inline-message"></span><a target="_blank" href="http://help.pomotodo.com/article/notification" ng-i18next="web:settings.preference.how_to_grant_permission_manually" ng-show="isNotificationAvaliable &amp;&amp; !notifyPermissionGranted()" class="inline-message"></a></label><span preference-save-status promise="ctrlScope.savePromises.use_notification"></span>
+              </div>
+            </li>
+            <li>
+              <div class="group">
+                <input id="settings-12_hour_time" type="checkbox" name="12_hour_time" data-ng-model="preferences['12_hour_time']">
+                <label for="settings-12_hour_time" ng-i18next="settings.12_hour_time"></label><span preference-save-status promise="ctrlScope.savePromises['12_hour_time']"></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div data-ng-class="{'active': currentPanel == 'goal'}" class="tab-pane">
+          <form name="goalForm" class="goal-form">
+            <ul>
+              <li class="clearfix">
+                          <div class="group">
+                            <p class="clearfix">
+                              <label ng-i18next="goal.day_goal" class="settings-item-title"></label>
+                              <input type="number" name="goal_day" min="0" max="100" data-ng-model="preferences.goal_day" ng-model-options="{updateOn: 'change'}" class="minute"><span ng-i18next="[i18next]({count: 2})pomo.as_unit" class="fieldnote"></span><span preference-save-status promise="ctrlScope.savePromises.goal_day"></span>
+                            </p>
+                            <p data-ng-show="goalForm.goal_day.$error.min || goalForm.goal_day.$error.max" ng-i18next="[i18next]({ key: '{{$t('goal.day_goal')}}', start: 0, end: 100 })messages.validate.between_and" class="msg"></p>
+                          </div>
+              </li>
+              <li class="clearfix">
+                          <div class="group">
+                            <p class="clearfix">
+                              <label ng-i18next="goal.week_goal" class="settings-item-title"></label>
+                              <input type="number" name="goal_week" min="0" max="1000" data-ng-model="preferences.goal_week" ng-model-options="{updateOn: 'change'}" class="minute" ng-disabled="!account.isPro"><span ng-i18next="[i18next]({count: 2})pomo.as_unit" class="fieldnote"></span>
+                                        <object class="icon icon-reset" ng-show="isPreferenceNeedResetIcon('goal_week')" style="cursor: pointer" ng-click="resetPreference('goal_week')">
+                                          <svg>
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-reset"></use>
+                                          </svg>
+                                        </object><span preference-save-status promise="ctrlScope.savePromises.goal_week"></span>
+                            </p>
+                            <p data-ng-show="goalForm.goal_week.$error.min || goalForm.goal_week.$error.max" ng-i18next="[i18next]({ key: '{{$t('goal.week_goal')}}', start: 0, end: 1000 })messages.validate.between_and" class="msg"></p>
+                          </div>
+              </li>
+              <li class="clearfix">
+                          <div class="group">
+                            <p class="clearfix">
+                              <label ng-i18next="goal.month_goal" class="settings-item-title"></label>
+                              <input type="number" name="goal_month" min="0" max="10000" data-ng-model="preferences.goal_month" ng-model-options="{updateOn: 'change'}" class="minute" ng-disabled="!account.isPro"><span ng-i18next="[i18next]({count: 2})pomo.as_unit" class="fieldnote"></span>
+                                        <object class="icon icon-reset" ng-show="isPreferenceNeedResetIcon('goal_month')" style="cursor: pointer" ng-click="resetPreference('goal_month')">
+                                          <svg>
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-reset"></use>
+                                          </svg>
+                                        </object><span preference-save-status promise="ctrlScope.savePromises.goal_month"></span>
+                            </p>
+                            <p data-ng-show="goalForm.goal_month.$error.min || goalForm.goal_month.$error.max" ng-i18next="[i18next]({ key: '{{$t('goal.month_goal')}}', start: 0, end: 10000 })messages.validate.between_and" class="msg"></p>
+                          </div>
+              </li>
+            </ul>
+          </form>
+        </div>
+        <div data-ng-class="{'active': currentPanel == 'pomo'}" class="tab-pane">
+          <form name="pomoForm" data-ng-class="{'unmask': !isCurrentPanelNeedMask('pomo'), 'mask': isCurrentPanelNeedMask('pomo')}" data-app-eval="$parent.pomoForm = pomoForm" class="settings-content pomo-form">
+            <ul>
+              <li>
+                <div class="group">
+                  <p class="clearfix">
+                    <label for="settings-pomo_minutes" ng-i18next="pomo.pomo_duration" class="settings-item-title"></label>
+                    <input type="number" id="settings-pomo_minutes" name="pomo_minutes" min="10" max="60" ng-model="preferences.pomo_minutes" ng-model-options="{updateOn: 'change'}" ng-disabled="!account.isPro" class="minute"><span ng-i18next="pomo.minute" class="fieldnote"></span>
+                              <object class="icon icon-reset" ng-show="isPreferenceNeedResetIcon('pomo_minutes')" style="cursor: pointer" ng-click="resetPreference('pomo_minutes')">
+                                <svg>
+                                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-reset"></use>
+                                </svg>
+                              </object><span preference-save-status promise="ctrlScope.savePromises.pomo_minutes"></span>
+                  </p>
+                  <p data-ng-show="pomoForm.pomo_minutes.$error.min || pomoForm.pomo_minutes.$error.max" ng-i18next="[i18next]({ key: '{{$t('pomo.pomo_duration')}}', start: 10, end: 60 })messages.validate.between_and" class="msg"></p>
+                  <p data-ng-show="pomoForm.pomo_minutes.$error.number" ng-i18next="[i18next]({ key: '{{$t('pomo.pomo_duration')}}' })messages.validate.invalid" class="msg"></p>
+                </div>
+              </li>
+              <li>
+                <div class="group">
+                  <p class="clearfix">
+                    <label for="settings-break_minutes" ng-i18next="pomo.break_duration" class="settings-item-title"></label>
+                    <input type="number" id="settings-break_minutes" name="break_minutes" min="1" max="60" ng-model="preferences.rest_minutes" ng-model-options="{updateOn: 'change'}" ng-disabled="!account.isPro" class="minute"><span ng-i18next="pomo.minute" class="fieldnote"></span>
+                              <object class="icon icon-reset" ng-show="isPreferenceNeedResetIcon('rest_minutes')" style="cursor: pointer" ng-click="resetPreference('rest_minutes')">
+                                <svg>
+                                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-reset"></use>
+                                </svg>
+                              </object><span preference-save-status promise="ctrlScope.savePromises.rest_minutes"></span>
+                  </p>
+                  <p data-ng-show="pomoForm.break_minutes.$error.min || pomoForm.break_minutes.$error.max" ng-i18next="[i18next]({ key: '{{$t('pomo.break_duration')}}', start: 1, end: 60 })messages.validate.between_and" class="msg"></p>
+                  <p data-ng-show="pomoForm.break_minutes.$error.number" ng-i18next="[i18next]({ key: '{{$t('pomo.break_duration')}}' })messages.validate.invalid" class="msg"></p>
+                </div>
+              </li>
+              <li>
+                <div class="group">
+                  <p class="clearfix">
+                    <label for="settings-long_break_minutes" ng-i18next="pomo.long_break_duration" class="settings-item-title"></label>
+                    <input type="number" id="settings-long_break_minutes" name="long_break_minutes" min="1" max="60" ng-model="preferences.long_rest_minutes" ng-model-options="{updateOn: 'change'}" ng-disabled="!account.isPro" class="minute"><span ng-i18next="pomo.minute" class="fieldnote"></span>
+                              <object class="icon icon-reset" ng-show="isPreferenceNeedResetIcon('long_rest_minutes')" style="cursor: pointer" ng-click="resetPreference('long_rest_minutes')">
+                                <svg>
+                                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-reset"></use>
+                                </svg>
+                              </object><span preference-save-status promise="ctrlScope.savePromises.long_rest_minutes"></span>
+                  </p>
+                  <p data-ng-show="pomoForm.long_break_minutes.$error.min || pomoForm.long_break_minutes.$error.max" ng-i18next="[i18next]({ key: '{{$t('pomo.long_break_duration')}}', start: 1, end: 60 })messages.validate.between_and" class="msg"></p>
+                  <p data-ng-show="pomoForm.long_break_minutes.$error.number" ng-i18next="[i18next]({ key: '{{$t('pomo.long_break_duration')}}' })messages.validate.invalid" class="msg"></p>
+                </div>
+              </li>
+              <li>
+                <div class="group">
+                  <p class="clearfix">
+                    <label for="settings-long_break_pomo_count" ng-i18next="settings.long_break_every" class="settings-item-title"></label>
+                    <input type="number" id="settings-long_break_pomo_count" name="long_break_pomo_count" min="2" max="9" ng-model="preferences.long_rest_pomo_count" ng-model-options="{updateOn: 'change'}" ng-disabled="!account.isPro" class="minute"><span ng-i18next="pomo.as_unit" class="fieldnote"></span>
+                              <object class="icon icon-reset" ng-show="isPreferenceNeedResetIcon('long_rest_pomo_count')" style="cursor: pointer" ng-click="resetPreference('long_rest_pomo_count')">
+                                <svg>
+                                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-reset"></use>
+                                </svg>
+                              </object><span preference-save-status promise="ctrlScope.savePromises.long_rest_pomo_count"></span>
+                  </p>
+                  <p data-ng-show="pomoForm.long_break_pomo_count.$error.min || pomoForm.long_break_pomo_count.$error.max" ng-i18next="[i18next]({ key: '{{$t('pomo.long_break_pomo_count')}}', start: 2, end: 9 })messages.validate.between_and" class="msg"></p>
+                  <p data-ng-show="pomoForm.long_break_pomo_count.$error.number" ng-i18next="[i18next]({ key: '{{$t('pomo.long_break_pomo_count')}}' })messages.validate.invalid" class="msg"></p>
+                </div>
+              </li>
+              <li>
+                <div class="group clearfix">
+                  <label for="settings-working_sound" ng-i18next="pomo.working_sound" class="settings-item-title"></label><span class="dropdown-select">
+                    <select id="settings-working_sound" ie-select-fix="workingSoundNames" data-ng-model="preferences.working_sound" ng-disabled="!account.isPro">
+                      <option data-ng-repeat="name in workingSoundNames" data-ng-selected="name === preferences.working_sound" value="{{name}}" ng-i18next="{{'settings.sounds.' + name}}"></option>
+                    </select></span>
+                            <object class="icon icon-reset" ng-show="isPreferenceNeedResetIcon('working_sound')" style="cursor: pointer" ng-click="resetPreference('working_sound')">
+                              <svg>
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-reset"></use>
+                              </svg>
+                            </object><span preference-save-status promise="ctrlScope.savePromises.working_sound"></span>
+                </div>
+              </li>
+              <li>
+                <div class="group">
+                  <label for="settings-alarm_sound" ng-i18next="pomo.alarm_sound" class="settings-item-title"></label><span class="dropdown-select">
+                    <select id="settings-alarm_sound" ie-select-fix="alarmSoundNames" data-ng-model="preferences.alarm_sound" ng-disabled="!account.isPro">
+                      <option data-ng-repeat="name in alarmSoundNames" data-ng-selected="name === preferences.alarm_sound" value="{{name}}" ng-i18next="{{'settings.sounds.' + name}}"></option>
+                    </select></span>
+                            <object class="icon icon-reset" ng-show="isPreferenceNeedResetIcon('alarm_sound')" style="cursor: pointer" ng-click="resetPreference('alarm_sound')">
+                              <svg>
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-reset"></use>
+                              </svg>
+                            </object><span preference-save-status promise="ctrlScope.savePromises.alarm_sound"></span>
+                </div>
+              </li>
+              <li>
+                <div class="group">
+                  <p class="clearfix">
+                    <label for="settings-record_interrupt_reason" ng-i18next="settings.record_interrupt_reason" class="settings-item-title"></label>
+                    <input type="checkbox" id="settings-record_interrupt_reason" name="record_interrupt_reason" ng-model="preferences.interrupt_reason" ng-disabled="!preferences.interrupt_reason &amp;&amp; !account.isPro"><span preference-save-status promise="ctrlScope.savePromises.interrupt_reason"></span>
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="group">
+                  <p class="clearfix">
+                    <label for="settings-sync_pomo_status" ng-i18next="settings.sync_pomo_status" class="settings-item-title"></label>
+                    <input type="checkbox" id="settings-sync_pomo_status" name="sync_pomo_status" ng-model="preferences['sync_pomo_status']" ng-disabled="!preferences['sync_pomo_status'] &amp;&amp; !account.isPro"><span preference-save-status promise="ctrlScope.savePromises['web:sync_pomo_status']"></span>
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </form>
+        </div>
+        <div data-ng-class="{'active': currentPanel == 'subscribe'}" class="tab-pane">
+          <form name="settingsSubscribeForm" data-ng-class="{'mask': isCurrentPanelNeedMask()}" class="settings-content preferences">
+            <ul>
+              <li class="clearfix">
+                <div class="group">
+                  <input id="settings-sub_calendar" type="checkbox" name="sub_calendar" ng-model="preferences.sub_calendar">
+                  <label for="settings-sub_calendar" ng-i18next="settings.subscribe.calendar"></label><span preference-save-status promise="ctrlScope.savePromises.sub_calendar"></span>
+                </div>
+              </li>
+              <li ng-show="preferences.sub_calendar" class="clearfix">
+                <div class="group sub">
+                  <label for="settings-pomo_webcal_add" ng-i18next="settings.subscribe.calendar_pomo_history" class="settings-item-title"></label>
+                  <input id="settings-pomo_webcal_add" type="text" ng-value="calendar_pomo_add" data-ng-class="{new: refreshInputHighlight}" readonly class="subscribe_add"><a ng-href="{{calendar_pomo_webcal_add}}" target="_blank" data-ng-show="isMac" ng-i18next="common.subscribe" class="btn light subscribe"></a><span preference-save-status promise="ctrlScope.savePromises.calendar_pomo_add"></span>
+                </div>
+              </li>
+              <li ng-show="preferences.sub_calendar" class="clearfix">
+                <div class="group sub">
+                  <label for="settings-todo_webcal_add" ng-i18next="settings.subscribe.calendar_todo_history" class="settings-item-title"></label>
+                  <input id="settings-todo_webcal_add" type="text" ng-value="calendar_todo_add" data-ng-class="{new: refreshInputHighlight}" readonly class="subscribe_add"><a ng-href="{{calendar_todo_webcal_add}}" target="_blank" data-ng-show="isMac" ng-i18next="common.subscribe" class="btn light subscribe"></a><span preference-save-status promise="ctrlScope.savePromises.calendar_todo_add"></span>
+                </div>
+              </li>
+              <li ng-show="preferences.sub_calendar" class="clearfix">
+                <div class="group sub">
+                  <label class="settings-item-title">&nbsp;</label><a data-ng-click="refreshCalendar()" ng-bind="refreshBtnText" class="btn light renewal"></a>
+                </div>
+              </li>
+              <li class="clearfix">
+                <div class="group">
+                  <input id="settings-sub_email" type="checkbox" name="sub_email" data-ng-model="preferences.sub_email">
+                  <label for="settings-sub_email" ng-i18next="settings.subscribe.weekly_digest_email"></label><span preference-save-status promise="ctrlScope.savePromises.sub_email"></span>
+                </div>
+              </li>
+              <li ng-show="preferences.sub_email">
+                <div class="group sub">
+                  <label for="settings-email_add" ng-i18next="settings.subscribe.email_address" class="settings-item-title"></label>
+                  <input id="settings-email_add" name="email_add" type="email" required typeahead="email" ng-model="preferences.email_add" ng-model-options="{updateOn: 'change'}"><span preference-save-status promise="ctrlScope.savePromises.email_add"></span>
+                </div>
+              </li>
+            </ul>
+          </form>
+        </div>
+      </div>
+    </script>
+    <script id="partials/profile.html" type="text/ng-template">
+      <ul data-app-eval="currentPanel = 'basic'" class="tab-navs tab-navs--underline">
+        <li data-ng-class="{'active': currentPanel == 'basic'}"><a href="javascript:;" data-ng-click="currentPanel = 'basic'" ng-i18next="common.account"></a></li>
+        <li data-ng-class="{'active': currentPanel == 'security'}"><a href="javascript:;" data-ng-click="currentPanel = 'security'" ng-i18next="common.security"></a></li>
+      </ul><a data-ng-click="$dismiss('cancel')" class="close">×</a>
+      <div class="body tab-content">
+        <ul data-ng-class="{'active': currentPanel == 'basic'}" class="tab-pane">
+          <li ng-class="{editing: editingDisplayName}" class="clearfix display-name">
+            <div class="group">
+              <label ng-i18next="account.name"></label>
+              <p><span ng-bind="account.name" class="display-name-displayer"></span><span class="display-name-editor">
+                  <input type="text" ng-model="$modalScope.newDisplayName" class="change_email"></span><span class="actions">
+                  <button ng-hide="editingDisplayName || Connection.state === 'offline'" ng-click="$modalScope.editingDisplayName = true" ng-i18next="web:settings.account.change_email" class="btn button light simple change"></button>
+                  <button busybtn="click" busybtn-handler="submitDisplayName()" ng-show="editingDisplayName" ng-i18next="[busybtn-text]common.saving;common.save" class="btn button light save"></button></span></p>
+            </div>
+          </li>
+          <li ng-class="{editing: editingEmail}" class="clearfix email-verify">
+            <div class="group">
+              <label ng-i18next="account.email"></label>
+              <p><span ng-bind="account.email" class="email-displayer"></span><span class="email-editor">
+                  <input type="email" typeahead="email" ng-model="$modalScope.newEmail" class="change_email"></span><span class="actions">
+                  <button ng-hide="editingEmail || Connection.state === 'offline'" ng-click="$modalScope.editingEmail = true" ng-i18next="web:settings.account.change_email" class="btn button light simple change"></button>
+                  <button ng-hide="account.email_verified || resendSucceed || Connection.state === 'offline'" ng-click="resendVerifyEmail()" ng-i18next="{{resendRequesting ? 'common.requesting' : 'web:settings.account.verify_email'}}" tooltip="{{'web:settings.account.resend_verify_email_notice' | i18next}}" class="btn button light simple verify"></button>
+                  <button busybtn="click" busybtn-handler="submitEmail()" ng-show="editingEmail" ng-i18next="[busybtn-text]common.saving;common.save" class="btn button light save"></button></span></p>
+              <p ng-show="editEmailMessage" ng-bind="editEmailMessage" class="msg"></p>
+            </div>
+          </li>
+          <li class="clearfix">
+            <div ng-show="account.isPro" class="group">
+              <label ng-i18next="common.pro"></label>
+              <p ng-show="!account.subscription">
+                <datetime dt-time="account.pro_expires_time" dt-format="calendar"></datetime>
+              </p>
+              <p ng-show="account.subscription" ng-i18next="common.subscribed"></p>
+            </div>
+          </li>
+        </ul>
+        <form name="pomoForm" data-ng-class="{'active': currentPanel == 'security'}" data-app-eval="$parent.pomoForm = pomoForm" class="settings-content tab-pane">
+          <ul>
+            <li>
+              <div class="group">
+                <label ng-i18next="settings.security.current_password" class="settings-item-title"></label>
+                <input type="password" name="oldPassword" data-ng-model="oldPassword" required class="ng-valid">
+              </div>
+            </li>
+            <li>
+              <div class="group">
+                <label ng-i18next="settings.security.new_password" class="settings-item-title"></label>
+                <input type="password" name="newPassword" data-ng-model="newPassword" required>
+              </div>
+            </li>
+            <li>
+              <div class="group">
+                <label ng-i18next="account.confirm_password" class="settings-item-title"></label>
+                <div style="overflow:hidden" class="clearfix">
+                  <input type="password" name="confirmPassword" data-ng-model="confirmPassword" required>
+                  <p ng-show="confirmPassword &amp;&amp; confirmPassword !== newPassword" ng-i18next="[i18next]({primary_key: '{{$t('settings.security.new_password')}}', confirmatory_key: '{{$t('account.confirm_password')}}'})messages.validate.not_match" class="msg-simple"></p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </form>
+      </div>
+      <div ng-show="currentPanel == 'basic'" class="footer"><a ng-show="account.isPro" href="/pro" target="_blank" ng-i18next="common.renewal" class="btn button renewal"></a><a ng-show="!account.isPro" href="/pro" target="_blank" ng-i18next="common.upgrade" class="btn button upgrade"></a>
+        <button style="float: right" type="button" ng-show="isDebugging()" ng-click="syncCompletely()" ng-i18next="[busybtn-text]messages.sync.syncing;messages.sync.sync" busybtn="completelySyncPromise" class="btn button"></button>
+      </div>
+      <div ng-show="currentPanel == 'security'" class="footer">
+        <button ng-i18next="[busybtn-text]common.saving;common.save" data-ng-disabled="pomoForm.$invalid" data-busybtn="click" data-busybtn-handler="save()" class="btn"></button>
+      </div>
+    </script>
+    <script id="partials/advanced_todo.html" type="text/ng-template">
+      <form ng-submit="submitTodo()" name="todoAdvancedForm">
+        <div class="header">
+          <h4 ng-i18next="web:todo.edit_advanced_content"></h4><a ng-click="$dismiss('cancel')" class="close">×</a>
+        </div>
+        <div class="body">
+          <div ng-show="isNeedMaskForm()" class="pro-feature">
+            <p ng-show="account.pro_expired" ng-i18next="messages.pro.expired_notice"></p>
+            <p ng-show="!account.pro_expired" ng-i18next="messages.pro.notice"></p>
+            <p><a href="/pro" target="_blank" ng-show="account.pro_expired" ng-i18next="common.renewal" class="btn"></a><a href="/pro" target="_blank" ng-show="!account.pro_expired" ng-i18next="common.upgrade" class="btn"></a></p>
+          </div>
+          <div ng-class="{mask: isNeedMaskForm()}" class="content mask-partial">
+            <div class="group">
+              <label for="costed-pomo-count" ng-i18next="todo.costed_pomo" class="settings-item-title"></label>
+              <div class="content">
+                <input id="costed-pomo-count" style="display: inline-block" type="number" name="costed_pomo_count" min="0" max="1000000" pattern="^\d+$" ng-model="modalScope.costedPomoCount" ng-disabled="!account.isPro">
+              </div>
+              <p ng-show="todoAdvancedForm.costed_pomo_count.$error.min || todoAdvancedForm.costed_pomo_count.$error.max" ng-i18next="[i18next]({key: '{{$t('todo.costed_pomo')}}', start: 0, end: 1000000})messages.validate.between_and" class="msg"></p>
+              <p ng-show="todoAdvancedForm.costed_pomo_count.$error.pattern" ng-i18next="[i18next]({key: '{{$t('todo.costed_pomo')}}'})messages.validate.integer_only" class="msg"></p>
+            </div>
+            <div class="group">
+              <label for="estimated-pomo-count" ng-i18next="todo.estimated_pomo" class="settings-item-title"></label>
+              <div class="content">
+                <input id="estimated-pomo-count" style="display: inline-block" type="number" name="estimated_pomo_count" min="0" max="1000000" pattern="^\d+$" ng-model="modalScope.estimatedPomoCount" ng-disabled="!account.isPro"><i ng-show="!account.isPro" style="cursor: pointer" ng-click="modalScope.estimatedPomoCount = 0" class="icon-">&times;</i>
+              </div>
+              <p ng-show="todoAdvancedForm.estimated_pomo_count.$error.min || todoAdvancedForm.estimated_pomo_count.$error.max" ng-i18next="[i18next]({key: '{{$t('todo.estimated_pomo')}}', start: 0, end: 1000000})messages.validate.between_and" class="msg"></p>
+              <p ng-show="todoAdvancedForm.estimated_pomo_count.$error.pattern" ng-i18next="[i18next]({key: '{{$t('todo.estimated_pomo')}}'})messages.validate.integer_only" class="msg"></p>
+            </div>
+            <div class="group">
+              <label ng-i18next="web:todo.set_remind" class="settings-item-title"></label>
+              <input type="checkbox" ng-checked="modalScope.needRemind" ng-click="toggleRemind()" ng-disabled="!modalScope.remindTime &amp;&amp; !account.isPro">
+            </div>
+            <div ng-show="modalScope.needRemind" class="group">
+              <label ng-i18next="todo.remind_time" class="settings-item-title"></label>
+              <div class="content">
+                <div data-app-date-input-picker format="'YYYY/MM/DD HH:mm'" disabled="!account.isPro" futuredate="true" mask="'9999/19/99 29:59'" datetime="modalScope.remindTime" class="input"></div>
+              </div>
+            </div>
+            <div ng-show="modalScope.needRemind" class="group">
+              <label ng-i18next="todo.repeat" class="settings-item-title"></label>
+              <select ng-model="modalScope.repeatType" ng-disabled="!account.isPro" class="content">
+                <option ng-i18next="todo.repeat_options.none" value="none"></option>
+                <option ng-i18next="todo.repeat_options.each_day" value="each_day"></option>
+                <option ng-i18next="todo.repeat_options.each_week" value="each_week"></option>
+                <option ng-i18next="todo.repeat_options.each_two_week" value="each_two_week"></option>
+                <option ng-i18next="todo.repeat_options.each_month" value="each_month"></option>
+                <option ng-i18next="todo.repeat_options.each_year" value="each_year"></option>
+              </select>
+            </div>
+            <div class="group">
+              <label ng-i18next="todo.note" class="settings-item-title"></label>
+              <textarea ng-model="modalScope.notice" ng-disabled="!account.isPro" class="content"></textarea>
+            </div>
+          </div>
+        </div>
+        <div ng-show="!isNeedMaskForm()" class="footer"><a ng-click="deleteTodo()" ng-i18next="common.delete" class="btn danger pull-right"></a>
+          <input type="submit" value="{{'common.save' | i18next}}" ng-disabled="todoAdvancedForm.$invalid" ng-i18next="[busybtn-text]common.saving" busybtn="submitPromise" class="btn">
+        </div>
+      </form>
+    </script>
+    <script id="partials/syncing_modal.html" type="text/ng-template">
+      <div style="text-align: center" class="body">
+        <div class="processing"></div>
+        <p ng-i18next="messages.sync.syncing" class="message"></p>
+      </div>
+    </script>
+    <script id="partials/relogin.html" type="text/ng-template">
+      <form ng-submit="submit()" name="reloginForm">
+        <div class="header">
+          <h4 ng-i18next="web:account.session_invalidated"></h4>
+        </div>
+        <div class="body">
+          <div ng-if="ctrlScope.logedEmail" class="group">
+            <label ng-i18next="account.email"></label><span ng-bind="ctrlScope.logedEmail"></span>
+          </div>
+          <div ng-if="!ctrlScope.logedEmail" class="group">
+            <label ng-i18next="account.email"></label>
+            <input type="text" ng-model="ctrlScope.email" required>
+          </div>
+          <div class="group">
+            <label ng-i18next="account.password"></label>
+            <input type="password" ng-model="ctrlScope.password" required>
+          </div>
+        </div>
+        <div class="footer">
+          <input type="submit" ng-i18next="[busybtn-text]common.submitting;[value]common.submit" ng-disabled="reloginForm.$invalid" busybtn="submitPromise" class="btn">
+          <button type="button" ng-i18next="account.signout" ng-click="logout()" class="btn"></button>
+        </div>
+      </form>
+    </script>
+    <div id="hotkey-help" style="display:none" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="header"><span ng-i18next="web:hotkey.title"></span><a data-dismiss="modal" class="close">&times;</a></div>
+          <div class="body">
+            <ul class="kbs-legend-list">
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="todo.add_new_todo" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">i</span></div>
+              </li>
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="web:hotkey.next_todo" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">j</span></div>
+              </li>
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="web:hotkey.prev_todo" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">k</span></div>
+              </li>
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="web:hotkey.mark_as_done" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">d</span></div>
+              </li>
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="web:hotkey.pin" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">p</span></div>
+              </li>
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="common.edit" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">e</span></div>
+              </li>
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="web:hotkey.show_sub_todos" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">s</span></div>
+              </li>
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="web:hotkey.more" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">m</span></div>
+              </li>
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="web:hotkey.select_todo" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">1 ~ 8</span></div>
+              </li>
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="web:hotkey.select_last_todo" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">9</span></div>
+              </li>
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="web:hotkey.start_pomo" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">Enter</span></div>
+              </li>
+              <li class="kbs-legend-list-item">
+                <div ng-i18next="web:hotkey.cancel_pomo" class="kbs-legend-label"></div>
+                <div class="kbs-legend-key"><span class="key">Ctrl-i</span></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <link rel="stylesheet" href="./styles/vendor-384c58d4.css" type="text/css" media="screen,print">
+    <link rel="stylesheet" href="./styles/app-39db9361.css" type="text/css" media="screen,print">
+    <link rel="stylesheet" href="./styles/print-fd073443.css" type="text/css" media="screen,print">
+ <!-- 
+    <script id="precompile-i18n"></script>
+    <script>
+      window.APP_VERSION = '3.7.48'
+      
+    </script>
+    <meta name="webworker-script-path" content="./scripts/webworker-fb1bd37b.js?v=3">
+    <script charset="UTF-8" type="text/javascript" src="./scripts/browser_shim_vendor-c833d9c8.js?v=3"></script>
+    <script charset="UTF-8" type="text/javascript" src="./scripts/modernizr-9d40f477.js?v=3"></script>
+    <script charset="UTF-8" type="text/javascript" src="./scripts/vendor-fb5f1a7e.js?v=3"></script>
+    <script charset="UTF-8" type="text/javascript" src="./scripts/app-3b68dd9d.js?v=3"></script>
+    <script charset="UTF-8" type="text/javascript" src="./scripts/i18n-4acc1537.js?v=3"></script>
+    <script charset="UTF-8" type="text/javascript" src="./scripts/webworker_vendor-66ce8e30.js?v=3"></script>
+    <script charset="UTF-8" type="text/javascript" src="./scripts/webworker_lib-3023f32d.js?v=3"></script>
+    <script charset="UTF-8" type="text/javascript" src="./scripts/webworker-fb1bd37b.js?v=3"></script> 
+ -->
+  </body>
+</html>
