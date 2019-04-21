@@ -5,6 +5,11 @@ spring:
       maxRequestSize: 1000Mb
   application:
     name: timer
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+  freemarker:
+    cache: true    #页面不加载缓存，修改即时生效
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/timer?autoReconnect=true
     username: root
@@ -20,6 +25,7 @@ spring:
     timeBetweenEvictionRunsMillis: 3600000
     minEvictableIdleTimeMillis: 300000
     validationQuery: SELECT 1 FROM DUAL
+   
     
   jpa:
     show-sql: false
@@ -41,3 +47,6 @@ server:
   port: 9527
   tomcat:
     max-http-post-size: -1
+    
+debug: true
+ 

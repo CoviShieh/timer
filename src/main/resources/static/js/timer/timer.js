@@ -1,5 +1,5 @@
-require(['jquery', 'path', 'GXX', 'md5', 'bootstrap', 'datapicker','jqUtils', 'ejs', 'text!ejsTemplate/timer/templet.ejs'],
-    function($, path, GXX, md5, bootstrap,datapicker, jqUtils, ejs, ejsTemp) {
+require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/templet.ejs'],
+    function($, GXX, bootstrap, jqUtils, ejs ,ejsTemp) {
     	
     	var Dialog = GXX.Dialog
     	
@@ -59,19 +59,98 @@ require(['jquery', 'path', 'GXX', 'md5', 'bootstrap', 'datapicker','jqUtils', 'e
             _listenEvent: function() {
             	var that = this;
             	
-            	$('.data-item-wrapper').on('click', '.btn-operation button', that.bindingEvent_footer.bind(that));
+//            	$('.data-item-wrapper').on('click', '.btn-operation button', that.bindingEvent_footer.bind(that));
             	
             	// toolbar 按钮
 				$('.toolBar').on('click', 'button', function(event) {
 					var target = event.currentTarget,
 						type = target.dataset.type;
-				
+					
 					if ($.isNull(type)) return;
 				
 					if (type = 'btn_addData') {
 						that.addDialogHandle(target);
 					}
 				});
+				
+				$("#dataSubmit").on('click', that.dataSubmitHandle());
+            },
+            
+            dataSubmitHandle: function() {
+                var that = this,
+                _url = '/saveOrUpdateData.action',
+                _id = 1,
+                _events = [],
+                _times = [];
+				
+                $('.data-item-box').each(function(i, k) {
+                    var item = {};
+
+                    item.id = k.dataset.questionid;
+                    item.question = $(k).find('[data-show="editEvent"] option').val();
+                    _events = _events ? _events.concat(item) : [item]
+                    
+                    item.answer = $(k).find('[data-show="editTime"] option').val();
+                    _times = _times ? _times.concat(item) : [item];
+                        
+                });
+
+                var _data = {
+                    id: _id,
+                    date: '2019-04-21',
+                    events: _events,
+                    times: _times
+                };
+
+                /**
+                 * delete the value of null/''
+                 * @param  {[type]} data [description]
+                 * @return {[type]}      [description]
+                 */
+                (function(data) {
+                    var fn = arguments.callee;
+
+                    for (var i in data) {
+                        var n = data[i];
+                        if (Array.isArray(n)) {
+                            n.forEach(function(k) {
+                                fn.call(this, k);
+                            })
+                        } else if (typeof n == 'object') {
+                            fn.call(this, n);
+                        } else if (n == '') {
+                            delete data[i]
+                        } else {
+                            // 防XSS过滤
+                            data[i] = $.htmlEncodeByRegExp(data[i]);
+                        }
+                    }
+                })(_data);
+
+                $.ajax({
+                    type: 'post',
+                    url: _url,
+                    data: JSON.stringify(_data),
+                    contentType: "application/json",
+                    dataType: 'json',
+                    async: false,
+                    timeout: 3000,
+                    success: function(res) {
+                        if (res.ret === 1) {
+                            Dialog.success('保存成功');
+
+                            that.cache.originalData ? that.cache.originalData.push(res) : [].concat($.extend(true, [], res));
+                            that.update();
+                        } else {
+                            Dialog.error(res.msg || '保存失败');
+                        }
+                    },
+                    error: function(err) {
+                        Dialog.error('网络错误，保存失败');
+                    }
+
+                })
+                return true;
             },
             
             addDialogHandle: function(btn) {
@@ -114,7 +193,6 @@ require(['jquery', 'path', 'GXX', 'md5', 'bootstrap', 'datapicker','jqUtils', 'e
 
                 if (classname.indexOf('btn-cancel-hack') > -1) {
                     $(dialogBox).remove();
-                    $('[data-type="btn_addDialog"]')[0].dataset.status = 'false'; // 回复状态，允许继续添加
                 }
             },
             
