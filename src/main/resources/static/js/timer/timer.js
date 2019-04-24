@@ -1,5 +1,5 @@
-require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/templet.ejs'],
-    function($, GXX, bootstrap, jqUtils, ejs ,ejsTemp) {
+require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/templet.ejs','text!ejsTemplate/newRecord.ejs'],
+    function($, GXX, bootstrap, jqUtils, ejs ,ejsTemp,ejsNew) {
     	
     	var Dialog = GXX.Dialog
     	
@@ -8,21 +8,36 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
     		init: function() {
                 var that = this;
 				
-//                that.fetchQ_AData()
+                that.getData()
                 
                 // 绑定监听事件
                 that._listenEvent();
 
             },
             
-            fetchQ_AData: function() {
+            getData: function() {
                 var that = this;
 				//获取当天时间值
-                var _datetime = $('#selectTime').val(),
+                var _datetime='2019-04-25',
+                	//_datetime = $('#selectTime').val(),
                     _url = '/timer/searchEventByDatetime.action',
                     dtd = $.Deferred(),
                     _data = {
 	                    datetime: _datetime
+                	};
+                	dataJson ={
+                			"id": 1, 
+    						"userId": 1,
+    						"datetime": "2018-10-30",
+    						"events": [{
+    						    "id": 1, 
+    							"event": "读书",
+    							"duration": "3"
+    						}, {
+    							"id": 2,
+    							"event": "睡觉",
+    							"duration": "6"
+    						}]
                 	};
 
                 $.ajax({
@@ -32,9 +47,6 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
                     data: _data,
                     dataType: 'json',
                     async: true,
-//                    beforeSend: function() {
-//                        that.animatedloader('.main-container'); //加载动画
-//                    },
                     success: function(res) {
                         that.removeLoader(); //取消动画
                         if (res.ret === 1) {
@@ -59,7 +71,7 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
             _listenEvent: function() {
             	var that = this;
             	
-//            	$('.data-item-wrapper').on('click', '.btn-operation button', that.bindingEvent_footer.bind(that));
+            	$('.data-item-wrapper').on('click', '.btn-operation button', that.delEvent.bind(that));
             	
             	// toolbar 按钮
 				$('.toolBar').on('click', 'button', function(event) {
@@ -73,7 +85,9 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
 					}
 				});
 				
-				$("#dataSubmit").on('click', that.dataSubmitHandle());
+				//$("#dataSubmit").on('click', that.dataSubmitHandle());
+				
+				
             },
             
             dataSubmitHandle: function() {
@@ -122,7 +136,7 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
                             delete data[i]
                         } else {
                             // 防XSS过滤
-                            data[i] = $.htmlEncodeByRegExp(data[i]);
+                            data[i] = $.htmlEncodeByRegExp(data[i].toString());
                         }
                     }
                 })(_data);
@@ -155,14 +169,10 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
             
             addDialogHandle: function(btn) {
                 var that = this,
-                    _html = that.render('', ejsTemp, -1),
+                    _html = that.render('', ejsNew, -1),
                     newDom = $(_html);
 
-                btn.dataset.status = 'true'; // 锁定状态，不让继续添加
-
                 $('.data-item-wrapper:first').prepend(newDom);
-
-//                newDom.find('input:nth-of-type(1)').focus(); //规定属于其父元素的第二个 xx 元素的每个xx：
             },
             
             /**
@@ -185,7 +195,7 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
 
             },
             //删除事件
-            bindingEvent_footer: function(event) {
+            delEvent: function(event) {
                 var that = this;
                 var target = event.currentTarget,
                     classname = target.className,
@@ -195,7 +205,42 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
                     $(dialogBox).remove();
                 }
             },
-            
+            /**
+             * update data, update UI
+             * @param  {[object]} data [not necessary]
+             * @return {[type]}      [description]
+             */
+            update: function(data, type) {
+                var that = this,
+                    index = 0,
+                    flag = true; // mean the switch of adding content, or following new content
+
+                // pick the data whick is selected to handle
+                if ($.isNull(data)) {
+                    // data is  undefined, get data from the cache`s originalData
+                    if ($.isNull(that.cache.originalData)) {
+                        return;
+                    } else {
+                        data = that.cache.originalData;
+                        flag = false;
+                    }
+                }
+
+                var _data = data,
+//                    _html = html ='',
+                	_html = that.render(_data, ejsTemp, index),
+                	container = $('.data-item-wrapper:first');
+                
+                flag ? container.append(_html) : (container.html(''), container.append(_html));
+					
+//				_data.forEach(function (item) {
+//					console.log(item)
+//					html += ejs.render(ejsTemp, _data);
+//				}) 
+//				$("#content").html(html)
+
+
+            },
             
     	}
             main.init();
