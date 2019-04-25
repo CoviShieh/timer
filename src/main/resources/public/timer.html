@@ -31,7 +31,7 @@
 
 									<div class="form-group">
 										<div class="input-group">
-											<input class="form-control date-picker" id="selectTime" data-date-end-date="0m" type="text" placeholder="选择年月日" />
+											<input class="form-control date-picker" id="selectTime" type="text" placeholder="选择年月日" />
 											<!-- 这个控件要初始化 -->
 											<span class="input-group-addon">
 												<i class="fa fa-calendar bigger-110"></i>
@@ -104,25 +104,7 @@
 		<script src="uilib/requireJs/require2.1.11.js"></script>
 		<script src="js/common/config.js"></script>
 		<script src="uilib/jquery/jquery-1.11.2.min.js"></script>
-		<script src="uilib/datapicker/bootstrap-datepicker.js"></script>
-		<!-- 
-		<script src="uilib/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="js/common/jqUtils.js"></script>
-		<script src="uilib/ejs/ejs.min.js"></script>  -->
 		<script src="js/timer/timer.js"></script>
 		
-		<script >
-			$(function() {
-				$("#selectTime").datepicker({
-					format: "yyyy-mm-dd", //显示日期格式
-					autoclose: true,
-					todayBtn: "linked",
-					minView: "month", //只选择到天自动关闭
-					language: 'zh-CN',
-					viewDate : new Date()
-				});
-			})
-			
-		</script>
 	</body>
 </html>

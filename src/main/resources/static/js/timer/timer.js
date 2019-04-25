@@ -1,5 +1,5 @@
-require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/templet.ejs','text!ejsTemplate/newRecord.ejs'],
-    function($, GXX, bootstrap, jqUtils, ejs ,ejsTemp,ejsNew) {
+require(['jquery', 'GXX', 'bootstrap','datapicker','jqUtils', 'ejs' ,'text!ejsTemplate/templet.ejs','text!ejsTemplate/newRecord.ejs'],
+    function($, GXX, bootstrap, datapicker,jqUtils, ejs ,ejsTemp,ejsNew) {
     	
     	var Dialog = GXX.Dialog
     	
@@ -12,17 +12,27 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
                 
                 // 绑定监听事件
                 that._listenEvent();
-
+                
+                $("#selectTime").datepicker({
+					format: "yyyy-mm-dd", //显示日期格式
+					autoclose: true,
+					minView: "month", //只选择到天自动关闭
+					language: 'zh-CN',
+					setDate : new Date()
+				});
+//				$('.date-picker').datepicker({ defaultDate: +7 });
             },
             
             getData: function() {
                 var that = this;
 				//获取当天时间值
-                var _datetime='2019-04-25',
+                var _datetime='2019-4-30',
+                	_userId = 1,
                 	//_datetime = $('#selectTime').val(),
-                    _url = '/timer/searchEventByDatetime.action',
+                    _url = '/searchEventByDatetime.action',
                     dtd = $.Deferred(),
                     _data = {
+                    	userId:_userId,
 	                    datetime: _datetime
                 	};
                 	dataJson ={
@@ -48,7 +58,6 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
                     dataType: 'json',
                     async: true,
                     success: function(res) {
-                        that.removeLoader(); //取消动画
                         if (res.ret === 1) {
                             if (res.data.total === 0) {
                                 Dialog.warning('查询数据为空');
@@ -60,7 +69,6 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
                         }
                     },
                     error: function(err) {
-                        that.removeLoader();
                         dtd.reject('网络错误！');
                     }
                 });
@@ -85,61 +93,35 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
 					}
 				});
 				
-				//$("#dataSubmit").on('click', that.dataSubmitHandle());
+				$("#dataSubmit").on('click', that.dataSubmitHandle());
 				
 				
             },
             
             dataSubmitHandle: function() {
                 var that = this,
-                _url = '/saveOrUpdateData.action',
-                _id = 1,
-                _events = [],
-                _times = [];
+                	target = event.currentTarget,
+                	_url = '/saveOrUpdateData.action',
+                	_dateid = 1,
+                	_events = [];
 				
                 $('.data-item-box').each(function(i, k) {
                     var item = {};
 
-                    item.id = k.dataset.questionid;
-                    item.question = $(k).find('[data-show="editEvent"] option').val();
-                    _events = _events ? _events.concat(item) : [item]
+                    item.id = k.dataset.etid;
+                    item.event = $(k).find('[data-show="editMode"] select').val();
                     
-                    item.answer = $(k).find('[data-show="editTime"] option').val();
-                    _times = _times ? _times.concat(item) : [item];
+                    item.duration = $(k).find('[data-show="editMode"] select').val();
+                    _events = _events ? _events.concat(item) : [item];
                         
                 });
 
                 var _data = {
-                    id: _id,
-                    date: '2019-04-21',
-                    events: _events,
-                    times: _times
+                    id: _dateid,
+//                    date: '2019-04-21',
+                    date: $('#selectTime').val(),
+                    events: _events
                 };
-
-                /**
-                 * delete the value of null/''
-                 * @param  {[type]} data [description]
-                 * @return {[type]}      [description]
-                 */
-                (function(data) {
-                    var fn = arguments.callee;
-
-                    for (var i in data) {
-                        var n = data[i];
-                        if (Array.isArray(n)) {
-                            n.forEach(function(k) {
-                                fn.call(this, k);
-                            })
-                        } else if (typeof n == 'object') {
-                            fn.call(this, n);
-                        } else if (n == '') {
-                            delete data[i]
-                        } else {
-                            // 防XSS过滤
-                            data[i] = $.htmlEncodeByRegExp(data[i].toString());
-                        }
-                    }
-                })(_data);
 
                 $.ajax({
                     type: 'post',
@@ -152,7 +134,6 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
                     success: function(res) {
                         if (res.ret === 1) {
                             Dialog.success('保存成功');
-
                             that.cache.originalData ? that.cache.originalData.push(res) : [].concat($.extend(true, [], res));
                             that.update();
                         } else {
@@ -172,7 +153,7 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
                     _html = that.render('', ejsNew, -1),
                     newDom = $(_html);
 
-                $('.data-item-wrapper:first').prepend(newDom);
+                $('.data-item-wrapper:last').prepend(newDom);
             },
             
             /**
@@ -199,7 +180,7 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
                 var that = this;
                 var target = event.currentTarget,
                     classname = target.className,
-                    dialogBox = $(target).parents('.dialog-item-box')[0];
+                    dialogBox = $(target).parents('.data-item-box')[0];
 
                 if (classname.indexOf('btn-cancel-hack') > -1) {
                     $(dialogBox).remove();
@@ -227,19 +208,11 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
                 }
 
                 var _data = data,
-//                    _html = html ='',
                 	_html = that.render(_data, ejsTemp, index),
                 	container = $('.data-item-wrapper:first');
                 
                 flag ? container.append(_html) : (container.html(''), container.append(_html));
 					
-//				_data.forEach(function (item) {
-//					console.log(item)
-//					html += ejs.render(ejsTemp, _data);
-//				}) 
-//				$("#content").html(html)
-
-
             },
             
     	}

@@ -1,50 +1,45 @@
-<!-- 事件时间模板代码 -->
-
-<div class="form-horizontal m-t data-item-box"">
-	
-	<div class="col-md-12 droppable sortable ui-droppable ui-sortable" style="display: none;">
-	</div>
-
-		<div class="row" style="padding: 0 16px;">
-	
-			<!-- 事件 -->
-			<div class="col-md-5 data-show="editEvent" droppable sortable ui-droppable ui-sortable" style="">
-				<div class="form-group draggable ui-draggable dropped" style="position: static;">
-					<span class="col-xs-4 control-label">事件:</span>
-					<div class="col-xs-8">
-						<select class="form-control" name="">
-							<option>工作</option>
-							<option>阅读</option>
-							<option>运动</option>
-						</select>
-					</div>
+<div class="row col-md-12 data-item-box" style="padding: 0 16px;" data-etid="">
+	<div data-show="editMode" class="" style="">
+		<!-- 事件 -->
+		<div class="col-md-5 data-show="editEvent" droppable sortable ui-droppable ui-sortable" style="">
+			<div class="form-group draggable ui-draggable dropped" style="position: static;">
+				<span class="col-xs-4 control-label">事件:</span>
+				<div class="col-xs-8">
+					<select class="form-control" name="time">
+						<option></option>
+						<option>工作</option>
+						<option>阅读</option>
+						<option>运动</option>
+					</select>
 				</div>
 			</div>
-			
-			<!-- 时间 -->
-			<div class="col-md-5 data-show="editTime" droppable sortable ui-droppable ui-sortable" style="">
-				<div class="form-group draggable ui-draggable dropped" style="position: static;">
-					<label class="col-xs-4 control-label">用时:</label>
-					<div class="col-xs-8">
-						<select class="form-control" name="">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
-							<option>6</option>
-							<option>7</option>
-							<option>8</option>
-						</select>
-					</div>
-				</div>
-			</div>
+		</div>
 		
-			<div class="btn-operation" data-show="editMode">
-				<button class="btn btn-default btn-circle btn-cancel-hack" type="button" data-show="editMode">
-					<i class="fa fa-minus" title='删除'></i>
-				</button>
+		<!-- 时间 -->
+		<div class="col-md-5 data-show="editTime" droppable sortable ui-droppable ui-sortable" style="">
+			<div class="form-group draggable ui-draggable dropped" style="position: static;">
+				<label class="col-xs-4 control-label">用时:</label>
+				<div class="col-xs-8">
+					<select class="form-control" name="duration">
+						<option></option>
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+						<option>6</option>
+						<option>7</option>
+						<option>8</option>
+					</select>
+				</div>
 			</div>
+		</div>
+	
+		<div class="btn-operation" data-show="editMode">
+			<button class="btn btn-default btn-circle btn-cancel-hack" type="button" data-show="editMode">
+				<i class="fa fa-minus" title='删除'></i>
+			</button>
+		</div>
 	</div>
 </div>
 
