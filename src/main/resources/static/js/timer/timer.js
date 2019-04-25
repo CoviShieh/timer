@@ -227,14 +227,6 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
                 }
 
                 var _data = data,
-                    _html = html ='',
-					content = document.getElementById('content').innerHTML;
-					
-				_data.forEach(function (item) {
-					console.log(item)
-					html += ejs.render(ejsTemp, _data);
-				}) 
-				$("#content").html(html)
 //                    _html = html ='',
                 	_html = that.render(_data, ejsTemp, index),
                 	container = $('.data-item-wrapper:first');
