@@ -9,7 +9,7 @@ spring:
     restart:
       enabled: true  #设置开启热部署
   freemarker:
-    cache: true    #页面不加载缓存，修改即时生效
+    cache: false    #页面不加载缓存，修改即时生效
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/timer?autoReconnect=true
     username: root

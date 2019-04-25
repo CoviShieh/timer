@@ -18,7 +18,7 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
             getData: function() {
                 var that = this;
 				//获取当天时间值
-                var _datetime='2019-04-17',
+                var _datetime='2019-04-25',
                 	//_datetime = $('#selectTime').val(),
                     _url = '/timer/searchEventByDatetime.action',
                     dtd = $.Deferred(),
@@ -235,6 +235,17 @@ require(['jquery', 'GXX', 'bootstrap','jqUtils', 'ejs' ,'text!ejsTemplate/temple
 					html += ejs.render(ejsTemp, _data);
 				}) 
 				$("#content").html(html)
+//                    _html = html ='',
+                	_html = that.render(_data, ejsTemp, index),
+                	container = $('.data-item-wrapper:first');
+                
+                flag ? container.append(_html) : (container.html(''), container.append(_html));
+					
+//				_data.forEach(function (item) {
+//					console.log(item)
+//					html += ejs.render(ejsTemp, _data);
+//				}) 
+//				$("#content").html(html)
 
 
             },
