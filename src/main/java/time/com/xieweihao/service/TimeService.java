@@ -9,19 +9,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xieweihao.dao.DateDao;
-import com.xieweihao.dao.DateXEventDao;
+import com.xieweihao.dao.DateClassDao;
 import com.xieweihao.dao.EventDao;
 import com.xieweihao.dao.EventXTimeDao;
+import com.xieweihao.dao.PlanDao;
 import com.xieweihao.dao.TimeDao;
 import com.xieweihao.dao.TimeDaoImpl;
-import com.xieweihao.entity.Date;
-import com.xieweihao.entity.DateXEvent;
+import com.xieweihao.entity.DateClass;
 import com.xieweihao.entity.Event;
 import com.xieweihao.entity.EventXTime;
+import com.xieweihao.entity.Plan;
 import com.xieweihao.entity.Time;
 import com.xieweihao.exception.BusinessException;
-import com.xieweihao.jpa.Page;
+import com.xieweihao.utils.DateTimeUtils;
 import com.xieweihao.utils.Result;
 
 @Service
@@ -30,9 +30,42 @@ public class TimeService {
 	@Autowired TimeDaoImpl timeDaoImpl;
 	@Autowired TimeDao timeDao;
 	@Autowired EventDao eventDao;
-	@Autowired DateDao dateDao;
+	@Autowired PlanDao planDao;
+	@Autowired DateClassDao dateDao;
 	@Autowired EventXTimeDao eventXTimeDao;
-	@Autowired DateXEventDao dateXEventDao;
+	
+	public Result searchEventByDatetime(Long userId,String datetime){
+		
+		DateClass date= findByUserIdAndDatetime(userId,datetime);
+		JSONObject data = new JSONObject();
+		if(date != null){
+			data.put("dateId", date.getId());
+			data.put("userId", date.getUserId());
+			data.put("datetime", DateTimeUtils.date2String(date.getDateTime()));
+			//封装记录
+			JSONArray eventsArray = new JSONArray();
+			List<Event> listEvents = findEventsByParams(date.getId(),date.getUserId());
+			if(listEvents == null){
+				return Result.ok("没有记录");
+			}
+			for(Event e : listEvents){
+				//拿到 事件时间关联表 的id 和 对应的时间
+				List<Map<String,Object>> eventAndTime = searchEventAndTimeByEventId(e.getId());	//一个事件对应一个时间段
+				if(eventAndTime==null || eventAndTime.size()==0){
+					continue;
+				}
+				JSONObject eventjson = new JSONObject();
+				Map<String, Object> time = eventAndTime.get(0);
+				eventjson.put("id", time.get("xid"));
+				eventjson.put("event", e.getEventName());
+				eventjson.put("duration", time.get("duration"));
+				eventsArray.add(eventjson);
+			}
+			data.put("events", eventsArray);
+		}
+		
+		return Result.ok("查询成功").put("data", data);
+	}
 	
 	public List<Map<String,Object>> searchDateByUserIdAndDatetime(Long userId,String datetime){
 		
@@ -50,6 +83,11 @@ public class TimeService {
 	
 	public List<Map<String,Object>> searchEventAndTimeByEventId(Long eventId){
 		return timeDaoImpl.searchEventAndTimeByEventId(eventId);
+	}
+	
+	public DateClass findByUserIdAndDatetime(Long userId,String datetime){
+		
+		return dateDao.findByUserIdAndDatetime(userId, datetime);
 	}
 	
 	/**
@@ -75,73 +113,38 @@ public class TimeService {
 		
 		JSONObject object = JSONObject.parseObject(sInput);
 		Long id = 0l;	//date的id
-		if(object.get("id") != null){
+		System.out.println("id="+object.get("id"));
+		if(object.getLong("id") != null){
 			id = object.getLong("id");
 		}
 		Long userId = object.getLong("userId");
 		String datetime = object.getString("datetime");
 		JSONArray events = object.getJSONArray("events");
 		
-		//保存日期
-		Date date = saveOrUpdateDate(id,userId,datetime);	
+		//保存日期(新增或修改)
+		DateClass date = saveOrUpdateDate(id,userId,datetime);	
 		
 		//保存全部事件
 		saveOrUpdateEvents(userId,date,events);
 		
-		return Result.ok("设置成功");
+		Result result = searchEventByDatetime(userId,datetime);
+		result.put("msg", "设置成功");
+		return result;
 	}
 
-	private void saveOrUpdateEvents(Long userId,Date date,JSONArray events) throws BusinessException {
-		// TODO Auto-generated method stub
+	private void saveOrUpdateEvents(Long userId,DateClass date,JSONArray events) throws BusinessException {
 		for(int i=0;i<events.size();i++){
 			Long xid = 0L;	//事件时间关联的id
-			if(events.getJSONObject(i).get("id")!=null){
+			if(events.getJSONObject(i).getLong("id") != null ){
 				xid = events.getJSONObject(i).getLong("id");
 			}
 			String eventName = events.getJSONObject(i).getString("event");
 			int duration = events.getJSONObject(i).getInteger("duration");
 			
 			//保存事件(根据date_id取到具体天做的event)
-			Event event = saveOrUpdateEvent(userId,date.getId(),eventName);
-			
-			//保存时间
-			Time time = saveOrUpdateTime(event.getId(),xid,duration);
+			saveOrUpdateEvent(xid,userId,date.getId(),eventName,duration);
 		}
 		
-	}
-
-	/**
-	 * 设置时间值
-	 * @param xid
-	 * @param duration
-	 * @return
-	 * @throws BusinessException 
-	 */
-	private Time saveOrUpdateTime(Long eventId,Long xid, int duration) throws BusinessException {
-		Time time = timeDao.findByDuration(duration);
-		if(time==null){
-			time = saveTime(duration);
-		}
-		//保存事件时间关联
-		if(xid.equals(0L)){
-			saveEventXTime(eventId,time.getId());
-		}else{
-			updateEventXTime(xid,eventId,time.getId());
-		}
-		return time;
-	}
-
-	/**
-	 * 更新事件时间关联
-	 * @param xid
-	 * @param eventId
-	 * @param timeId
-	 */
-	private void updateEventXTime(Long xid, Long eventId, Long timeId) {
-		EventXTime eventXTime = eventXTimeDao.findOne(xid);
-		eventXTime.setEventId(eventId);
-		eventXTime.setTimeId(timeId);
-		eventXTimeDao.saveAndFlush(eventXTime);
 	}
 
 	/**
@@ -158,13 +161,13 @@ public class TimeService {
 	}
 
 
-	private Time saveTime(int duration) {
-		// TODO Auto-generated method stub
-		Time time = new Time();
-		time.setDuration(duration);
-		time = timeDao.saveAndFlush(time);
-		return time;
-	}
+//	private Time saveTime(int duration) {
+//		// TODO Auto-generated method stub
+//		Time time = new Time();
+//		time.setDuration(duration);
+//		time = timeDao.saveAndFlush(time);
+//		return time;
+//	}
 
 
 	/**
@@ -175,56 +178,42 @@ public class TimeService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	private Event saveOrUpdateEvent(Long userId,Long dateId, String eventName) throws BusinessException {
-		Event event = eventDao.findByEventNameAndUserId(eventName,userId);
+	private void saveOrUpdateEvent(Long xid ,Long userId,Long dateId, String eventName,int duration) throws BusinessException {
 		
-		//保存日期事件关联
-//		if(xid.equals(0L)){
-//			saveDateXEvent(dateId,event.getId());	//新增关联关系
-//		}else{
-//			updateDateXEvent(xid,dateId,event.getId());
-//		}
+		Time time = timeDao.findByDuration(duration);
 		
-		
-		return event;
-	}
-
-
-	private void updateDateXEvent(Long xid, Long dateId, Long eventId) {
-		DateXEvent dateXEvent = dateXEventDao.findOne(xid);		//修改关联关系
-		if(dateId!=dateXEvent.getDateId() || eventId!=dateXEvent.getEventId()){
-			dateXEvent.setDateId(dateId);
-			dateXEvent.setEventId(eventId);
-			dateXEventDao.saveAndFlush(dateXEvent);
+		if(xid.equals(0L)){
+			Event event = saveEvent(userId,dateId,eventName);
+			saveEventXTime(event.getId(),time.getId());
+		}else{
+			//事件操作
+			EventXTime eventXTime = eventXTimeDao.findOne(xid);
+			Long eventId = eventXTime.getEventId();
+			Event dbEvent = eventDao.findOne(eventId);
+			if(dbEvent.getEventName() != eventName){
+				eventDao.modifyEventName(eventName,eventId);
+			}
+			
+			//时间操作
+			Long timeId = eventXTime.getTimeId();
+			if(time.getId() != timeId){ //修改EventXTime 的time_id
+				eventXTimeDao.modifyTime(time.getId(),xid);
+			}
+			
 		}
+		
 	}
-
-
-	/**
-	 * 保存日期事件关联表
-	 * @param dateId
-	 * @param eventId
-	 */
-	private void saveDateXEvent(Long dateId, Long eventId) {
-		// TODO Auto-generated method stub
-		DateXEvent dateXEvent = new DateXEvent();
-		dateXEvent.setDateId(dateId);
-		dateXEvent.setEventId(eventId);
-		dateXEventDao.saveAndFlush(dateXEvent);
-	}
-
-	/**
-	 * 保存事件
-	 * @param eventName
-	 * @return
-	 */
-	private Event saveEvent(String eventName) {
-		// TODO Auto-generated method stub
+	
+	private Event saveEvent(Long userId,Long dateId, String eventName){
 		Event event = new Event();
+		event.setUserId(userId);
+		event.setDateId(dateId);
 		event.setEventName(eventName);
-		event = eventDao.save(event);
-		return event;
+		
+		return eventDao.saveAndFlush(event);
+		
 	}
+
 
 	/**
 	 * 设置日期
@@ -234,15 +223,15 @@ public class TimeService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	private Date saveOrUpdateDate(Long id, Long userId, String datetime) throws BusinessException {
+	private DateClass saveOrUpdateDate(Long id, Long userId, String datetime) throws BusinessException {
 
-		Date date = null ;
+		DateClass date = null ;
 		if(id.equals(0L)){//日期id为空
-			List<Date> list = dateDao.findByUserIdAndDatetime(userId, datetime);
-			if(list != null && list.size()>0){
-				throw new BusinessException("已存在相同的日期");
-			}else{
+			date = dateDao.findByUserIdAndDatetime(userId, datetime);
+			if(date == null){
 				date = saveDate(userId,datetime); //新增
+			}else{
+				return date;
 			}
 		}else{
 			date = dateDao.findOne(id);
@@ -253,70 +242,157 @@ public class TimeService {
 
 
 	/**
-	 * 更新日期
-	 * @param id
-	 * @param userId
-	 * @param datetime
-	 * @return
-	 */
-//	private Date updateDate(Long id, Long userId, String datetime) {
-//		Date date = dateDao.findOne(id);
-//		date.setDateTime(datetime);
-//		date.setUserId(userId);
-//		date = dateDao.save(date);
-//		return date;
-//	}
-
-
-	/**
 	 * 保存日期
 	 * @param userId
 	 * @param datetime
 	 * @return
 	 */
-	private Date saveDate(Long userId, String datetime) {
+	private DateClass saveDate(Long userId, String datetime) {
 
-		Date date = new Date();
-		date.setDateTime(datetime);
+		DateClass date = new DateClass();
+		date.setDateTime(DateTimeUtils.string2Date(datetime));
 		date.setUserId(userId);
 		date = dateDao.save(date);
 		return date;
 	}
 
-
-	/**
-	 * 删除一个日期数据，包括其下的事件和时间
-	 * @param datetime
-	 */
-	public void deleteDatetime(String datetime,String userId) {
+	/*
+	  	获取当前一周的时间范围（要知道今天是星期几，再拿到周一到周日的时间的值）
+	  	获取当前事件对象
+	  	顺序去拿每一天事件的时长值放在一个list里面返回
+	*/
+	public Result getWeekRecord(Long userId,String datetime,String eventName){
 		
-		//找出datetime下的事件、时间、日期事件关联、事件时间关联。 注意事件和时间是通用的，我是不希望过多操作事件 时间表的
+		String mondayDate =DateTimeUtils.getWeekOfMon(datetime);
 		
-		List<DateXEvent> dateXEvents = dateXEventDao.findByDatetime(datetime);
-		List<EventXTime> eventXTimes = eventXTimeDao.findByDatetime(datetime);
-		if(dateXEvents!=null &&dateXEvents.size()>0)
-			dateXEventDao.deleteInBatch(dateXEvents);
+		List<Map<String,Object>> data = timeDaoImpl.getWeekRecord(userId,eventName,mondayDate);
 		
-		if(eventXTimes!=null &&eventXTimes.size()>0)
-			eventXTimeDao.deleteInBatch(eventXTimes);
-		
-		dateDao.deleteByUserIdAndDatetime(datetime,userId);
+		return Result.ok("查询成功").put("data", data);
 	}
 
-	/**
-	 * input{
-	 * 		"id":1,
-	 * 		"event":"阅读"，
-	 * 		"time":1
-	 * }
-	 * @param input
-	 * @return
+	public Result getMonthRecord(Long userId,String datetime,String eventName){
+		//获取"2019-04"字符串
+		String monthStr = datetime.substring(0, 7);
+		List<Map<String,Object>> data = timeDaoImpl.getMonthRecord(userId,eventName,monthStr);
+		return Result.ok("查询成功").put("data", data);
+	}
+	
+	public Result getYearRecord(Long userId,String datetime,String eventName){
+		
+		String yearStr = datetime.substring(0, 4);
+		List<Map<String,Object>> data = timeDaoImpl.getYearRecord(userId,eventName,yearStr);
+		return Result.ok("查询成功").put("data", data);
+	}
+
+	public Result getPlanByDate(Long userId, String datetime) {
+		// TODO Auto-generated method stub
+		DateClass date= findByUserIdAndDatetime(userId,datetime);
+		JSONObject data = new JSONObject();
+		if(date != null){
+			data.put("dateId", date.getId());
+			data.put("userId", date.getUserId());
+			data.put("datetime", DateTimeUtils.date2String(date.getDateTime()));
+			
+			List<Plan> listPlans = findPlansByParams(date.getId(),date.getUserId());
+			if(listPlans == null || listPlans.size()==0){
+				return Result.ok("没有记录");
+			}
+			data.put("plans", listPlans);
+		}
+		
+		return Result.ok("查询成功").put("data", data);
+	}
+
+	private List<Plan> findPlansByParams(Long dateId, Long userId) {
+		
+		return planDao.findPlansByParams(dateId,userId);
+	}
+
+	/*
+	 	{
+			"id": 1,
+			"userId": 1,
+			"datetime": "2018-10-30",
+			"plans": [{
+				"id":xx, //plan的id
+				"event": "读书",
+				"startTime": "xx"
+				"endTime": "xx"
+			},
+			{
+				"id":xx,
+				"event": "睡觉",
+				"startTime": "xx"
+				"endTime": "xx"
+			}]
+		}
 	 */
-	public void deleteEventAndTime(Long xid,Long dateId) {
-		dateXEventDao.deleteByParam(xid,dateId);
-		eventXTimeDao.delete(xid);
+	public Result saveOrUpdatePlan(String sInput) throws BusinessException {
+		// TODO Auto-generated method stub
+		JSONObject object = JSONObject.parseObject(sInput);
+		Long id = 0l;	//date的id
+		System.out.println("id="+object.get("id"));
+		if(object.getLong("id") != null){
+			id = object.getLong("id");
+		}
+		Long userId = object.getLong("userId");
+		String datetime = object.getString("datetime");
+		JSONArray plans = object.getJSONArray("plans");
+		
+		//保存日期(新增或修改)
+		DateClass date = saveOrUpdateDate(id,userId,datetime);	
+		
+		//保存全部计划
+		saveOrUpdatePlans(userId,date,plans);
+		
+		Result result = getPlanByDate(userId,datetime);
+		result.put("msg", "设置成功");
+		return result;
+	}
+	
+	private void saveOrUpdatePlans(Long userId,DateClass date,JSONArray plans) throws BusinessException {
+		for(int i=0;i<plans.size();i++){
+			Long planId = 0L;	
+			if(plans.getJSONObject(i).getLong("id") != null ){
+				planId = plans.getJSONObject(i).getLong("id");
+			}
+			String eventName = plans.getJSONObject(i).getString("event");
+			String startTime = plans.getJSONObject(i).getString("startTime");
+			String endTime = plans.getJSONObject(i).getString("endTime");
+			
+			//有id就是修改，没有id就是新增
+			saveOrUpdateEvent(planId,eventName,startTime,endTime,userId,date.getId());
+		}
 		
 	}
 
+	private void saveOrUpdateEvent(Long planId, String eventName,
+			String startTime, String endTime, Long userId, Long dateId) {
+		
+		Plan plan = null;
+		if(planId.equals(0L)){
+			plan = savePlan(eventName,startTime,endTime,userId,dateId);
+		}else{
+			
+			plan = planDao.findOne(planId);
+			if(plan.getEventName()!= eventName || plan.getStartTime()!=startTime || plan.getEndTime() != endTime){
+				planDao.modifyPlan(eventName, startTime, endTime, planId);
+			}else{
+				return;
+			}
+		}
+	}
 
+	private Plan savePlan(String eventName, String startTime, String endTime,
+			Long userId, Long dateId) {
+		// TODO Auto-generated method stub
+		Plan plan = new Plan();
+		plan.setEventName(eventName);
+		plan.setStartTime(startTime);
+		plan.setEndTime(endTime);
+		plan.setDateId(dateId);
+		plan.setUserId(userId);
+		
+		return planDao.saveAndFlush(plan);
+	}
 }

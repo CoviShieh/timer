@@ -18,7 +18,7 @@ public class EventController {
 	 * @param input
 	 * @return
 	 */
-	@GetMapping(value = {"/getEventbyUserId","/getEventbyUserId.action"})
+	@PostMapping(value = {"/getEventbyUserId","/getEventbyUserId.action"})
 	public Result getEventbyUserId(Long userId){
 		if(userId == null){
 			return Result.error(-1, "没有收到任何数据");
@@ -30,7 +30,7 @@ public class EventController {
 		}
 	}
 	
-	@PostMapping(value = {"/addEvent","/modifyEvent.action"})
+	@PostMapping(value = {"/addEvent","/addEvent.action"})
 	public Result addEvent(String eventName,Long userId){
 		
 		if(eventName == null){
@@ -49,13 +49,13 @@ public class EventController {
 	}
 	
 	@PostMapping(value = {"/deleteEvent","/deleteEvent.action"})
-	public Result deleteEvent(Long eventId){
-		if(eventId == null){
+	public Result deleteEvent(Long id){
+		if(id == null){
 			return Result.error(-1, "没有收到任何数据");
 		}
 		
 		try{
-			eventServive.deleteEvent(eventId);
+			eventServive.deleteEvent(id);
 			return Result.ok("删除成功");
 		}catch(Exception e){
 			return Result.error(-1, "操作失败").put("data", e.getMessage());

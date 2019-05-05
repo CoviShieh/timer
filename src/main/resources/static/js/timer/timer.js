@@ -1,79 +1,14 @@
-require(['jquery', 'GXX', 'bootstrap','datapicker','jqUtils', 'ejs' ,'text!ejsTemplate/templet.ejs','text!ejsTemplate/newRecord.ejs'],
-    function($, GXX, bootstrap, datapicker,jqUtils, ejs ,ejsTemp,ejsNew) {
-    	
-    	var Dialog = GXX.Dialog
+require(['jquery', 'bootstrap','datapicker','jqUtils','DateUtil', 'ejs' ,'text!ejsTemplate/templet.ejs','text!ejsTemplate/newRecord.ejs'],
+    function($, bootstrap, datapicker,jqUtils,DateUtil, ejs ,ejsTemp,ejsNew) {
     	
     	var main = {
     		
     		init: function() {
-                var that = this;
-				
-                that.getData()
-                
+    			this.setPlugin();
+                this.getData()
                 // 绑定监听事件
-                that._listenEvent();
+                this._listenEvent();
                 
-                $("#selectTime").datepicker({
-					format: "yyyy-mm-dd", //显示日期格式
-					autoclose: true,
-					minView: "month", //只选择到天自动关闭
-					language: 'zh-CN',
-					setDate : new Date()
-				});
-//				$('.date-picker').datepicker({ defaultDate: +7 });
-            },
-            
-            getData: function() {
-                var that = this;
-				//获取当天时间值
-                var _datetime='2019-4-30',
-                	_userId = 1,
-                	//_datetime = $('#selectTime').val(),
-                    _url = '/searchEventByDatetime.action',
-                    dtd = $.Deferred(),
-                    _data = {
-                    	userId:_userId,
-	                    datetime: _datetime
-                	};
-                	dataJson ={
-                			"id": 1, 
-    						"userId": 1,
-    						"datetime": "2018-10-30",
-    						"events": [{
-    						    "id": 1, 
-    							"event": "读书",
-    							"duration": "3"
-    						}, {
-    							"id": 2,
-    							"event": "睡觉",
-    							"duration": "6"
-    						}]
-                	};
-
-                $.ajax({
-                    url: _url,
-                    type: 'get',
-                    // timeout: 2000,
-                    data: _data,
-                    dataType: 'json',
-                    async: true,
-                    success: function(res) {
-                        if (res.ret === 1) {
-                            if (res.data.total === 0) {
-                                Dialog.warning('查询数据为空');
-                            }
-                            dtd.resolve(res.data);
-                            that.update(res.data);
-                        } else {
-                            dtd.reject(res.msg);
-                        }
-                    },
-                    error: function(err) {
-                        dtd.reject('网络错误！');
-                    }
-                });
-
-                return dtd;
             },
             
             _listenEvent: function() {
@@ -93,33 +28,91 @@ require(['jquery', 'GXX', 'bootstrap','datapicker','jqUtils', 'ejs' ,'text!ejsTe
 					}
 				});
 				
-				$("#dataSubmit").on('click', that.dataSubmitHandle());
-				
+				$("#dataSubmit").on('click', that.dataSubmitHandle.bind(that));
+				$("#cancelEvent").on('click', that.getData.bind(that));
+				$(".recordSearch").on('click', that.getData.bind(that));
 				
             },
             
-            dataSubmitHandle: function() {
+            setPlugin: function(){
+            	 $('#selectTime').val(new Date().Format("yyyy-MM-dd"));
+            	 $("#selectTime").datepicker({
+ 					format: "yyyy-mm-dd", //显示日期格式
+ 					autoclose: true,
+ 					todayBtn: "linked",
+ 					minView: "month", //只选择到天
+ 					language: 'zh-CN',
+ 				});
+            },
+            
+            getData: function() {
+                var that = this;
+                var _datetime=$('#selectTime').val(),
+                	_userId = 1,
+                    _url = '/searchEventByDatetime.action',
+                    _data = {
+                    	userId:_userId,
+	                    datetime: _datetime
+                	};
+                	dtd = $.Deferred(),
+                	dataWrapper = document.getElementById('dataWrapper');
+
+                $.ajax({
+                    url: _url,
+                    type: 'get',
+                    // timeout: 2000,
+                    data: _data,
+                    dataType: 'json',
+                    async: true,
+                    success: function(res) {
+                        if (res.ret === 1) {
+                        	$("#dataWrapper").html('');
+                            dtd.resolve(res.data);
+                            if(res.data.events != undefined){
+                            	that.update(res.data.events);
+                                dataWrapper.dataset.dateid = res.data.dateId;
+                            }
+//                            else{
+//                            	dataWrapper.dataset.dateid = "";
+//                            }
+                            
+                        } else {
+                            dtd.reject(res.msg);
+                        }
+                    },
+                    error: function(err) {
+                        dtd.reject('网络错误！');
+                    }
+                });
+
+                return dtd;
+            },
+            
+            dataSubmitHandle: function(event) {
                 var that = this,
                 	target = event.currentTarget,
                 	_url = '/saveOrUpdateData.action',
-                	_dateid = 1,
+                	dataWrapper = document.getElementById('dataWrapper');
+                	_dateid = dataWrapper.dataset.dateid,
+                	_userId = 1,
+                	_datetime = $('#selectTime').val(),
                 	_events = [];
 				
                 $('.data-item-box').each(function(i, k) {
                     var item = {};
-
-                    item.id = k.dataset.etid;
-                    item.event = $(k).find('[data-show="editMode"] select').val();
-                    
-                    item.duration = $(k).find('[data-show="editMode"] select').val();
-                    _events = _events ? _events.concat(item) : [item];
+                    item.id = k.dataset.xid;
+                    item.event = $(k).find('[data-show="editEventMode"] select').val();
+                    item.duration = $(k).find('[data-show="editDurationMode"] select').val();
+                    if(item.event !="" && item.duration!=""){
+                    	_events = _events ? _events.concat(item) : [item]; 
+                    }
                         
                 });
 
                 var _data = {
                     id: _dateid,
-//                    date: '2019-04-21',
-                    date: $('#selectTime').val(),
+                    userId: _userId,
+                    datetime: _datetime,
                     events: _events
                 };
 
@@ -133,15 +126,34 @@ require(['jquery', 'GXX', 'bootstrap','datapicker','jqUtils', 'ejs' ,'text!ejsTe
                     timeout: 3000,
                     success: function(res) {
                         if (res.ret === 1) {
-                            Dialog.success('保存成功');
-                            that.cache.originalData ? that.cache.originalData.push(res) : [].concat($.extend(true, [], res));
-                            that.update();
+                            sweetAlert({
+                                title: '保存成功',
+                                text:res.msg,
+                                type:"success",
+                                showConfirmButton: true,
+                            });
+                            
+                            $("#dataWrapper").html('');
+                            if(res.data != null){
+                            	that.update(res.data.events);
+                                dataWrapper.dataset.dateid = res.data.dateId;
+                            }else{
+                            	dataWrapper.dataset.dateid = "";
+                            }
                         } else {
-                            Dialog.error(res.msg || '保存失败');
+                        	sweetAlert({
+                                title: '保存失败',
+                                text:res.msg,
+                                type:"error",
+                            });
                         }
                     },
                     error: function(err) {
-                        Dialog.error('网络错误，保存失败');
+                    	sweetAlert({
+                            title: '网络错误',
+                            text:'网络错误，保存失败',
+                            type:"error",
+                        });
                     }
 
                 })
@@ -165,12 +177,10 @@ require(['jquery', 'GXX', 'bootstrap','datapicker','jqUtils', 'ejs' ,'text!ejsTe
              */
             render: function(data, template, startFrom) {
                 var _html,
-                    rows = $.isNull(data) ? [
-                        {}
-                    ] : data,
+                	_data = $.isNull(data) ? [ {} ] : data,
                     startFrom = startFrom ? startFrom : 0;
 
-                return ejs.render(template, { 'rows': rows, 'startFrom': startFrom }, {
+                return ejs.render(template, { 'events': _data, 'startFrom': startFrom }, {
                     compileDebug: true
                 });
 
@@ -191,27 +201,17 @@ require(['jquery', 'GXX', 'bootstrap','datapicker','jqUtils', 'ejs' ,'text!ejsTe
              * @param  {[object]} data [not necessary]
              * @return {[type]}      [description]
              */
-            update: function(data, type) {
+            update: function(data) {
                 var that = this,
-                    index = 0,
-                    flag = true; // mean the switch of adding content, or following new content
-
-                // pick the data whick is selected to handle
-                if ($.isNull(data)) {
-                    // data is  undefined, get data from the cache`s originalData
-                    if ($.isNull(that.cache.originalData)) {
-                        return;
-                    } else {
-                        data = that.cache.originalData;
-                        flag = false;
-                    }
-                }
-
+                    index = 0;
+ 
                 var _data = data,
                 	_html = that.render(_data, ejsTemp, index),
                 	container = $('.data-item-wrapper:first');
                 
-                flag ? container.append(_html) : (container.html(''), container.append(_html));
+                container.append(_html);
+                
+//                flag ? container.append(_html) : (container.html(''), container.append(_html));
 					
             },
             

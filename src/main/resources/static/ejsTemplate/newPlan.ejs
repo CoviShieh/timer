@@ -1,0 +1,37 @@
+<div class="row" data-planId="">
+	<div data-show="editMode" class="col-md-12 data-item-box" style="">
+		<!-- 事件 -->
+		<div data-show="editEventMode" class="col-md-3" style="">
+				<label class="col-md-4 control-label" style=''>事件:</label>
+				<div class="col-md-8">
+					<select class="form-control" name="event" >
+						<option></option>
+						<option>工作</option>
+						<option>阅读</option>
+						<option>运动</option>
+					</select>
+				</div>
+														
+		</div>
+		
+		<!-- 时间 -->
+		<div class="col-md-6 " style="">
+			<div class="form-group draggable ui-draggable dropped" style="position: static;">
+				<label class="col-md-2 control-label">开始时间:</label>
+				<div class="col-md-4" data-show="editStartTimeMode">
+					<input class="form-control date-picker startTime"  data-date="" data-date-format="yyyy-mm-dd hh:ii:ss" type="text" placeholder="选择时间" />
+				</div>
+				<label class="col-md-2 control-label">结束时间:</label>
+				<div class="col-md-4" data-show="editEndTimeMode">
+					<input class="form-control date-picker endTime" type="text" placeholder="选择时间" />
+				</div>
+			</div>
+		</div>
+		<!-- 按钮 -->
+		<div class="col-md-3 btn-operation" data-show="editMode">
+			<button class="btn btn-default btn-circle btn-cancel-hack" type="button" data-show="editMode">
+				<i class="fa fa-minus" title='删除'></i>
+			</button>
+		</div>
+	</div>
+</div>

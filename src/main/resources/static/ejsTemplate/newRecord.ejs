@@ -1,11 +1,11 @@
-<div class="row col-md-12 data-item-box" style="padding: 0 16px;" data-etid="">
+<div class="row col-md-12 data-item-box" style="padding: 0 16px;" data-xid="">
 	<div data-show="editMode" class="" style="">
 		<!-- 事件 -->
-		<div class="col-md-5 data-show="editEvent" droppable sortable ui-droppable ui-sortable" style="">
+		<div data-show="editEventMode" class="col-md-5  droppable sortable ui-droppable ui-sortable" style="">
 			<div class="form-group draggable ui-draggable dropped" style="position: static;">
-				<span class="col-xs-4 control-label">事件:</span>
+				<label class="col-xs-4 control-label">事件:</label>
 				<div class="col-xs-8">
-					<select class="form-control" name="time">
+					<select class="form-control" name="event">
 						<option></option>
 						<option>工作</option>
 						<option>阅读</option>
@@ -16,7 +16,7 @@
 		</div>
 		
 		<!-- 时间 -->
-		<div class="col-md-5 data-show="editTime" droppable sortable ui-droppable ui-sortable" style="">
+		<div data-show="editDurationMode" class="col-md-5  droppable sortable ui-droppable ui-sortable" style="">
 			<div class="form-group draggable ui-draggable dropped" style="position: static;">
 				<label class="col-xs-4 control-label">用时:</label>
 				<div class="col-xs-8">
@@ -42,5 +42,3 @@
 		</div>
 	</div>
 </div>
-
-

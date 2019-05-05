@@ -11,7 +11,7 @@ spring:
   freemarker:
     cache: false    #页面不加载缓存，修改即时生效
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/timer?autoReconnect=true
+    url: jdbc:mysql://127.0.0.1:3306/timer?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: orcl
     driverClassName: com.mysql.jdbc.Driver

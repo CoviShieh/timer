@@ -1,0 +1,19 @@
+.search{
+	padding: 10px 0 10px 0;
+}
+.search table{
+	display: inline-block;
+}
+.search table tr{
+	padding:10px;
+}
+.search .td-left{
+	padding: 10px;
+	padding-left:20px;
+}
+.search .td-right{
+	padding-right:20px;
+}
+.td-center {
+    padding-left: 20px!important;
+}

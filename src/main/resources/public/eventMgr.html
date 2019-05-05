@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>事件管理</title>
+	<link href="uilib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="uilib/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+	<link href="uilib/bootstrapTable/bootstrap-table.min.css" rel="stylesheet">
+	<link href="uilib/artDialog/ext/ui-dialog-ext.css" rel="stylesheet">
+	<link href="css/common/common.css" rel="stylesheet">
+	<link href="css/common/table.icon.css" rel="stylesheet">
+	<link href="css/common/list.css" rel="stylesheet">
+	<style>
+		.text-txt{
+			width: 80%;
+		}
+	</style>
+</head>
+<body>
+<div class="main-container">
+	<div class="search">
+		<table>
+			<tr>
+				<td class="td-left" style="color:#FFF">查询事件：</td>
+				<td class="td-right">
+					<input type="text" class="form-control" id="s_eventName" placeholder=""/>
+				</td>
+				<td class="td-center">
+					<button class="form-control btn-search" id="search">查询</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="data-list">
+	<div class="data-header">
+		<span class="header-title">来访单位列表</span>
+		<button class="btn-blue" id="add"><i class="fa fa-plus"></i>&nbsp;添加</button>
+	</div>
+		<table id="bootstrapTable">
+			<thead>
+				<tr>
+					<th data-field="id" data-align="center" hidden='hidden'>ID</th>
+					<th data-field="eventName" data-align="center" >事件名称</th>
+					<th data-events="operateEvents" data-formatter="handleFormat" data-align="center">操作</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+
+<div class="curdBox" style="display:none;">
+	<form id="curd">
+		<div class="card">
+			<table>
+				<tr>
+					<td class="td-left">事件名称:</td>
+					<td class="td-right input-witdh">
+						<input type="text" class="form-control text-txt" id="f_eventName" />
+						<span class="tip">*</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</form>
+</div>
+<script src="uilib/jquery/dist/jquery-1.11.min.js"></script>
+<script src="uilib/requireJs/require2.1.11.js"></script>
+<script src="js/common/config.js"></script>
+<script src="js/eventMgr/index.js"></script> 
+</body>
+</html>

@@ -1,0 +1,223 @@
+/**
+* Table operate icon
+**/
+.gtable-handle{
+	cursor:pointer;
+	width:25px;
+	height:25px;
+	display: inline-block;
+	margin-bottom: -5px;
+}
+.gtable-handle img{
+	width:25px;
+	height:25px;
+}
+.gtable-img{
+	background:url(./images/img_normal.png) center center no-repeat;
+}
+.gtable-img:hover{
+	background:#4897f6 url(./images/img_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-img:active{
+	background:#2885f4 url(./images/img_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-edit{
+	background:url(./images/edit_normal.png) center center no-repeat;
+}
+.gtable-edit:hover{
+	background:url(./images/edit_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-edit:active{
+	background:url(./images/edit_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-delete{
+	background:url(./images/delete_normal.png) center center no-repeat;
+}
+.gtable-delete:hover{
+	background:url(./images/delete_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-delete:active{
+	background:url(./images/delete_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-key{
+	background:url(./images/key_normal.png) center center no-repeat;
+}
+.gtable-key:hover{
+	background:url(./images/key_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-key:active{
+	background:url(./images/key_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-unlock{
+	background:url(./images/unlock_normal.png) center center no-repeat;
+}
+.gtable-unlock:hover{
+	background:#4897f6 url(./images/unlock_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-unlock:active{
+	background:#2885f4 url(./images/unlock_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-lock{
+	background:url(./images/lock_normal.png) center center no-repeat;
+}
+.gtable-lock:hover{
+	background:#4897f6 url(./images/lock_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-lock:active{
+	background:#2885f4 url(./images/lock_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-import{
+	background:url(./images/import_normal.png) center center no-repeat;
+}
+.gtable-import:hover{
+	background:#4897f6 url(./images/import_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-import:active{
+	background:#2885f4 url(./images/import_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-export{
+	background:url(./images/export_normal.png) center center no-repeat;
+}
+.gtable-export:hover{
+	background:#4897f6 url(./images/export_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-export:active{
+	background:#2885f4 url(./images/export_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-set{
+	background:url(./images/set_normal.png) center center no-repeat;
+}
+.gtable-set:hover{
+	background:#4897f6 url(./images/set_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-set:active{
+	background:#2885f4 url(./images/set_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-download{
+	background:url(./images/download_normal.png) center center no-repeat;
+}
+.gtable-download:hover{
+	background:#4897f6 url(./images/download_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-download:active{
+	background:#2885f4 url(./images/download_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-start{
+	background:url(./images/start_normal.png) center center no-repeat;
+}
+.gtable-start:hover{
+	background:url(./images/start_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-start:active{
+	background:url(./images/start_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-stop{
+	background:url(./images/stop_normal.png) center center no-repeat;
+}
+.gtable-stop:hover{
+	background:url(./images/stop_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-stop:active{
+	background:url(./images/stop_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-connect{
+	background:url(./images/connect_normal.png) center center no-repeat;
+}
+.gtable-connect:hover{
+	background:url(./images/connect_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-connect:active{
+	background:url(./images/connect_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-unconnect{
+	background:url(./images/unconnect_normal.png) center center no-repeat;
+}
+.gtable-unconnect:hover{
+	background:#4897f6 url(./images/unconnect_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-unconnect:active{
+	background:#2885f4 url(./images/unconnect_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-copy{
+	background:url(./images/copy_normal.png) center center no-repeat;
+}
+.gtable-copy:hover{
+	background:#4897f6 url(./images/copy_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-copy:active{
+	background:#2885f4 url(./images/copy_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-relay{
+	background:url(./images/relay_normal.png) center center no-repeat;
+}
+.gtable-relay:hover{
+	background:url(./images/relay_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-relay:active{
+	background:url(./images/relay_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-closeWarn{
+	background:url(./images/closeWarn_normal.png) center center no-repeat;
+}
+.gtable-closeWarn:hover{
+	background:#4897f6 url(./images/closeWarn_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-closeWarn:active{
+	background:#2885f4 url(./images/closeWarn_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.gtable-confirm{
+	background:url(./images/confirm_normal.png) center center no-repeat;
+}
+.gtable-confirm:hover{
+	background:url(./images/confirm_hover.png) center center no-repeat;
+}
+.gtable-confirm:active{
+	background:url(./images/confirm_hover.png) center center no-repeat;
+	border-radius:2px;
+}
+.sim-checkbox{
+	background:url(./images/checkbox_normal.png) center center no-repeat;
+}
+.sim-checkbox:hover{
+	background:url(./images/checkbox_hover.png) center center no-repeat;
+}
+.sim-checkbox:active{
+	background:url(./images/checkbox_click.png) center center no-repeat;
+}
+.sim-checkbox-selected{
+	background:url(./images/checkbox_selected.png) center center no-repeat;
+}

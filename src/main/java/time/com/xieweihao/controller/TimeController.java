@@ -1,25 +1,15 @@
 package com.xieweihao.controller;
 
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.xieweihao.entity.Event;
-import com.xieweihao.entity.Time;
 import com.xieweihao.exception.BusinessException;
-import com.xieweihao.jpa.Page;
 import com.xieweihao.service.TimeService;
-import com.xieweihao.utils.JsonUtil;
 import com.xieweihao.utils.Result;
 import com.xieweihao.utils.StringUtils;
 
@@ -36,41 +26,12 @@ public class TimeController {
 	@GetMapping(value={"searchEventByDatetime","searchEventByDatetime.action"})
 	public Result searchEventByDatetime(Long userId,String datetime){
 		
+		if(userId==null || datetime==null || datetime==""){
+			return Result.error(-1, "没有收到任何数据");
+		}
+		
 		try{
-			List<Map<String,Object>> list= timeService.searchDateByUserIdAndDatetime(userId,datetime);
-			JSONArray jarray = new JSONArray();
-			if(list != null){
-				for(Map<String,Object> map :list){
-					JSONObject user = new JSONObject();
-					user.put("dateId", map.get("id"));
-					user.put("userId", map.get("user_id"));
-					user.put("datetime", map.get("datetime"));
-					
-					JSONArray eventsArray = new JSONArray();
-					
-					List<Event> listEvents = timeService.findEventsByParams(map.get("id"),map.get("user_id"));
-					if(listEvents == null){
-						break;
-					}
-					for(Event e : listEvents){
-						//拿到 事件时间关联表 的id 和 对应的时间
-						List<Map<String,Object>> eventAndTime = timeService.searchEventAndTimeByEventId(e.getId());	//一个事件对应一个时间段
-						if(eventAndTime==null || eventAndTime.size()==0){
-							continue;
-						}
-						JSONObject eventjson = new JSONObject();
-						Map<String, Object> time = eventAndTime.get(0);
-						eventjson.put("id", time.get("etid"));
-						eventjson.put("event", e.getEventName());
-						eventjson.put("duration", time.get("duration"));
-						eventsArray.add(eventjson);
-					}
-					user.put("events", eventsArray);
-					jarray.add(user);
-				}
-			}
-			return Result.ok("查询成功").put("data", jarray);
-			 
+			return timeService.searchEventByDatetime(userId,datetime);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -109,45 +70,90 @@ public class TimeController {
 		}
 	}
 	
-//	@PostMapping(value = {"/deleteDatetime","/deleteDatetime.action"})
-//	@ResponseBody
-//	public Result deleteDatetime(String datetime,String userId){
-//		if(StringUtils.isBlank(datetime)){
-//			return Result.error(-1, "datetime为空");
-//		}
-//		if(StringUtils.isBlank(datetime)){
-//			return Result.error(-1, "userId为空");
-//		}
-//		try{
-//			timeService.deleteDatetime(datetime,userId);
-//			return Result.ok("删除成功");
-//		}catch(Exception e){
-//			return Result.error(-1, "删除失败").put("data", e.getMessage());
-//		}
-//		
-//	}
-//	
-//	/**
-//	 * 
-//	 * input{
-//	 * 	"id":1,
-//	 * 	"event":"阅读"， 日期事件关联没有去掉
-//	 * 	"time":1
-//	 * }
-//	 * @param input
-//	 * @return
-//	 */
-//	@PostMapping(value = {"/deleteEventAndTime","/deleteEventAndTime.action"})
-//	@ResponseBody
-//	public Result deleteEventAndTime(Long xid,Long dateId){
-//		if(xid == null){
-//			return Result.error(-1, "没有收到任何数据");
-//		}
-//		try{
-//			timeService.deleteEventAndTime(xid,dateId);
-//			return Result.ok("删除成功");
-//		}catch(Exception e){
-//			return Result.error(-1, "删除失败").put("data", e.getMessage());
-//		}
-//	}
+	/*
+	 * 获取折线图的周数据
+	 */
+	@PostMapping(value={"getWeekRecord","getWeekRecord.action"})
+	public Result getWeekRecord(Long userId,String datetime,String eventname){
+		if(StringUtils.isBlank(eventname) || StringUtils.isBlank(datetime) || userId ==null){
+			return Result.error(-1, "没有收到任何数据");
+		}
+		try{
+			return timeService.getWeekRecord(userId,datetime,eventname);
+		}catch(Exception e){
+			return Result.error(-1, "获取失败").put("data", e.getMessage());
+		}
+	}
+	
+	@PostMapping(value={"getMonthRecord","getMonthRecord.action"})
+	public Result getMonthRecord(Long userId,String datetime,String eventname){
+		if(StringUtils.isBlank(eventname) || StringUtils.isBlank(datetime) || userId ==null){
+			return Result.error(-1, "没有收到任何数据");
+		}
+		try{
+			return timeService.getMonthRecord(userId,datetime,eventname);
+		}catch(Exception e){
+			return Result.error(-1, "获取失败").put("data", e.getMessage());
+		}
+	}
+	
+	@PostMapping(value={"getYearRecord","getYearRecord.action"})
+	public Result getYearRecord(Long userId,String datetime,String eventname){
+		if(StringUtils.isBlank(eventname) || StringUtils.isBlank(datetime) || userId ==null){
+			return Result.error(-1, "没有收到任何数据");
+		}
+		try{
+			return timeService.getYearRecord(userId,datetime,eventname);
+		}catch(Exception e){
+			return Result.error(-1, "获取失败").put("data", e.getMessage());
+		}
+	}
+	
+	/*
+	 * {
+			"id": 1,
+			"userId": 1,
+			"datetime": "2018-10-30",
+			"plans": [{
+				
+				"event": "读书",
+				"startTime": "xx",
+				"endTime": "xx"
+			},
+			{
+				
+				"event": "睡觉",
+				"startTime": "xx",
+				"endTime": "xx"
+			}]
+		}
+	 */
+	@GetMapping(value={"getPlanByDate","getPlanByDate.action"})
+	public Result getPlanByDate(Long userId,String datetime){
+		
+		if(userId==null || datetime==null || datetime==""){
+			return Result.error(-1, "没有收到任何数据");
+		}
+		
+		try{
+			return timeService.getPlanByDate(userId,datetime);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	@PostMapping(value = {"/saveOrUpdatePlan","/saveOrUpdatePlan.action"})
+	@ResponseBody
+	public Result saveOrUpdatePlan(@RequestBody String sInput) throws BusinessException{
+		if(StringUtils.isBlank(sInput)){
+			return Result.error(-1, "没有收到任何数据");
+		}
+		try{
+			return timeService.saveOrUpdatePlan(sInput);
+		}catch(Exception e){
+			return Result.error(-1, "设置失败").put("data", e.getMessage());
+		}
+	}
 }
