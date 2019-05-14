@@ -6,7 +6,9 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
-		
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 		<link href="uilib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 		<link href="uilib/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 		<link href="uilib/bootstrapTable/bootstrap-table.min.css" rel="stylesheet">
@@ -19,10 +21,30 @@
 
 	</head>
 	<body class="main">
+	
+		<!--导航条-->
+		<nav class="#ffffff white" role="navigation">
+		    <div class="nav-wrapper container">
+		        <div>
+		            <img class="brand-logo" src="imgs/logo-small.jpg"/>
+		            <ul id="nav-mobile" class="right hide-on-med-and-down">
+				         <li id="eventMgrLi"><a class="#000000 black-text" href="/eventMgr.html">事件管理</a></li>
+		                <li id="planLi"><a class="#000000 black-text" href="/plan.html">计划安排</a></li>
+				         <li id="recordLi"><a class="#000000 black-text" href="/timer.html">时间记录</a></li>
+				         <li id="paneLi"><a class="#000000 black-text" href="/pie.html">饼状图</a></li>
+				         <li id="barLi"><a class="#000000 black-text" href="/bar.html">柱状体</a></li>
+				         <li id="lineLi"><a class="#000000 black-text" href="/line.html">趋势分析</a></li>
+		                 <li id="logout"><a class="#000000 black-text" href="javascript:;">退出登陆</a></li>
+		            </ul>
+		        </div>
+		    </div>
+		</nav>
+		
+		<input type="hidden" id="userId">
 		
 		<div class="container" >
 			<div class="row">
-				<div class="col-md-9" style="background-color:#FFF">
+				<div class="col-md-12" style="background-color:#FFF">
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
 							<h5>时间记录</h5>
@@ -71,6 +93,8 @@
 		<script src="uilib/requireJs/require2.1.11.js"></script>
 		<script src="js/common/config.js"></script>
 		<script src="uilib/jquery/jquery-1.11.2.min.js"></script>
+		<script src="uilib/datapicker/bootstrap-datepicker.js"></script>
+		<script src="js/common/commonScript.js"></script>
 		<script src="js/timer/timer.js"></script>
         
 	</body>

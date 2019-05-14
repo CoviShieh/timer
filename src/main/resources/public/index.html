@@ -11,139 +11,149 @@
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-      <ul class="right hide-on-med-and-down">
-         <li id="registerLi"><a class="#000000" href="/register.html">注册</a></li>
-         <li id="loginLi"><a class="#000000" href="/login.html">登陆</a></li>
-         <li id="personalLi"><a class="#000000" id="button-collapse" data-activates="slide-out"
-                                       href="#">个人中心</a>
-      </ul>
 
+<style>
+    /*图标样式*/
+    .icon-block {
+        padding: 0 15px;
+    }
+
+    .icon-block .material-icons {
+        font-size: inherit;
+    }
+
+    /*页脚*/
+    body {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1 0 auto;
+    }
+</style>
+
+
+<!--导航条-->
+<nav class="#ffffff white" role="navigation">
+    <div class="nav-wrapper container">
+        <div>
+            <img class="brand-logo" src="imgs/logo-small.jpg"/>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+            	<li id="registerLi"><a class="#000000 black-text" href="/register.html">注册</a></li>
+                <li id="loginLi"><a class="#000000 black-text" href="/login.html">登陆</a></li>
+		         <li id="eventMgrLi"><a class="#000000 black-text" href="/eventMgr.html">事件管理</a></li>
+                 <li id="planLi"><a class="#000000 black-text" href="/plan.html">计划安排</a></li>
+		         <li id="recordLi"><a class="#000000 black-text" href="/timer.html">时间记录</a></li>
+		         <li id="paneLi"><a class="#000000 black-text" href="/pie.html">饼状图</a></li>
+		         <li id="barLi"><a class="#000000 black-text" href="/bar.html">柱状体</a></li>
+		         <li id="lineLi"><a class="#000000 black-text" href="/line.html">趋势分析</a></li>
+		         <li id="logout"><a class="#000000 black-text" href="javascript:;">退出登陆</a></li>
+            </ul>
+        </div>
     </div>
-  </nav>
+</nav>
   
-  <div class="section no-pad-bot" id="index-banner">
+<input type="hidden" id="userId">
+  
+<!--轮播图-->
+<div class="section no-pad-bot" id="index-banner">
     <div class="container">
-      <br><br>
-      <h1 class="header center orange-text">Starter Template</h1>
-      <div class="row center">
-        <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-      </div>
-      <div class="row center">
-        <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
-      </div>
-      <br><br>
+        <div class="slider">
+            <ul class="slides">
+
+				<li>
+                    <img src="imgs/carousel-item-1.jpg" width="1280px" height="400px">
+                    <div class="caption left-align">
+                    </div>
+                </li>
+                <li>
+                    <img src="imgs/carousel-item-2.jpg" width="1280px" height="400px">
+                    <div class="caption left-align">
+                    </div>
+                </li>
+                <li>
+                    <img src="imgs/carousel-item-4.jpg" width="1280px" height="400px">
+                    <div class="caption left-align">
+                    </div>
+                </li>
+            </ul>
+        </div>
 
     </div>
-  </div>
+</div>
 
-
-  <div class="container">
+<div class="container">
     <div class="section">
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center pink-text text-accent-1"><i class="material-icons">flash_on</i></h2>
+                    <h5 class="center">简洁</h5>
 
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
-            <h5 class="center">Speeds up development</h5>
+                    <p class="light">
+                        简约是舍弃，更是收获；真正的简约不仅让我们返璞归真，更让我们感悟包容；你的心是造就了简约，还是包容了世界，它!又将去向何方?世界无界，心容则容。你若盛开,清风自来
+                        岁月静好,浅笑安然。花若盛开，蝴蝶自来；你若精彩，天自安排。陌上花已开，君可缓缓归。</p>
+                </div>
+            </div>
 
-            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-          </div>
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center pink-text text-accent-1"><i class="material-icons">group</i></h2>
+                    <h5 class="center">分享</h5>
+
+                    <p class="light">如果你把快乐告诉一个朋友，你将得到两个快乐，而如果你把忧愁向一个朋友倾诉，你将被分掉一半忧愁。
+                        多数人认为，一旦达到某个目标，人们就会感到身心舒畅。但问题是你可能永远达不到目标。把快乐建立在还不曾拥有的事情上，无异于剥夺自己创造快乐的权力。</p>
+                </div>
+            </div>
+
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center pink-text text-accent-1"><i class="material-icons">settings</i></h2>
+                    <h5 class="center">专心</h5>
+
+                    <p class="light">
+                        简单做人，说来容易，做来难。其中的深刻和艰难，需要的是思想的精深和灵魂的感悟，需要的是摒弃一切奢求贪欲和妄想，卸掉一切外衣面具和伪装。好比一棵树，不去掉无用的枝条，参天的追求永远是空想。
+                        崇尚返朴归真，让心灵变的纯朴自然厚道，才是简单做人的本真。</p>
+                </div>
+            </div>
         </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
-            <h5 class="center">User Experience Focused</h5>
-
-            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
-            <h5 class="center">Easy to work with</h5>
-
-            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
-          </div>
-        </div>
-      </div>
 
     </div>
     <br><br>
+</div>
 
-    <div class="section">
-
-    </div>
-  </div>
-
-<!--左侧导航条-->
-<ul id="slide-out" class="side-nav ">
-    <li>
-        <!--logo-->
-        <div class="userView">
-            <div class="background">
-                <img src="imgs/bg-small.png">
-            </div>
-            <img id="slide-out-headPortrait" class="materialboxed" src="imgs/headPortrait.png"/><br>
-            <span class="black-text " id="userNickName">xxx</span><br>
-        </div>
-    </li>
-
-    <li><a class="waves-effect" href="/index.html"><i class="material-icons prefix  pink-text text-accent-1">label</i>回到首页</a>
-    </li>
-
-    <li id="logout"><a class="waves-effect"><i class="material-icons pink-text text-accent-1">settings_power</i>退出登陆</a>
-    </li>
-</ul>
-
-	
-  <footer class="page-footer orange">
+<!--页脚-->
+<footer class="page-footer #fafafa grey lighten-5">
     <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="black-text">网站说明</h5>
+                <p class="black-text">本网站用于记录个人的计划安排和时间安排，记录生活的点点滴滴。</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="black-text">相关链接</h5>
+                <ul>
+                    <li><a target="_blank" href="https://github.com/CoviShieh" class="pink-text text-accent-1">GitHub地址</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-      </div>
     </div>
     <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
+        <div class="container black-text">
+            备案号：<a href="http://www.miitbeian.gov.cn/" class="pink-text text-accent-1">粤ICP备17145745号-2</a>
+        </div>
     </div>
-  </footer>
+</footer>
 
-
-  <!--  Scripts-->
-  <script src="js/common/jquery.min.js"></script>
-  <script src="js/common/materialize.js"></script>
-  <script src="js/common/commonScript.js"></script>
-  <script src="js/index/index.js"></script>
-  <script>
+<!--  Scripts-->
+<script src="js/common/jquery.min.js"></script>
+<script src="js/common/materialize.js"></script>
+<script src="js/common/commonScript.js"></script>
+<script src="js/index/index.js"></script>
+<script>
     $(function () {
         index.init();
     });

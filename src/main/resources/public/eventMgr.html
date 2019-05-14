@@ -4,6 +4,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<title>事件管理</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 	<link href="uilib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 	<link href="uilib/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 	<link href="uilib/bootstrapTable/bootstrap-table.min.css" rel="stylesheet">
@@ -13,39 +16,66 @@
 	<link href="css/common/list.css" rel="stylesheet">
 	<style>
 		.text-txt{
-			width: 80%;
+			width: 60%;
 		}
 	</style>
 </head>
 <body>
-<div class="main-container">
-	<div class="search">
-		<table>
-			<tr>
-				<td class="td-left" style="color:#FFF">查询事件：</td>
-				<td class="td-right">
-					<input type="text" class="form-control" id="s_eventName" placeholder=""/>
-				</td>
-				<td class="td-center">
-					<button class="form-control btn-search" id="search">查询</button>
-				</td>
-			</tr>
-		</table>
-	</div>
-	<div class="data-list">
-	<div class="data-header">
-		<span class="header-title">来访单位列表</span>
-		<button class="btn-blue" id="add"><i class="fa fa-plus"></i>&nbsp;添加</button>
-	</div>
-		<table id="bootstrapTable">
-			<thead>
-				<tr>
-					<th data-field="id" data-align="center" hidden='hidden'>ID</th>
-					<th data-field="eventName" data-align="center" >事件名称</th>
-					<th data-events="operateEvents" data-formatter="handleFormat" data-align="center">操作</th>
-				</tr>
-			</thead>
-		</table>
+
+<!--导航条-->
+<nav class="#ffffff white" role="navigation">
+    <div class="nav-wrapper container">
+        <div>
+            <img class="brand-logo" src="imgs/logo-small.jpg"/>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+		         <li id="eventMgrLi"><a class="#000000 black-text" href="/eventMgr.html">事件管理</a></li>
+                <li id="planLi"><a class="#000000 black-text" href="/plan.html">计划安排</a></li>
+		         <li id="recordLi"><a class="#000000 black-text" href="/timer.html">时间记录</a></li>
+		         <li id="paneLi"><a class="#000000 black-text" href="/pie.html">饼状图</a></li>
+		         <li id="barLi"><a class="#000000 black-text" href="/bar.html">柱状体</a></li>
+		         <li id="lineLi"><a class="#000000 black-text" href="/line.html">趋势分析</a></li>
+		         <li id="logout"><a class="#000000 black-text" href="javascript:;">退出登陆</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<input type="hidden" id="userId">
+
+<div class="container" >
+	<div class="row">
+		<div class="main-container">
+			<!-- 
+				<div class="search">
+					<table>
+						<tr>
+							<td class="td-left" style="color:#FFF">查询事件：</td>
+							<td class="td-right">
+								<input type="text" class="form-control" id="s_eventName" placeholder=""/>
+							</td>
+							<td class="td-center">
+								<button class="form-control btn-search" id="search">查询</button>
+							</td>
+						</tr>
+					</table>
+				</div> 
+			-->
+			<div class="data-list">
+			<div class="data-header">
+				<span class="header-title">来访单位列表</span>
+				<button class="btn-blue" id="add"><i class="fa fa-plus"></i>&nbsp;添加</button>
+			</div>
+				<table id="bootstrapTable">
+					<thead>
+						<tr>
+							<th data-field="id" data-align="center" hidden='hidden'>ID</th>
+							<th data-field="eventName" data-align="center" >事件名称</th>
+							<th data-events="operateEvents" data-formatter="handleFormat" data-align="center">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -64,9 +94,11 @@
 		</div>
 	</form>
 </div>
+
 <script src="uilib/jquery/dist/jquery-1.11.min.js"></script>
 <script src="uilib/requireJs/require2.1.11.js"></script>
 <script src="js/common/config.js"></script>
+<script src="js/common/commonScript.js"></script>
 <script src="js/eventMgr/index.js"></script> 
 </body>
 </html>

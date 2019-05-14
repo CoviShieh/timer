@@ -4,18 +4,15 @@
 		<div data-show="editEventMode" class="col-md-3" style="">
 				<label class="col-md-4 control-label" style=''>事件:</label>
 				<div class="col-md-8">
-					<select class="form-control" name="event" >
-						<option></option>
-						<option>工作</option>
-						<option>阅读</option>
-						<option>运动</option>
+					<select class="form-control" id="event" >
+						<option>--请选择--</option>
 					</select>
 				</div>
 														
 		</div>
 		
 		<!-- 时间 -->
-		<div class="col-md-6 " style="">
+		<div class="col-md-8" style="">
 			<div class="form-group draggable ui-draggable dropped" style="position: static;">
 				<label class="col-md-2 control-label">开始时间:</label>
 				<div class="col-md-4" data-show="editStartTimeMode">
@@ -28,7 +25,7 @@
 			</div>
 		</div>
 		<!-- 按钮 -->
-		<div class="col-md-3 btn-operation" data-show="editMode">
+		<div class="col-md-1 btn-operation" data-show="editMode">
 			<button class="btn btn-default btn-circle btn-cancel-hack" type="button" data-show="editMode">
 				<i class="fa fa-minus" title='删除'></i>
 			</button>

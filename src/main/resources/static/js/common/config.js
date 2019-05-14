@@ -13,6 +13,7 @@ require.config({
 		'ejs': 'uilib/ejs/ejs.min',
         'dialog': 'uilib/artDialog/dist/dialog-plus-min',
         'layer':'uilib/layer/layer',
+        'materialize':'js/common/materialize',
 		
 	},
 	shim: {

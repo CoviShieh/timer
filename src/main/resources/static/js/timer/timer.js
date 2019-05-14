@@ -70,11 +70,9 @@ require(['jquery', 'bootstrap','datapicker','jqUtils','DateUtil', 'ejs' ,'text!e
                             dtd.resolve(res.data);
                             if(res.data.events != undefined){
                             	that.update(res.data.events);
+                            	common.getEvent();
                                 dataWrapper.dataset.dateid = res.data.dateId;
                             }
-//                            else{
-//                            	dataWrapper.dataset.dateid = "";
-//                            }
                             
                         } else {
                             dtd.reject(res.msg);
@@ -136,6 +134,7 @@ require(['jquery', 'bootstrap','datapicker','jqUtils','DateUtil', 'ejs' ,'text!e
                             $("#dataWrapper").html('');
                             if(res.data != null){
                             	that.update(res.data.events);
+                            	common.getEvent();
                                 dataWrapper.dataset.dateid = res.data.dateId;
                             }else{
                             	dataWrapper.dataset.dateid = "";
@@ -166,6 +165,7 @@ require(['jquery', 'bootstrap','datapicker','jqUtils','DateUtil', 'ejs' ,'text!e
                     newDom = $(_html);
 
                 $('.data-item-wrapper:last').prepend(newDom);
+                common.getEvent();
             },
             
             /**

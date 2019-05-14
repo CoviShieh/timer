@@ -92,6 +92,7 @@ require(['jquery', 'bootstrap','datetimepicker','jqUtils','DateUtil', 'ejs' ,'te
                             dtd.resolve(res.data);
                             if(res.data.plans != undefined){
                             	that.update(res.data.plans);
+                            	common.getEvent();
                                 dataWrapper.dataset.dateid = res.data.dateId;
                             }
                         } else {
@@ -156,6 +157,7 @@ require(['jquery', 'bootstrap','datetimepicker','jqUtils','DateUtil', 'ejs' ,'te
                             $("#dataWrapper").html('');
                             if(res.data.plans != undefined){
                             	that.update(res.data.plans);
+                            	common.getEvent();
                                 dataWrapper.dataset.dateid = res.data.dateId;
                             }
                         } else {
@@ -190,6 +192,7 @@ require(['jquery', 'bootstrap','datetimepicker','jqUtils','DateUtil', 'ejs' ,'te
 //                	$('.data-item-box:last').prepend(newDom);
 //                 }
                 $('.data-item-wrapper:first').prepend(newDom);
+                common.getEvent();
                 that.setStartTimeAndEndTime();
             },
             

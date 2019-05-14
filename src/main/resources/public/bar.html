@@ -1,15 +1,87 @@
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8">
-<title>柱形图</title>
-<script src="uilib/jquery/dist/jquery-1.11.min.js"></script>
-<script src="uilib/echarts-2.2.7/build/dist/echarts-all.js"></script>
+<title>bar</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="uilib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link href="uilib/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+<link href="uilib/bootstrapTable/bootstrap-table.min.css" rel="stylesheet">
+<link href="uilib/datapicker/datepicker3.css" rel="stylesheet">
+<link href="css/timer/animate.css" rel="stylesheet">
+<link href="css/timer/style.css" rel="stylesheet">
 
 </head>
 <body class="main">
+
+<!--导航条-->
+<nav class="#ffffff white" role="navigation">
+    <div class="nav-wrapper container">
+        <div>
+            <img class="brand-logo" src="imgs/logo-small.jpg"/>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+		         <li id="eventMgrLi"><a class="#000000 black-text" href="/eventMgr.html">事件管理</a></li>
+                <li id="planLi"><a class="#000000 black-text" href="/plan.html">计划安排</a></li>
+		         <li id="recordLi"><a class="#000000 black-text" href="/timer.html">时间记录</a></li>
+		         <li id="paneLi"><a class="#000000 black-text" href="/pie.html">饼状图</a></li>
+		         <li id="barLi"><a class="#000000 black-text" href="/bar.html">柱状体</a></li>
+		         <li id="lineLi"><a class="#000000 black-text" href="/line.html">趋势分析</a></li>
+            	  <li id="logout"><a class="#000000 black-text" href="javascript:;">退出登陆</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+ <input type="hidden" id="userId">
 	
-    <div id="echartsBar" style="width:600px;height:400px"></div>
+<div class="container" >
+	<div class="row">
+		<div class="col-md-12" style="background-color:#FFF">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>事件记录柱状图统计</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-md-12 " style="background-color:#FFF">
+							<div class="row">
+										<div class="col-md-6 col-md-offset-3">
+		
+											<div class="form-group">
+												<div class="input-group">
+													<input class="form-control date-picker" id="selectTime" data-date-end-date="0m" type="text" placeholder="选择年月日" />
+													<!-- 这个控件要初始化 -->
+													<span class="input-group-addon btn-primary btn-outline">
+														<i class="fa fa-search bigger-110 recordSearch"></i>
+													</span>
+												</div>
+											</div>
+		
+										</div>
+									</div>
+									
+							<div class="row">
+		    					<div class='col-md-6 col-md-offset-3' id="echartsBar" style="width:600px;height:400px"></div>
+		    				</div>
+		    			</div>
+  						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	
+	
     
-    
+    <script src="uilib/jquery/dist/jquery-1.11.min.js"></script>
+	<script src="uilib/datapicker/bootstrap-datepicker.js"></script>
+	<script src="js/common/DateUtil.js"></script>
+	<script src="uilib/echarts-2.2.7/build/dist/echarts-all.js"></script>
+	<script src="js/common/commonScript.js"></script>
     <script src="js/timer/bar.js"></script>
+    <script>
+        $(function () {
+            bar.init();
+        });
+    </script>
 </body>

@@ -8,9 +8,6 @@ $(function () {
     var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
     path = prePath;
     
-    //侧边导航条
-    $("#button-collapse").sideNav();
-    
     //退出用户
     $("#logout").click(function () {
         common.logOutUser();
@@ -65,24 +62,20 @@ var common = {
                     $("#loginLi").hide();
 
                     //为id赋值(很多地方可能都会用到)
-                    $("#userId").val(result['data'].id);
-
-
-                    //如果存在，那么初始化“完善个人信息”表单的数据(左侧导航条)
-                    $("#userNickName").html(result['data'].userNickName);
-//                    if (result['data'].email != null && result['data'].email != "") {
-//                        $("#userEmail").html(result['data'].email);
-//                    }
-                    if (result['data'].headPortrait != null && result['data'].headPortrait != "") {
-                        $("#slide-out-headPortrait").attr("src", file_path + result['data'].headPortrait);
-                    }
+                    $("#userId").val(result['data'].userId);
 
                     //返回值给调用者判断
                     responseText = result;
 
                 } else {
                     //如果没有登陆，将个人中心模块的按钮隐藏掉
-                    $("#personalLi").hide();
+                    $("#eventMgrLi").hide();
+                    $("#planLi").hide();
+                    $("#recordLi").hide();
+                    $("#paneLi").hide();
+                    $("#barLi").hide();
+                    $("#lineLi").hide();
+                    $("#logout").hide();
                 }
             },
             error: function () {
@@ -90,7 +83,26 @@ var common = {
             }
         });
         return responseText;
-    }
+    },
+    
+    getEvent: function () {
+        $.ajax({
+            url: '/getEventbyUserId.action',
+            type: "post",
+            data: {
+            	userId:1,
+            },
+            success: function (res) {
+            	$.each(res.data.rows, function(index, item) {
+            		   $("#event").append( //此处向select中循环绑定数据
+            				   "<option>"+item.eventName+"</option>");
+            		  });
+            },
+            error: function () {
+                Error.displayError(result);
+            }
+        });
+    },
 };
 
 // 显示或者记录错误
