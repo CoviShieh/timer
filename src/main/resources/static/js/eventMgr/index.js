@@ -48,7 +48,7 @@ require(['bootstrap','bootstrap-table','dialog','base','GXX','layer'],
 		},
 		_refresh:function(url){
 			var	params = {
-					userId: 1,
+					userId: $('#userId').val(),
 				}
 			base._search("bootstrapTable",url,params);
 		},
@@ -61,7 +61,7 @@ require(['bootstrap','bootstrap-table','dialog','base','GXX','layer'],
 	            height: height,
 	            classes: 'table table-hover table-condensed',
 	            queryParams: function(params) {
-	            	params['userId'] = 1;
+	            	params['userId'] = $('#userId').val();
 	//                params['eventName'] = $.trim($("#s_eventName").val());
 	                return params;
 	            },

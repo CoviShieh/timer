@@ -43,7 +43,7 @@ require(['jquery', 'bootstrap','datetimepicker','jqUtils','DateUtil', 'ejs' ,'te
  					minView: "month", //只选择到天
  					language: 'zh-CN',
  				});
-            	 
+            	
             },
             
             setStartTimeAndEndTime: function(){
@@ -70,7 +70,7 @@ require(['jquery', 'bootstrap','datetimepicker','jqUtils','DateUtil', 'ejs' ,'te
             getData: function() {
                 var that = this;
                 var _datetime=$('#selectTime').val(),
-                	_userId = 1,
+                	_userId = $('#userId').val(),
                     _url = '/getPlanByDate.action',
                     _data = {
                     	userId:_userId,
@@ -113,7 +113,7 @@ require(['jquery', 'bootstrap','datetimepicker','jqUtils','DateUtil', 'ejs' ,'te
                 	_url = '/saveOrUpdatePlan.action',
                 	dataWrapper = document.getElementById('dataWrapper');
                 	_dateid = dataWrapper.dataset.dateid,
-                	_userId = 1,
+                	_userId = $('#userId').val(),
                 	_datetime = $('#selectTime').val(),
                 	_plans = [];
 				

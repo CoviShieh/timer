@@ -11,14 +11,15 @@ var pie ={
     },
 
     setPlugin: function(){
-   	 $('#selectTime').val(new Date().Format("yyyy-MM-dd"));
-   	 $("#selectTime").datepicker({
-			format: "yyyy-mm-dd", //显示日期格式
-			autoclose: true,
-			todayBtn: "linked",
-			minView: "month", //只选择到天
-			language: 'zh-CN',
-		});
+	   	 $('#selectTime').val(new Date().Format("yyyy-MM-dd"));
+	   	 $("#selectTime").datepicker({
+				format: "yyyy-mm-dd", //显示日期格式
+				autoclose: true,
+				todayBtn: "linked",
+				minView: "month", //只选择到天
+				language: 'zh-CN',
+			});
+	   	 
     },
     
     setEchart:function (){
@@ -82,7 +83,7 @@ var pie ={
     	myChart.showLoading();
 
     	var today = $('#selectTime').val();
-    		userId = 1;
+    		userId = $('#userId').val();
     		events=[];//定义两个数组
     	    recordData=[]; 
     	    

@@ -32,7 +32,7 @@
 		                <li id="planLi"><a class="#000000 black-text" href="/plan.html">计划安排</a></li>
 				         <li id="recordLi"><a class="#000000 black-text" href="/timer.html">时间记录</a></li>
 				         <li id="paneLi"><a class="#000000 black-text" href="/pie.html">饼状图</a></li>
-				         <li id="barLi"><a class="#000000 black-text" href="/bar.html">柱状体</a></li>
+				         <li id="barLi"><a class="#000000 black-text" href="/bar.html">柱状图</a></li>
 				         <li id="lineLi"><a class="#000000 black-text" href="/line.html">趋势分析</a></li>
 		                 <li id="logout"><a class="#000000 black-text" href="javascript:;">退出登陆</a></li>
 		            </ul>
@@ -95,6 +95,11 @@
 		<script src="uilib/jquery/jquery-1.11.2.min.js"></script>
 		<script src="uilib/datapicker/bootstrap-datepicker.js"></script>
 		<script src="js/common/commonScript.js"></script>
+		<script>
+		    $(function () {
+		    	common.getUser();
+		    });
+		</script>
 		<script src="js/timer/timer.js"></script>
         
 	</body>

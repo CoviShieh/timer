@@ -43,12 +43,13 @@ require(['jquery', 'bootstrap','datapicker','jqUtils','DateUtil', 'ejs' ,'text!e
  					minView: "month", //只选择到天
  					language: 'zh-CN',
  				});
+            	 
             },
             
             getData: function() {
                 var that = this;
                 var _datetime=$('#selectTime').val(),
-                	_userId = 1,
+                	_userId = $('#userId').val(),
                     _url = '/searchEventByDatetime.action',
                     _data = {
                     	userId:_userId,
@@ -92,7 +93,7 @@ require(['jquery', 'bootstrap','datapicker','jqUtils','DateUtil', 'ejs' ,'text!e
                 	_url = '/saveOrUpdateData.action',
                 	dataWrapper = document.getElementById('dataWrapper');
                 	_dateid = dataWrapper.dataset.dateid,
-                	_userId = 1,
+                	_userId = $('#userId').val(),
                 	_datetime = $('#selectTime').val(),
                 	_events = [];
 				

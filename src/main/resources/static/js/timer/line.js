@@ -27,6 +27,7 @@ require(['jquery', 'bootstrap','datapicker','jqUtils','DateUtil'],
  					minView: "month", //只选择到天
  					language: 'zh-CN',
  				});
+            	 
             },
             
             getWeekData: function() {
@@ -38,9 +39,9 @@ require(['jquery', 'bootstrap','datapicker','jqUtils','DateUtil'],
                 var that = this;
                 
                 var myChart = echarts.init(document.getElementById('echartsLine'));
-                	_userId = 1,
+                	_userId = $('#userId').val(),
                 	_datetime=$('#selectTime').val(),
-                	_eventName=$('#selectEvent').val(),
+                	_eventName=$('#event').val(),
                     _url = '/getWeekRecord.action',
                     _data = {
                     	userId:_userId,
@@ -145,9 +146,9 @@ require(['jquery', 'bootstrap','datapicker','jqUtils','DateUtil'],
             	
                 var that = this;
                 var myChart = echarts.init(document.getElementById('echartsLine'));
-                	_userId = 1,
+                	_userId = $('#userId').val(),
                 	_datetime=$('#selectTime').val(),
-                	_eventName=$('#selectEvent').val(),
+                	_eventName=$('#event').val(),
                     _url = '/getMonthRecord.action',
                     _data = {
                     	userId:_userId,
@@ -253,9 +254,9 @@ require(['jquery', 'bootstrap','datapicker','jqUtils','DateUtil'],
                 var that = this;
                 
                 var myChart = echarts.init(document.getElementById('echartsLine'));
-                	_userId = 1,
+                	_userId = $('#userId').val(),
                 	_datetime=$('#selectTime').val(),
-                	_eventName=$('#selectEvent').val(),
+                	_eventName=$('#event').val(),
                     _url = '/getYearRecord.action',
                     _data = {
                     	userId:_userId,

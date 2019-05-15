@@ -52,10 +52,7 @@
 				<div class="ibox-content">
 					<div class="row">
 						<div class="col-xs-4">
-							<select class="form-control" id="selectEvent" name="selectEvent">
-								<option>阅读</option>
-								<option>工作</option>
-								<option>运动</option>
+							<select class="form-control" id="event">
 							</select>
 						</div>
 						
@@ -93,6 +90,12 @@
 	<script src="js/common/config.js"></script>
 	<script src="uilib/jquery/jquery-1.11.2.min.js"></script>
 	<script src="js/common/commonScript.js"></script>
+	<script>
+	    $(function () {
+	    	common.getEvent();
+	    	common.getUser();
+	    });
+	</script>
 	<script src="js/timer/line.js"></script>
 </body>
 </html>
